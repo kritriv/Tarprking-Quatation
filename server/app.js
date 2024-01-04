@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require('cors');
 const app = express();
 
-// const product_routes = require("./routes/products")
+const product_routes = require("./routers/ProductRoutes")
 
 
 const connectDB = require("./db/connect");
@@ -11,16 +11,16 @@ const connectDB = require("./db/connect");
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-    res.send("Welcome to Tar Parking Quotation Server");
+    res.send("Welcome to Tar Parking Quotation Backend");
 })
 
-// middleware or set the routes
+// middleware or set the routes 
 
 // app.use('/api', ApiAuthenticate);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-// app.use("/api", product_routes);  // middleware routes for Products
+app.use("/api", product_routes);  // middleware routes for Products
 
 
 const TarParkingQuotation = async () => {
