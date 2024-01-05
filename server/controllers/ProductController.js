@@ -4,52 +4,34 @@ const { ObjectId } = require('mongodb');
 // To get All Products List
 const getAllProducts = async (req, res) => {
     // try {
-    const { category, title, isExpireIn24, ishugestock, is_donatable,productStatus, expiryStatus, city, state, pincode, country, sort, select } = req.query;
+    const { product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select } = req.query;
     const queryObject = {};
 
     // ======= Filters Queries =======
 
-    if (title) {
-        queryObject.title = { $regex: new RegExp(title, 'i') };
+    if (product_id) {
+        queryObject.product_id = product_id;
     }
-    if (category) {
-        queryObject.category = { $regex: new RegExp(category, 'i') };
+    if (product_HSN) {
+        queryObject.product_HSN = product_HSN;
     }
-    
-    if (isExpireIn24 !== undefined) {
-        queryObject.isExpireIn24 = (isExpireIn24.toLowerCase() === 'true');
+    if (product_status !== undefined) {
+        queryObject.product_status = (product_status.toLowerCase() === 'true');
     }
-    if (ishugestock !== undefined) {
-        queryObject.ishugestock = (ishugestock.toLowerCase() === 'true');
+    if (admin_create_username) {
+        queryObject.admin_create_username = { $regex: new RegExp(admin_create_username, 'i') };
     }
-    if (is_donatable !== undefined) {
-        queryObject.is_donatable = (is_donatable.toLowerCase() === 'true');
+    if (product_name) {
+        queryObject.product_name = { $regex: new RegExp(product_name, 'i') };
     }
-    if (productStatus !== undefined) {
-        queryObject.productStatus = (productStatus.toLowerCase() === 'true');
-    }
-    if (expiryStatus !== undefined) {
-        queryObject.expiryStatus = (expiryStatus.toLowerCase() === 'true');
-    }
-
-    if (city) {
-        queryObject['productLocation.City'] = { $regex: new RegExp(city, 'i') };
-    }
-    if (state) {
-        queryObject['productLocation.State'] = { $regex: new RegExp(state, 'i') };
-    }
-    if (pincode) {
-        queryObject['productLocation.pincode'] = pincode;
-    }
-    if (country) {
-        queryObject['productLocation.country'] = { $regex: new RegExp(country, 'i') };
+    if (sub_type) {
+        queryObject.sub_type = { $regex: new RegExp(sub_type, 'i') };
     }
 
 
     let apiData = Product.find(queryObject);
     // apiData = apiData.sort({ updatedAt: -1 });
     // ======== Short , Select ======
-
 
     if (sort) {
         let sortFix = sort.replace(",", " ");
@@ -77,5 +59,50 @@ const getAllProducts = async (req, res) => {
     // }
 }
 
+// To get Single Product Details
+const getSingleProduct = async (req, res) =>{
+    const id=req.params.id;
+    const filter={_id:new ObjectId(id)};
+    const result=await Product.findOne(filter);
+    res.send(result);
+}
 
-module.exports = { getAllProducts};
+// To Delete a Single Product Details
+const deleteSingleProduct = async (req, res) =>{
+    const id=req.params.id;
+    const filter={_id:new ObjectId(id)};
+    const result=await Product.deleteOne(filter);
+    res.send(result);
+}
+
+// To Add a Product to Products list
+const postSingleProduct = async (req, res) => {
+    const data = req.body;
+    try {
+      const newProduct = new Product(data);
+      const savedProduct = await newProduct.save();
+      res.status(201).send(savedProduct); // HTTP status 201 for successful creation
+    } catch (error) {
+      console.error('Error creating and saving product:', error);
+      res.status(500).send({ error: 'Error creating and saving product.' });
+    }
+  };
+
+// To Update a Single Product Details
+const updateSingleProduct = async (req, res) =>{
+    const id=req.params.id;
+    const updateProductData=req.body;
+    const filter={_id:new ObjectId(id)};
+
+    const updateDoc={
+        $set:{
+          ...updateProductData
+        },
+      }
+      const options={upsert:true};
+
+    const result=await Product.updateOne(filter,updateDoc,options);
+  res.send(result);
+}
+
+module.exports = { getAllProducts, getSingleProduct, postSingleProduct, deleteSingleProduct, updateSingleProduct};
