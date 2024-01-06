@@ -11,94 +11,45 @@
     "basic_rate": 170000,
     "installation_charges": 10000,
     "total_price": 180000,
-    "system_area": {
-      "length": "5000",
-      "width": "2500",
-      "height": "3350 to 3900 (As per site)"
-    },
-    "suitable_cars": {
-      "length": "4500",
-      "width": "2000",
-      "height": "(As per site)"
-    },
-    "lifting_capacity": "2000",
-    "platform_length": "4250",
-    "platform_width": "2100",
-    "driving_unit": "Power Pack 3 HP/Double Cylinder with Chain Drive",
-    "travel_speed": "3m/min",
-    "power_source": {       
-      "main": "AC 415V, 3PH,50HZ",
-      "lighting": "AC 220V, 1PH,50HZ"
-    },
-    "power_consumption": {
-      "single_unit": "1.5kw",
-      "combined_units": "2.5kw for 2-6"
-    },
-    "operation_control": "Push Button Control / Contactor Type",
-    "features": {
-      "1": "Double Cylinder & Double Chain Mechanism / Creation of Additional Car Parking space",
-      "2": "Rugged Design",
-      "3": "Corrosion Resistant Coating",
-      "4": "Silent Operation / Virtually Maintenance Free",
-      "5": "Can be Dismantled & Relocated",
-      "6": "Extra Features for Safety",
-      "7": "Quick Installation"
-    },
-    "safety": {
+    "product_features": [
+      "Double Cylinder & Double Chain Mechanism / Creation of Additional Car Parking space",
+      "Rugged Design",
+      "Corrosion Resistant Coating",
+      "Silent Operation / Virtually Maintenance Free",
+      "Can be Dismantled & Relocated",
+      "Extra Features for Safety",
+      "Quick Installation"
+    ],
+    "product_safety": {
       "mechnical": "Car Stopper /Barrier /pallet slope/chequered or bubble type GI sheet use for wheel friction/ Guide shoe/Zinc plating of machining items for corrosion.",
       "hydraulic": "Manually operated 2/2 Solenoid coil for lower lifting if power failure, Flow control for speed control, Pressure flow control valve, Pressure meter",
       "electrical": " Phase reversal/ 3 phase Indicator/ Emergency stop Switch / Limit Switch/ key oriented operating switch for misuse stop/electro magnet lock."
+    },
+    "product_specification": {
+      "system_area": {
+        "length": "5000",
+        "width": "2500",
+        "height": "3350 to 3900 (As per site)"
+      },
+      "suitable_cars": {
+        "length": "4500",
+        "width": "2000",
+        "height": "(As per site)"
+      },
+      "lifting_capacity": "2000",
+      "platform_length": "4250",
+      "platform_width": "2100",
+      "driving_unit": "Power Pack 3 HP/Double Cylinder with Chain Drive",
+      "travel_speed": "3m/min",
+      "power_source": {
+        "main": "AC 415V, 3PH,50HZ",
+        "lighting": "AC 220V, 1PH,50HZ"
+      },
+      "power_consumption": {
+        "single_unit": "1.5kw",
+        "combined_units": "2.5kw for 2-6"
+      },
+      "operation_control": "Push Button Control / Contactor Type"
     }
-  },  
-  {
-    "product_id": 102,
-    "product_HSN": 567835,
-    "product_status": true,
-    "admin_create_username": "admin",
-    "product_name": "Puzzle Car Parking System",
-    "product_description": "Puzzle Car Parking System is two level Parking system",
-    "sub_type": "Puzzle Parking System Hydraulic",
-    "product_img": "https://www.tarparking.com/tarparking-assets/parking-product/puzzle-parking-02.webp",
-    "basic_rate": 170000,
-    "installation_charges": 10000,
-    "total_price": 180000,
-    "system_area": {
-      "length": "5000",
-      "width": "2500",
-      "height": "3350 to 3900 (As per site)"
-    },
-    "suitable_cars": {
-      "length": "4500",
-      "width": "2000",
-      "height": "(As per site)"
-    },
-    "lifting_capacity": "2000",
-    "platform_length": "4250",
-    "platform_width": "2100",
-    "driving_unit": "Power Pack 3 HP/Double Cylinder with Chain Drive",
-    "travel_speed": "3m/min",
-    "power_source": {       
-      "main": "AC 415V, 3PH,50HZ",
-      "lighting": "AC 220V, 1PH,50HZ"
-    },
-    "power_consumption": {
-      "single_unit": "1.5kw",
-      "combined_units": "2.5kw for 2-6"
-    },
-    "operation_control": "Push Button Control / Contactor Type",
-    "features": {
-      "1": "Double Cylinder & Double Chain Mechanism / Creation of Additional Car Parking space",
-      "2": "Rugged Design",
-      "3": "Corrosion Resistant Coating",
-      "4": "Silent Operation / Virtually Maintenance Free",
-      "5": "Can be Dismantled & Relocated",
-      "6": "Extra Features for Safety",
-      "7": "Quick Installation"
-    },
-    "safety": {
-      "mechnical": "Car Stopper /Barrier /pallet slope/chequered or bubble type GI sheet use for wheel friction/ Guide shoe/Zinc plating of machining items for corrosion.",
-      "hydraulic": "Manually operated 2/2 Solenoid coil for lower lifting if power failure, Flow control for speed control, Pressure flow control valve, Pressure meter",
-      "electrical": " Phase reversal/ 3 phase Indicator/ Emergency stop Switch / Limit Switch/ key oriented operating switch for misuse stop/electro magnet lock."
-    }
-  }  
+  }
 ]

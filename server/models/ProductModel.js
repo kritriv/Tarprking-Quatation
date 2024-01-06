@@ -6,12 +6,15 @@ const ProductSchema = new Schema(
   {
     product_id: {
       type: Number,
+      unique : true
     },
     product_HSN: {
       type: Number,
+      unique : true
     },
     product_status: {
       type: Boolean,
+      default : true
     },
     admin_create_username: {
       type: String,
@@ -37,93 +40,75 @@ const ProductSchema = new Schema(
     total_price: {
       type: Number,
     },
-    system_area: {
-      length: {
-        type: String,
-      },
-      width: {
-        type: String,
-      },
-      height: {
-        type: String,
-      },
+    product_features: {
+      type: [String],
     },
-    suitable_cars: {
-      length: {
-        type: String,
-      },
-      width: {
-        type: String,
-      },
-      height: {
-        type: String,
-      },
-    },
-    lifting_capacity: {
-      type: String,
-    },
-    platform_length: {
-      type: String,
-    },
-    platform_width: {
-      type: String,
-    },
-    driving_unit: {
-      type: String,
-    },
-    travel_speed: {
-      type: String,
-    },
-    power_source: {
-      main: {
-        type: String,
-      },
-      lighting: {
-        type: String,
-      },
-    },
-    power_consumption: {
-      single_unit: {
-        type: String,
-      },
-      combined_units: {
-        type: String,
-      },
-    },
-    operation_control: {
-      type: String,
-    },
-    features: {
-      1: {
-        type: String,
-      },
-      2: {
-        type: String,
-      },
-      3: {
-        type: String,
-      },
-      4: {
-        type: String,
-      },
-      5: {
-        type: String,
-      },
-      6: {
-        type: String,
-      },
-      7: {
-        type: String,
-      },
-    },
-    safety: {
-      mechnical: {
+    product_safety: {
+      mechanical: {
         type: String,
       },
       hydraulic: {
         type: String,
       },
       electrical: {
+        type: String,
+      },
+    },
+    product_specification: {
+      system_area: {
+        length: {
+          type: String,
+        },
+        width: {
+          type: String,
+        },
+        height: {
+          type: String,
+        },
+      },
+      suitable_cars: {
+        length: {
+          type: String,
+        },
+        width: {
+          type: String,
+        },
+        height: {
+          type: String,
+        },
+      },
+      lifting_capacity: {
+        type: String,
+      },
+      platform_length: {
+        type: String,
+      },
+      platform_width: {
+        type: String,
+      },
+      driving_unit: {
+        type: String,
+      },
+      travel_speed: {
+        type: String,
+      },
+      power_source: {
+        main: {
+          type: String,
+        },
+        lighting: {
+          type: String,
+        },
+      },
+      power_consumption: {
+        single_unit: {
+          type: String,
+        },
+        combined_units: {
+          type: String,
+        },
+      },
+      operation_control: {
         type: String,
       },
     },
