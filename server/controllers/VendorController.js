@@ -53,8 +53,7 @@ const getAllVendors = async (req, res) => {
       queryObject.contact_no = contact_no;
     }
 
-    let apiData = Vendor.find(queryObject);
-    // let apiData =  ViewVendor(queryObject);
+    let apiData = ViewVendor(queryObject);
 
     // ======== Short , Select ======
 
@@ -76,7 +75,14 @@ const getAllVendors = async (req, res) => {
     apiData = apiData.skip(skip).limit(limit);
 
     const Vendors = await apiData;
-    res.status(200).json({ Vendors, nbHits: Vendors.length });
+    res
+      .status(200)
+      .json({
+        status: "success",
+        message: "Vendors fetched successfully",
+        Vendors,
+        nbHits: Vendors.length,
+      });
   } catch (error) {
     res.status(500).json({
       message: "An error occurred while fetching Vendors",

@@ -1,8 +1,8 @@
 const Product = require("../models/ProductModel");
 const { ObjectId } = require("mongodb");
 
-const ViewProduct = async (queryObject) => {
-  let result = await Product.find(queryObject);
+const ViewProduct = (queryObject) => {
+  let result = Product.find(queryObject);
   return result;
 };
 const AddProduct = async (data) => {

@@ -1,8 +1,8 @@
 const Vendor = require("../models/VendorModel");
 const { ObjectId } = require("mongodb");
 
-const ViewVendor = async (queryObject) => {
-  let result = await Vendor.find(queryObject);
+const ViewVendor =  (queryObject) => {
+  let result =  Vendor.find(queryObject);
   return result;
 };
 const AddVendor = async (data) => {

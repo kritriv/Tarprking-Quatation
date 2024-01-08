@@ -1,5 +1,4 @@
-const Product = require("../models/ProductModel");
-const { ObjectId } = require("mongodb");
+
 const {
   ViewProduct,
   AddProduct,
@@ -21,6 +20,7 @@ const getAllProducts = async (req, res) => {
       sort,
       select,
     } = req.query;
+
     const queryObject = {};
 
     // ======= Filters Queries =======
@@ -46,8 +46,7 @@ const getAllProducts = async (req, res) => {
       queryObject.sub_type = { $regex: new RegExp(sub_type, "i") };
     }
 
-    let apiData = Product.find(queryObject);
-    // let apiData =  ViewProduct(queryObject);
+    let apiData =  ViewProduct(queryObject);
 
     // ======== Short , Select ======
 
@@ -69,7 +68,7 @@ const getAllProducts = async (req, res) => {
     apiData = apiData.skip(skip).limit(limit);
 
     const Products = await apiData;
-    res.status(200).json({ Products, nbHits: Products.length });
+    res.status(200).json({ status: 'success', message: 'Products fetched successfully', Products, nbHits: Products.length });
   } catch (error) {
     res
       .status(500)
