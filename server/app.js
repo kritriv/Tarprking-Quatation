@@ -3,9 +3,8 @@ const express = require("express");
 const cors = require('cors');
 const app = express();
 
-const product_routes = require("./routers/ProductRoutes")
-
-
+const product_routes = require("./routers/ProductRoutes");
+const vendor_routes = require("./routers/VendorRoutes");
 const connectDB = require("./db/connect");
 
 const PORT = process.env.PORT || 5000;
@@ -21,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use("/api", product_routes);  // middleware routes for Products
+app.use("/api", vendor_routes);  // middleware routes for Vendors
 
 
 const TarParkingQuotation = async () => {
