@@ -1,12 +1,15 @@
 const Product = require('../models/ProductModel');
 const { ObjectId } = require('mongodb');
 
-const ViewProduct = async ({ product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page = 1, limit = 5 }) => {
+const ViewProduct = async ({ id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page = 1, limit = 5 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
+        if (id) {
+            queryObject._id = id;
+        }
         if (product_id) {
             queryObject.product_id = product_id;
         }

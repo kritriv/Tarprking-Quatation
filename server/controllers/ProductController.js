@@ -4,12 +4,13 @@ const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } =
 // Update getAllProducts function to use ViewProduct function
 const getAllProducts = async (req, res) => {
     try {
-        const { product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page, limit } = req.query;
+        const { id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page, limit } = req.query;
 
-        const Products = await ViewProduct({ product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
+        const Products = await ViewProduct({ id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
         });
 
         res.status(200).json({
+
             Status: 'success',
             Message: 'Products fetched successfully',
             Products,

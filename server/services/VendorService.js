@@ -1,11 +1,15 @@
 const Vendor = require('../models/VendorModel');
 const { ObjectId } = require('mongodb');
 
-const ViewVendor = async ({ vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
+const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
+
+        if (id) {
+            queryObject._id = id;
+        }
 
         if (vendor_status !== undefined) {
             queryObject.Vendor_status = vendor_status.toLowerCase() === 'true';

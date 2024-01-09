@@ -3,9 +3,9 @@ const { ViewVendor, AddVendor, SingleVendor, DeleteVendor, UpdateVendor } = requ
 // To get All Vendors List
 const getAllVendors = async (req, res) => {
     try {
-        const { vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page, limit } = req.query;
+        const { id, vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page, limit } = req.query;
 
-        const Vendor = await ViewVendor({ vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
+        const Vendor = await ViewVendor({ id, vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
         });
 
         if (!Vendor) {
