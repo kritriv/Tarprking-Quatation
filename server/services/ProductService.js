@@ -49,33 +49,49 @@ const ViewProduct = async ({ product_id, product_HSN, product_status, admin_crea
         const Products = await apiData;
         return Products;
     } catch (error) {
-        throw new Error('An error occurred while fetching vendors: ' + error.message);
+        throw new Error('An error occurred while fetching products: ' + error.message);
     }
 };
 
 const AddProduct = async (data) => {
-    const result = await Product(data).save();
-    return result;
+    try {
+        const result = await Product(data).save();
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while adding product: ${error.message}`);
+    }
 };
 
 const SingleProduct = async (id) => {
-    const filter = { _id: new ObjectId(id) };
-    const result = await Product.findOne(filter);
-    return result;
+    try {
+        const filter = { _id: new ObjectId(id) };
+        const result = await Product.findOne(filter);
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while retrieving single product: ${error.message}`);
+    }
 };
 
 const DeleteProduct = async (id) => {
-    const filter = { _id: new ObjectId(id) };
-    const result = await Product.deleteOne(filter);
-    return result;
+    try {
+        const filter = { _id: new ObjectId(id) };
+        const result = await Product.deleteOne(filter);
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while deleting product: ${error.message}`);
+    }
 };
 
 const UpdateProduct = async (id, updateProductData) => {
-    const filter = { _id: id };
-    const result = await Product.findByIdAndUpdate(filter, updateProductData, {
-        new: true,
-    });
-    return result;
+    try {
+        const filter = { _id: id };
+        const result = await Product.findByIdAndUpdate(filter, updateProductData, {
+            new: true,
+        });
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while updating product: ${error.message}`);
+    }
 };
 
 module.exports = {

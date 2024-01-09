@@ -60,28 +60,44 @@ const ViewVendor = async ({ vendor_status, vendor_username, vendor_name, email, 
 };
 
 const AddVendor = async (data) => {
-    const result = await Vendor(data).save();
-    return result;
+    try {
+        const result = await Vendor(data).save();
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while adding vendor: ${error.message}`);
+    }
 };
 
 const SingleVendor = async (id) => {
-    const filter = { _id: new ObjectId(id) };
-    const result = await Vendor.findOne(filter);
-    return result;
+    try {
+        const filter = { _id: new ObjectId(id) };
+        const result = await Vendor.findOne(filter);
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while retrieving single vendor: ${error.message}`);
+    }
 };
 
 const DeleteVendor = async (id) => {
-    const filter = { _id: new ObjectId(id) };
-    const result = await Vendor.deleteOne(filter);
-    return result;
+    try {
+        const filter = { _id: new ObjectId(id) };
+        const result = await Vendor.deleteOne(filter);
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while deleting vendor: ${error.message}`);
+    }
 };
 
 const UpdateVendor = async (id, updateVendorData) => {
-    const filter = { _id: id };
-    const result = await Vendor.findByIdAndUpdate(filter, updateVendorData, {
-        new: true,
-    });
-    return result;
+    try {
+        const filter = { _id: id };
+        const result = await Vendor.findByIdAndUpdate(filter, updateVendorData, {
+            new: true,
+        });
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while updating vendor: ${error.message}`);
+    }
 };
 
 module.exports = {
