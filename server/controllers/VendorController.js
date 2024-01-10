@@ -5,7 +5,20 @@ const getAllVendors = async (req, res) => {
     try {
         const { id, vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page, limit } = req.query;
 
-        const Vendor = await ViewVendor({ id, vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
+        const Vendor = await ViewVendor({
+            id,
+            vendor_status,
+            vendor_username,
+            vendor_name,
+            email,
+            contact_no,
+            gender,
+            company_name,
+            company_GST_no,
+            sort,
+            select,
+            page: Number(page) || 1,
+            limit: Number(limit) || 5,
         });
 
         if (!Vendor) {
@@ -78,7 +91,17 @@ const postSingleVendor = async (req, res) => {
             savedVendor,
         });
     } catch (error) {
-        res.status(500).json({ error: 'Error creating and saving Vendor.' });
+        const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
+        if (duplicateFieldMatches && duplicateFieldMatches.length > 0) {
+            const duplicateFields = duplicateFieldMatches.map((field) => field.replace('vendor_', ''));
+            const Error = `Vendor with ${duplicateFields.join(', ')} is already exist.`;
+            res.status(400).json({ Message: 'An error occurred while adding the Vendor', Error });
+        } else {
+            res.status(error.status || 500).json({
+                success: false,
+                message: error.message || 'Internal server error',
+            });
+        }
     }
 };
 
@@ -93,7 +116,6 @@ const updateSingleVendor = async (req, res) => {
         if (!updatedVendor) {
             return res.status(404).json({ message: 'Vendor not found, update unsuccessful' });
         }
-
         res.status(200).json({
             status: 'success',
             message: 'Vendor updated successfully',

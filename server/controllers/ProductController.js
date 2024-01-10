@@ -6,11 +6,21 @@ const getAllProducts = async (req, res) => {
     try {
         const { id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page, limit } = req.query;
 
-        const Products = await ViewProduct({ id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
+        const Products = await ViewProduct({
+            id,
+            product_id,
+            product_HSN,
+            product_status,
+            admin_create_username,
+            product_name,
+            sub_type,
+            sort,
+            select,
+            page: Number(page) || 1,
+            limit: Number(limit) || 5,
         });
 
         res.status(200).json({
-
             Status: 'success',
             Message: 'Products fetched successfully',
             Products,
@@ -78,7 +88,14 @@ const postSingleProduct = async (req, res) => {
             savedProduct,
         });
     } catch (error) {
-        res.status(500).json({ error: 'Error creating and saving Product.' });
+        const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
+        if (duplicateFieldMatches && duplicateFieldMatches.length > 0) {
+            const duplicateFields = duplicateFieldMatches.map(field => field.replace('product_', ''));
+            const Error = `Product with ${duplicateFields.join(', ')} is already exists.`;
+            res.status(400).json({Message: 'An error occurred while adding the product', Error });
+        } else {
+            res.status(500).json({ Message: 'An error occurred while adding the product', error: error.message });
+        }
     }
 };
 

@@ -1,23 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { getAllVendors, getSingleVendor, postSingleVendor, deleteSingleVendor, updateSingleVendor} = require("../controllers/VendorController");
+const { getAllVendors, getSingleVendor, postSingleVendor, deleteSingleVendor, updateSingleVendor } = require('../controllers/VendorController');
+
+const vendorSchema= require('../validators/Vendorvalidate');
+const validate = require('../middlewares/Validate_middleware');
 
 // Middleware to parse JSON bodies
 router.use(express.json());
 
 // To get All Vendors list
-router.route("/Vendors").get(getAllVendors);
+router.get('/Vendors', getAllVendors);
 
 // To get Single Vendor Details
-router.route("/Vendors/:id").get(getSingleVendor);
+router.get('/Vendors/:id', getSingleVendor);
 
 // To Add a Vendor to Vendors list
-router.route("/Vendors/add-Vendor").post(postSingleVendor);
+router.post('/Vendors/add-Vendor', validate(vendorSchema),  postSingleVendor);
 
 // To Delete Single Vendor Details
-router.route("/Vendors/:id").delete(deleteSingleVendor);
+router.delete('/Vendors/:id', deleteSingleVendor);
 
 // To Update a Single Vendor Details
-router.route("/Vendors/:id").put(updateSingleVendor);
+router.put('/Vendors/:id', validate(vendorSchema), updateSingleVendor);
 
 module.exports = router;
