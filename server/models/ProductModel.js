@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ProductSchema = new Schema(
     {
         product_id: {
-            type: Number,
+            type: String,
             unique: true,
             validate: {
                 validator: async function(value) {
@@ -16,7 +16,7 @@ const ProductSchema = new Schema(
             },
         },
         product_HSN: {
-            type: Number,
+            type: String,
             unique: true,
             validate: {
                 validator: async function(value) {
@@ -43,7 +43,7 @@ const ProductSchema = new Schema(
             type: String,
         },
         product_img: {
-            
+            type: String,
         },
         basic_rate: {
             type: Number,
