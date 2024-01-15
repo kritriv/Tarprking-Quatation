@@ -19,8 +19,8 @@ app.get("/", (req, res) => {
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use("/api", product_routes);  // middleware routes for Products
-app.use("/api", vendor_routes);  // middleware routes for Vendors
+app.use("/v2/api", product_routes);  // middleware routes for Products
+app.use("/v2/api", vendor_routes);  // middleware routes for Vendors
 
 
 const TarParkingQuotation = async () => {
