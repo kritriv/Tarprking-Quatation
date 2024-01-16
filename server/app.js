@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require('cors');
 const app = express();
 
+const user_routes = require("./routers/UserRoutes");
 const product_routes = require("./routers/ProductRoutes");
 const vendor_routes = require("./routers/VendorRoutes");
 const authenticationRouter = require('./routers/authentication');
@@ -18,18 +19,20 @@ app.get("/", (req, res) => {
 })
 
 // middleware or set the routes 
-
-// app.use('/api', ApiAuthenticate);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use("/v2/api", product_routes);  // middleware routes for Products
-app.use("/v2/api", vendor_routes);  // middleware routes for Vendors
+
 
 app.use('/v2/api',authenticationRouter);
 app.use('/admin/',adminRouter);
 app.use('/user/',userRouter);
 app.use('/super/',superRouter);
+
+app.use("/v2/api", user_routes);  // middleware routes for Users
+app.use("/v2/api", product_routes);  // middleware routes for Products
+app.use("/v2/api", vendor_routes);  // middleware routes for Vendors
+
 
 
 const TarParkingQuotation = async () => {
