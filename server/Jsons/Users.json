@@ -1,0 +1,22 @@
+[
+    {
+        "username": "user",
+        "email": "user@gmail.com",
+        "password": "$2a$10$zBzWj3CaXxHYqZ.ULpd7CeqJupwZYFfDRtg1uqXgGkKrKO/q/ymcO",
+        "role": "user"
+    },
+    
+    {
+        "username": "admin",
+        "email": "admin@gmail.com",
+        "password": "admin@ME22",
+        "role": "admin"
+    },
+
+    {
+        "username": "super",
+        "email": "super@gmail.com",
+        "password": "super@ME22",
+        "role": "super_admin"
+    }
+]
