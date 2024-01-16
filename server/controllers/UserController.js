@@ -57,7 +57,7 @@ const postSingleUser = async (req, res) => {
         });
     } catch (error) {
         if (error.message.includes('E11000 duplicate key error')) {
-            res.status(400).json({ error: 'Duplicate key error. User already exists.' });
+            res.status(400).json({ error: 'Duplicate key error.', message: 'User already exists. (email, Username must be unique)' });
         } else {
             console.log(error);
             res.status(500).json({ error: 'Error creating and saving User.' });

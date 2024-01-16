@@ -1,6 +1,6 @@
 const { z } = require("zod");
 
-const signupSchema = z.object({
+const RegisterSchema = z.object({
   username: z
     .string({ required_error: "Username must be required!" })
     .trim()
@@ -30,7 +30,7 @@ const signupSchema = z.object({
     .optional(),
 });
 
-const signinSchema = z.object({
+const LoginSchema = z.object({
   email: z
     .string({ required_error: "Email must be required!" })
     .email({ message: "Invalid email format!" }),
@@ -45,4 +45,4 @@ const signinSchema = z.object({
 
 });
 
-module.exports = {signupSchema, signinSchema};
+module.exports = {RegisterSchema, LoginSchema};

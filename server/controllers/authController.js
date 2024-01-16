@@ -1,10 +1,9 @@
 const User = require("../models/UserModel");
-const bcryptjs = require("bcryptjs");
 const { hashPassword, checkRole, comparePassword } = require("../utils/Authutils");
 const { generateAccessToken } = require("../services/jwt.service");
 const jwt = require("jsonwebtoken");
 
-const signup = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { username, email, role, password } = req.body;
 
@@ -61,7 +60,7 @@ const signup = async (req, res) => {
   }
 };
 
-const signin = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -114,4 +113,4 @@ const signout = (req, res) => {
   }
 };
 
-module.exports = { signin, signup, signout };
+module.exports = { login, register, signout };
