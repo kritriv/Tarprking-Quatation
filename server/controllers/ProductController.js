@@ -1,7 +1,6 @@
 const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } = require('../services/ProductService');
 
 // To get All Products List
-// Update getAllProducts function to use ViewProduct function
 const getAllProducts = async (req, res) => {
     try {
         const { id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page, limit } = req.query;
@@ -23,7 +22,7 @@ const getAllProducts = async (req, res) => {
         if (!Products || Products.length === 0) {
             return res.status(404).json({
                 Status: 'success',
-                Message: 'Products Not found',
+                Message: 'Products not found',
                 Products: [],
                 nbHits: 0,
             });

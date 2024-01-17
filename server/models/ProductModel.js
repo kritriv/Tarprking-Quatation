@@ -8,22 +8,22 @@ const ProductSchema = new Schema(
             type: String,
             unique: true,
             validate: {
-                validator: async function(value) {
+                validator: async function (value) {
                     const existingProduct = await this.constructor.findOne({ product_id: value });
                     return !existingProduct || existingProduct._id.equals(this._id);
                 },
-                message: 'Product with this ID already exists'
+                message: 'Product with this ID already exists',
             },
         },
         product_HSN: {
             type: String,
             unique: true,
             validate: {
-                validator: async function(value) {
+                validator: async function (value) {
                     const existingProduct = await this.constructor.findOne({ product_HSN: value });
                     return !existingProduct || existingProduct._id.equals(this._id);
                 },
-                message: 'Product with this HSN already exists'
+                message: 'Product with this HSN already exists',
             },
         },
         product_status: {
@@ -45,15 +45,37 @@ const ProductSchema = new Schema(
         product_img: {
             type: String,
         },
-        basic_rate: {
-            type: Number,
+
+        product_price: {
+            quantity: {
+                type: Number,
+                required: true,
+                default: 1,
+            },
+            basic_rate: {
+                type: Number,
+            },
+            installation_charges: {
+                type: Number,
+            },
+            taxRate: {
+                type: Number,
+                default: 0,
+            },
+            subTotal: {            // basic_rate + installation_charges
+                type: Number,
+                default: 0,
+            },
+            taxTotal: {            // subTotal of taxRate%
+                type: Number,
+                default: 0,
+            },
+            total_price: {          // subTotal + taxTotal
+                type: Number,
+                // required: true,
+            },
         },
-        installation_charges: {
-            type: Number,
-        },
-        total_price: {
-            type: Number,
-        },
+
         product_features: {
             type: [String],
         },

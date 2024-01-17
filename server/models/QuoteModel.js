@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autopopulate = require('mongoose-autopopulate');
 const Schema = mongoose.Schema;
 
 const quoteSchema = new Schema({
@@ -6,23 +7,45 @@ const quoteSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    createdBy: { type: mongoose.Schema.ObjectId, ref: 'User', required: true },
+    quotenumber: {
+        type: Number,
+        required: true,
+        unique: true,
+    },
+    createdBy: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true,
+        autopopulate: true,
+    },
     client: {
         type: mongoose.Schema.ObjectId,
         ref: 'Vendor',
         required: true,
-        // autopopulate: true,
+        autopopulate: true,
+    },
+    year: {
+        type: Number,
+        required: true,
+        default: new Date().getFullYear(),
     },
     date: {
         type: Date,
         required: true,
-        default: Date.now()
+        default: Date.now(),
     },
     expiredDate: {
         type: Date,
         required: true,
     },
-    items: [{ type: mongoose.Schema.ObjectId, ref: 'Product', required: true }],
+    items: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'Product',
+            required: true,
+            autopopulate: true,
+        },
+    ],
 
     credit: {
         type: Number,
@@ -32,7 +55,7 @@ const quoteSchema = new Schema({
         type: Number,
         default: 0,
     },
-    note: {
+    remark: {
         type: String,
     },
     status: {
@@ -61,6 +84,7 @@ const quoteSchema = new Schema({
     },
 });
 
+quoteSchema.plugin(autopopulate);
 const Quote = mongoose.model('Quote', quoteSchema);
 
 module.exports = Quote;
