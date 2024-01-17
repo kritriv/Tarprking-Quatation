@@ -8,6 +8,15 @@ const getAllUsers = async (req, res) => {
         const Users = await ViewUser({  username, fullname,  role, email,  sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
         });
 
+        if (!Users || Users.length === 0) {
+            return res.status(404).json({
+                Status: 'success',
+                Message: 'Users Not found',
+                Users: [],
+                nbHits: 0,
+            });
+        }
+
         res.status(200).json({
             Status: 'success',
             Message: 'Users fetched successfully',
@@ -71,9 +80,10 @@ const deleteSingleUser = async (req, res) => {
         const id = req.params.id;
         const User = await DeleteUser(id);
 
-        if (!User) {
+        if (!User || User.deletedCount === 0) {
             return res.status(404).json({ message: 'User not found, deletion unsuccessful' });
         }
+
         res.status(200).json({
             status: 'success',
             message: 'User deleted successfully',

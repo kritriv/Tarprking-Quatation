@@ -21,8 +21,13 @@ const getAllVendors = async (req, res) => {
             limit: Number(limit) || 5,
         });
 
-        if (!Vendor) {
-            return res.status(404).json({ message: 'Vendor not found' });
+        if (!Vendor || Vendor.length === 0) {
+            return res.status(404).json({
+                Status: 'success',
+                Message: 'Vendor Not found',
+                Vendor: [],
+                nbHits: 0,
+            });
         }
         res.status(200).json({
             status: 'success',
@@ -64,8 +69,8 @@ const deleteSingleVendor = async (req, res) => {
         const id = req.params.id;
         const vendor = await DeleteVendor(id);
 
-        if (!vendor) {
-            return res.status(404).json({ message: 'Vendor not found, deletion unsuccessful' });
+        if (!vendor || vendor.deletedCount === 0) {
+            return res.status(404).json({ message: 'vendor not found, deletion unsuccessful' });
         }
         res.status(200).json({
             status: 'success',

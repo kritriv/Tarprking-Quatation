@@ -20,6 +20,15 @@ const getAllProducts = async (req, res) => {
             limit: Number(limit) || 5,
         });
 
+        if (!Products || Products.length === 0) {
+            return res.status(404).json({
+                Status: 'success',
+                Message: 'Products Not found',
+                Products: [],
+                nbHits: 0,
+            });
+        }
+
         res.status(200).json({
             Status: 'success',
             Message: 'Products fetched successfully',
@@ -61,7 +70,7 @@ const deleteSingleProduct = async (req, res) => {
         const id = req.params.id;
         const Product = await DeleteProduct(id);
 
-        if (!Product) {
+        if (!Product || Product.deletedCount === 0) {
             return res.status(404).json({ message: 'Product not found, deletion unsuccessful' });
         }
         res.status(200).json({
