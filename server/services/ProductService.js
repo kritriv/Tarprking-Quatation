@@ -1,7 +1,7 @@
 const Product = require('../models/ProductModel');
 const { ObjectId } = require('mongodb');
 
-const ViewProduct = async ({ id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page = 1, limit = 5 }) => {
+const ViewProduct = async ({ id, product_id, product_HSN, product_status, createdby, product_name, sub_type, sort, select, page = 1, limit = 5 }) => {
     try {
         const queryObject = {};
 
@@ -19,9 +19,9 @@ const ViewProduct = async ({ id, product_id, product_HSN, product_status, admin_
         if (product_status !== undefined) {
             queryObject.product_status = product_status.toLowerCase() === 'true';
         }
-        if (admin_create_username) {
-            queryObject.admin_create_username = {
-                $regex: new RegExp(admin_create_username, 'i'),
+        if (createdby) {
+            queryObject.createdby = {
+                $regex: new RegExp(createdby, 'i'),
             };
         }
         if (product_name) {

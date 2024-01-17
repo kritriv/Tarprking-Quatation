@@ -23,13 +23,11 @@ const productSchema = z.object({
         invalid_type_error: 'Product Status must be a boolean',
     }),
 
-    admin_create_username: z
+    createdby: z
         .string({
-            invalid_type_error: 'Create Admin must be a String',
-        })
-        .min(1, { message: 'Create Admin cannot be empty.' })
-        .min(3, { message: 'Create Admin must be at least 3 characters.' })
-        .max(16, { message: 'Create Admin cannot be more than 16 characters.' }),
+            required_error: 'createdby Id must be required!',
+            invalid_type_error: 'createdby Id must be a String',
+        }),
 
     product_name: z
         .string({
@@ -69,17 +67,8 @@ const productSchema = z.object({
         installation_charges: z.number({
             invalid_type_error: 'Product Installation Charge must be a Number',
         }),
-        taxRate: z.number({
-            invalid_type_error: 'Product Tax Rate must be a Number',
-        }),
         subTotal: z.number({
             invalid_type_error: 'Product Subtotal must be a Number',
-        }),
-        taxTotal: z.number({
-            invalid_type_error: 'Product Tax Total must be a Number',
-        }),
-        total_price: z.number({
-            invalid_type_error: 'Product Total Price must be a Number',
         }),
     }),
 

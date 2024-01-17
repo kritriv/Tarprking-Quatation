@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autopopulate = require('mongoose-autopopulate');
 const Schema = mongoose.Schema;
 
 // Define the schema for the product
@@ -30,8 +31,11 @@ const ProductSchema = new Schema(
             type: Boolean,
             default: true,
         },
-        admin_create_username: {
-            type: String,
+        createdby: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+            autopopulate: { select: '_id role username email' },
         },
         product_name: {
             type: String,
@@ -58,21 +62,9 @@ const ProductSchema = new Schema(
             installation_charges: {
                 type: Number,
             },
-            taxRate: {
-                type: Number,
-                default: 0,
-            },
             subTotal: {            // basic_rate + installation_charges
                 type: Number,
                 default: 0,
-            },
-            taxTotal: {            // subTotal of taxRate%
-                type: Number,
-                default: 0,
-            },
-            total_price: {          // subTotal + taxTotal
-                type: Number,
-                // required: true,
             },
         },
 
@@ -152,7 +144,8 @@ const ProductSchema = new Schema(
     { timestamps: true },
 );
 
-// Create the model for the product schema
+ProductSchema.plugin(autopopulate);
+
 const Product = mongoose.model('Product', ProductSchema);
 
 module.exports = Product;

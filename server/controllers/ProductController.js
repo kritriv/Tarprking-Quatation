@@ -3,14 +3,14 @@ const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } =
 // To get All Products List
 const getAllProducts = async (req, res) => {
     try {
-        const { id, product_id, product_HSN, product_status, admin_create_username, product_name, sub_type, sort, select, page, limit } = req.query;
+        const { id, product_id, product_HSN, product_status, createdby, product_name, sub_type, sort, select, page, limit } = req.query;
 
         const Products = await ViewProduct({
             id,
             product_id,
             product_HSN,
             product_status,
-            admin_create_username,
+            createdby,
             product_name,
             sub_type,
             sort,

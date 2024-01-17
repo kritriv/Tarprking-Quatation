@@ -38,9 +38,9 @@ const getAllQuotes = async (req, res) => {
 };
 
 const createQuote = async (req, res) => {
-    const { removed, quotenumber,createdBy, client, expiredDate, items = [], credit, discount, remark, status, approved, isExpired, pdf } = req.body;
+    const { removed, quotenumber,createdby, client, expiredDate, items = [], credit, discount, remark, status, approved, isExpired, pdf } = req.body;
 
-    if (!createdBy || !client || !expiredDate || !items.length) {
+    if (!createdby || !client || !expiredDate || !items.length) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -48,7 +48,7 @@ const createQuote = async (req, res) => {
         const newQuote = new Quote({
             removed,
             quotenumber,
-            createdBy,
+            createdby,
             client,
             expiredDate,
             items,

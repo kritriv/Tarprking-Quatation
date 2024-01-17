@@ -12,17 +12,17 @@ const quoteSchema = new Schema({
         required: true,
         unique: true,
     },
-    createdBy: {
+    createdby: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: true,
-        autopopulate: true,
+        autopopulate: { select: '_id role username email' },
     },
     client: {
         type: mongoose.Schema.ObjectId,
         ref: 'Vendor',
         required: true,
-        autopopulate: true,
+        autopopulate: { select: '_id vendor_username vendor_name contact_no company_name company_GST_no vendor_address' },
     },
     year: {
         type: Number,
@@ -43,10 +43,23 @@ const quoteSchema = new Schema({
             type: mongoose.Schema.ObjectId,
             ref: 'Product',
             required: true,
-            autopopulate: true,
+            autopopulate: { select: '-product_status -createdby -createdAt -updatedAt -__v' },
         },
     ],
-
+    quote_price: {
+        taxRate: {
+            type: Number,
+            default: 0,
+        },
+        // },
+        taxTotal: {
+            type: Number,
+            default: 0,
+        },
+        total_price: {            // taxTotal + item[subTotal]
+            type: Number,
+        },
+    },
     credit: {
         type: Number,
         default: 0,
