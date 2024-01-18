@@ -7,10 +7,17 @@ const quoteSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    quotenumber: {
+    quote_number: {
         type: Number,
         required: true,
         unique: true,
+        validate: {
+            validator: async function (value) {
+                const existingQuote = await this.constructor.findOne({ quote_number: value });
+                return !existingQuote || existingQuote._id.equals(this._id);
+            },
+            message: 'Quote with this Quote No. already exists',
+        },
     },
     createdby: {
         type: mongoose.Schema.ObjectId,
@@ -22,7 +29,7 @@ const quoteSchema = new Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Vendor',
         required: true,
-        autopopulate: { select: '_id vendor_username vendor_name contact_no company_name company_GST_no vendor_address' },
+        autopopulate: { select: '_id vendor_username vendor_name site_address contact_no vendor_email company_name company_GST_no vendor_address' },
     },
     year: {
         type: Number,
@@ -47,27 +54,27 @@ const quoteSchema = new Schema({
         },
     ],
     quote_price: {
-        taxRate: {
-            type: Number,
-            default: 0,
-        },
+        // taxRate: {
+        //     type: Number,
+        //     default: 0,
         // },
-        taxTotal: {
-            type: Number,
-            default: 0,
-        },
+        // // },
+        // taxTotal: {
+        //     type: Number,
+        //     default: 0,
+        // },
         total_price: {            // taxTotal + item[subTotal]
             type: Number,
         },
     },
-    credit: {
-        type: Number,
-        default: 0,
-    },
-    discount: {
-        type: Number,
-        default: 0,
-    },
+    // credit: {
+    //     type: Number,
+    //     default: 0,
+    // },
+    // discount: {
+    //     type: Number,
+    //     default: 0,
+    // },
     remark: {
         type: String,
     },

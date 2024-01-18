@@ -35,6 +35,11 @@ const ViewQuote = async ({ sort, select, page = 1, limit = 10 }) => {
 
 const AddQuote = async (data) => {
     try {
+        const existingQuote = await Quote.findOne({ quote_number: data.quote_number });
+        if (existingQuote) {    
+            throw new Error('Quote with this Quote No. already exists');
+        }
+
         const result = await Quote(data).save();
         return result;
     } catch (error) {

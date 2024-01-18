@@ -38,39 +38,27 @@ const getAllQuotes = async (req, res) => {
 };
 
 const createQuote = async (req, res) => {
-    const { removed, quotenumber,createdby, client, expiredDate, items = [], credit, discount, remark, status, approved, isExpired, pdf } = req.body;
-
-    if (!createdby || !client || !expiredDate || !items.length) {
-        return res.status(400).json({ error: 'Missing required fields' });
-    }
-
+    const data = req.body;
     try {
-        const newQuote = new Quote({
-            removed,
-            quotenumber,
-            createdby,
-            client,
-            expiredDate,
-            items,
-            credit,
-            discount,
-            remark,
-            status,
-            approved,
-            isExpired,
-            pdf,
-        });
-
-        await newQuote.save();
-
+        const savedQuote = await AddQuote(data);
         res.status(201).json({
-            Status: 'success',
-            Message: 'Quote added successfully',
-            Quote: newQuote,
+            status: 'success',
+            message: 'Quote added successfully',
+            savedQuote,
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        if (error.message.includes('Quote with this Quote No. already exists')){
+            res.status(400).json({
+                status: 'fail',
+                error: `${error.message}`,
+                message: 'Quote with this Quote No. already exists',
+            });
+        } else {
+            res.status(500).json({
+                status: 'error',
+                message: `An error occurred while adding the Quote: ${error.message}`,
+            });
+        }
     }
 };
 

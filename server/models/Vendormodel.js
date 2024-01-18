@@ -27,7 +27,10 @@ const VendorSchema = new Schema(
         vendor_name: {
             type: String,
         },
-        email: {
+        vendor_email: {
+            type: String,
+        },
+        site_address: {
             type: String,
         },
         contact_no: {

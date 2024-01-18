@@ -14,9 +14,9 @@ const vendorSchema = z.object({
         .min(5, { message: 'Username must be at least 5 characters.' })
         .max(16, { message: 'Username cannot be more than 16 characters.' }),
 
-    email: z
+    vendor_email: z
         .string({ 
-          required_error: 'Email must be required!',
+          required_error: 'Vendor Email must be required!',
           invalid_type_error: 'Email must be a Valid',
          })
         .min(1, { message: 'Email cannot be empty.' })
@@ -58,6 +58,11 @@ const vendorSchema = z.object({
         .min(1, { message: 'Age must be provided.' })
         .refine((value) => Number(value) >= 18 && Number(value) <= 80, {
             message: 'Age should be between 18 and 80.',
+        }),
+
+    site_address: z
+        .string({
+            invalid_type_error: 'Company Name must be a String',
         }),
 
     company_name: z

@@ -1,7 +1,7 @@
-const Vendor = require('../models/VendorModel');
+const Vendor = require('../models/Vendormodel');
 const { ObjectId } = require('mongodb');
 
-const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
+const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, vendor_email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
     try {
         const queryObject = {};
 
@@ -22,8 +22,8 @@ const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, emai
         if (vendor_name) {
             queryObject.vendor_name = { $regex: new RegExp(vendor_name, 'i') };
         }
-        if (email) {
-            queryObject.email = { $regex: new RegExp(email, 'i') };
+        if (vendor_email) {
+            queryObject.vendor_email = { $regex: new RegExp(vendor_email, 'i') };
         }
         if (gender) {
             queryObject.gender = { $regex: new RegExp(gender, 'i') };
