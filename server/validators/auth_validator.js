@@ -22,7 +22,7 @@ const RegisterSchema = z.object({
   role: z
     .string()
     .refine(
-      (value) => ["user", "admin", "super_admin"].includes(value.toLowerCase()),
+      (value) => ["USER", "ADMIN", "SUPERADMIN"].includes(value.toUpperCase()),
       {
         message: "Invalid role provided!",
       }

@@ -2,17 +2,17 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const algorithm = 'HS512';
+const JWT_Algo = process.env.JWT_Algo;
 
 async function generateAccessToken(userId, role) {
     try {
         const secretCode = process.env.JWT_SECRET_TOKEN;
-        const expirationTime = '1m';
+        const expirationTime = process.env.Access_Token_Expire;
         const payload = {
             userId,
             role,
         };
-        return jwt.sign(payload, secretCode, { expiresIn: expirationTime, algorithm });
+        return jwt.sign(payload, secretCode, { expiresIn: expirationTime, algorithm: JWT_Algo });
     } catch (error) {
         console.error('Error generating access token:', error);
         throw new Error('Failed to generate access token');
@@ -22,7 +22,7 @@ async function generateAccessToken(userId, role) {
 async function verifyAccessToken(token) {
     try {
         const secretCode = process.env.JWT_SECRET_TOKEN;
-        const decoded = await jwt.verify(token, secretCode, { algorithms: [algorithm] });
+        const decoded = await jwt.verify(token, secretCode, { algorithm: [JWT_Algo] });
         return decoded;
     } catch (err) {
         if (err instanceof jwt.TokenExpiredError) {

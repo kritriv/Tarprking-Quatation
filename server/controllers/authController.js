@@ -38,6 +38,7 @@ const register = async (req, res) => {
     }
     //hash password ...
     req.body.password = await hashPassword(password);
+    console.log(hashPassword(password))
 
     const newUser = new User(req.body);
     const savedUser = await newUser.save();
