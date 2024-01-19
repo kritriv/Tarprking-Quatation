@@ -72,6 +72,15 @@ const productSchema = z.object({
         }),
     }),
 
+    manufacturing_time: z.object({
+        delivery_time: z.string({
+            invalid_type_error: 'Product Delivery time must be a String',
+        }),
+        installation_time: z.string({
+            invalid_type_error: 'Product Delivery time must be a String',
+        }),
+    }),
+
     product_specification: z.object({
         system_area: z.object({
             length: z.string(),

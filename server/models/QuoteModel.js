@@ -54,16 +54,23 @@ const quoteSchema = new Schema({
         },
     ],
     quote_price: {
-        // taxRate: {
-        //     type: Number,
-        //     default: 0,
-        // },
-        // // },
-        // taxTotal: {
-        //     type: Number,
-        //     default: 0,
-        // },
-        total_price: {            // taxTotal + item[subTotal]
+        taxRate: {
+            type: Number,
+            default: 0,
+        },
+        taxTotal: {
+            type: Number,
+            default: 0,
+        },
+        transport_charge: {
+            type: Number,
+            default: 0,
+        },
+        otherRate: {
+            type: Number,
+            default: 0,
+        },
+        total_price: {            // taxTotal + transport_charge + otherRate + item[subTotal]
             type: Number,
         },
     },

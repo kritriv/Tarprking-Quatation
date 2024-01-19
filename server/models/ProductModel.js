@@ -82,6 +82,14 @@ const ProductSchema = new Schema(
                 type: String,
             },
         },
+        manufacturing_time: {
+            delivery_time: {
+                type: String,
+            },
+            installation_time: {
+                type: String,
+            },
+        },
         product_specification: {
             system_area: {
                 length: {
