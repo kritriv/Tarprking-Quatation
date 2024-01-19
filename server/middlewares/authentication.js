@@ -15,18 +15,19 @@ function authMiddleware(roles) {
                     message: 'Access token missing or invalid format.',
                 });
             }
-            const token = authHeader.split(' ')[1]; 
+            const token = authHeader.split(' ')[1];
 
             try {
                 const decoded = await verifyAccessToken(token);
 
                 // Check user role and perform role-based access control
-                const findUser = await User.findOne({ _id: decoded._id }, { _id: 1, role: 1 }).lean();
+                const findUser = await User.findOne({ _id: decoded.userId }, { _id: 1, role: 1 }).lean();
 
                 if (!findUser || !roles.includes(findUser.role)) {
                     return response.status(403).json({
                         success: false,
-                        message: `Access Denied! ${findUser.role} is not allowed for this Path.`,
+                        reason: `${findUser.role} is not allowed for this Path.`,
+                        message: 'Access Denied!',
                     });
                 }
 
@@ -53,7 +54,6 @@ function authMiddleware(roles) {
                 }
             }
         } catch (error) {
-            console.error('Error:', error);
             return response.status(500).json({
                 success: false,
                 message: 'Internal Server Error.',
