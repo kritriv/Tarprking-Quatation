@@ -1,7 +1,7 @@
 const User = require("../models/UserModel");
-const { hashPassword, checkRole, comparePassword } = require("../utils/Authutils");
-const { generateAccessToken } = require("../services/jwt.service");
-const jwt = require("jsonwebtoken");
+const { hashPassword, comparePassword } = require("../modules/password");
+const {checkRole} = require("../utils/CheckRole");
+const { generateAccessToken } = require("../modules/jwt.service");
 
 const register = async (req, res) => {
   try {
@@ -43,12 +43,12 @@ const register = async (req, res) => {
     const savedUser = await newUser.save();
 
     //generate access token..
-    const accessToken = await generateAccessToken(savedUser._id);
+    const accessToken = await generateAccessToken(savedUser._id, savedUser.role);
 
     return res.status(201).json({
       success: true,
       message: "Successfully registered.",
-      token: accessToken,
+      accessToken: accessToken,
       data: savedUser,
     });
   } catch (error) {
@@ -87,12 +87,12 @@ const login = async (req, res) => {
       });
     }
     //generate access token..
-    const accessToken = await generateAccessToken(user._id);
+    const accessToken = await generateAccessToken(user._id, user.role);
     return res.status(200).cookie('access_token', accessToken, { httpOnly: true }).json({
       success: true,
       userId: user._id,
       message: "Login successfully.",
-      token: accessToken,
+      accessToken: accessToken,
     });
   } catch (error) {
     console.log("error", error);

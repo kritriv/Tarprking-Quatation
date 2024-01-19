@@ -12,7 +12,7 @@ const DataBaseClient = new MongoClient(MONGODB_URL, {
     }
   });
 
-async function connectDB() {
+async function mongoDBConnection() {
     try {
         await DataBaseClient.connect();
         // await DataBaseClient.db("vishh").command({ ping: 1 });
@@ -25,4 +25,4 @@ async function connectDB() {
         console.dir;
     }
 }
-module.exports = connectDB;
+module.exports = mongoDBConnection;

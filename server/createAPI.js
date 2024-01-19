@@ -1,5 +1,5 @@
 require("dotenv").config();
-const connectDB = require("./db/connect");
+const mongoDBConnection = require("./modules/database/connection");
 const Product = require("./models/ProductModel");
 const Vendor = require("./models/VendorModel");
 const User = require("./models/UserModel");
@@ -12,7 +12,7 @@ const MONGODB_URL = 'mongodb+srv://TarParkingQuotation:vishhME22@tarparkingquota
 
 const start = async () => {
     try{
-        await connectDB(MONGODB_URL);
+        await mongoDBConnection(MONGODB_URL);
         await Product.deleteMany();
         await Vendor.deleteMany();
         await User.deleteMany();

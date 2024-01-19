@@ -1,7 +1,7 @@
-const Quote = require('../../models/QuoteModel');
-const { ViewQuote, AddQuote, SingleQuote, DeleteQuote, UpdateQuote } = require('../../services/QuoteService');
+const Quote = require('../models/QuoteModel');
+const { ViewQuote, AddQuote, SingleQuote, DeleteQuote, UpdateQuote } = require('../services/QuoteService');
 
-const { calculate } = require('../../helpers/helpers');
+const { calculate } = require('../helpers/helpers');
 
 const getAllQuotes = async (req, res) => {
     try {
