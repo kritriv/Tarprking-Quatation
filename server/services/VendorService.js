@@ -1,4 +1,5 @@
 const Vendor = require('../models/Vendormodel');
+const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 
 const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, vendor_email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
@@ -74,6 +75,9 @@ const AddVendor = async (data) => {
 
 const SingleVendor = async (id) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid ID format');
+        }
         const filter = { _id: new ObjectId(id) };
         const result = await Vendor.findOne(filter);
         return result;
@@ -84,6 +88,9 @@ const SingleVendor = async (id) => {
 
 const DeleteVendor = async (id) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid ID format');
+        }
         const filter = { _id: new ObjectId(id) };
         const result = await Vendor.deleteOne(filter);
         return result;
@@ -94,6 +101,10 @@ const DeleteVendor = async (id) => {
 
 const UpdateVendor = async (id, updateVendorData) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid ID format');
+        }
+
         const filter = { _id: id };
         const result = await Vendor.findByIdAndUpdate(filter, updateVendorData, {
             new: true,

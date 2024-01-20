@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the schema for the vendor
 const VendorSchema = new Schema(
     {
         vendor_status: {
@@ -22,15 +21,11 @@ const VendorSchema = new Schema(
                 },
                 message: 'Vendor with this Username already exists',
             },
-            
         },
         vendor_name: {
             type: String,
         },
         vendor_email: {
-            type: String,
-        },
-        site_address: {
             type: String,
         },
         contact_no: {
@@ -42,6 +37,9 @@ const VendorSchema = new Schema(
         },
         age: {
             type: Number,
+        },
+        site_address: {
+            type: String,
         },
         company_name: {
             type: String,
@@ -60,7 +58,7 @@ const VendorSchema = new Schema(
                 type: String,
             },
             pincode: {
-                type: String,
+                type: Number,
             },
             country: {
                 type: String,

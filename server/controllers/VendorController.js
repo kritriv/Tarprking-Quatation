@@ -1,4 +1,7 @@
+const { handleApiResponse } = require('../modules/responseHandler');
 const { ViewVendor, AddVendor, SingleVendor, DeleteVendor, UpdateVendor } = require('../services/VendorService');
+
+const idSchema = require('../validators/Schemas/IdValidate');
 
 // To get All Vendors List
 const getAllVendors = async (req, res) => {
@@ -22,44 +25,35 @@ const getAllVendors = async (req, res) => {
         });
 
         if (!Vendor || Vendor.length === 0) {
-            return res.status(404).json({
-                Status: 'success',
-                Message: 'Vendor Not found',
-                Vendor: [],
-                nbHits: 0,
-            });
+            return handleApiResponse(res, 404, 'Vendor Not found');
         }
-        res.status(200).json({
-            status: 'success',
-            message: 'Vendor details fetched successfully',
-            data: Vendor,
+        handleApiResponse(res, 200, 'Vendor details fetched successfully', {
+            Vendors: Vendor,
+            nbHits: Vendor.length,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while fetching the single Vendor',
-            error: error.message,
-        });
+        handleApiResponse(res, 500, 'An error occurred while fetching the single Vendor', { error: error.message });
     }
 };
+
 // To get Single Vendor Details
 const getSingleVendor = async (req, res) => {
     try {
         const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
         const vendor = await SingleVendor(id);
 
         if (!vendor) {
-            return res.status(404).json({ message: 'Vendor not found' });
+            return handleApiResponse(res, 404, 'Vendor not found');
         }
-        res.status(200).json({
-            status: 'success',
-            message: 'Vendor details fetched successfully',
-            data: vendor,
+
+        handleApiResponse(res, 200, 'Vendor details fetched successfully', {
+            Vendors: [vendor],
+            nbHits: 1,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while fetching the single Vendor',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the single Vendor: ${error.message}`;
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
     }
 };
 
@@ -67,21 +61,19 @@ const getSingleVendor = async (req, res) => {
 const deleteSingleVendor = async (req, res) => {
     try {
         const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
         const vendor = await DeleteVendor(id);
 
         if (!vendor || vendor.deletedCount === 0) {
-            return res.status(404).json({ message: 'vendor not found, deletion unsuccessful' });
+            return handleApiResponse(res, 404, 'Vendor not found, deletion unsuccessful');
         }
-        res.status(200).json({
-            status: 'success',
-            message: 'Vendor deleted successfully',
+
+        handleApiResponse(res, 200, 'Vendor deleted successfully', {
             deletedVendor: vendor,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while deleting the single Vendor',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Vendor: ${error.message}`;
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
     }
 };
 
@@ -89,23 +81,18 @@ const deleteSingleVendor = async (req, res) => {
 const postSingleVendor = async (req, res) => {
     const data = req.body;
     try {
-        const savedVendor = await AddVendor(data);
-        res.status(201).json({
-            status: 'success',
-            message: 'Vendor added successfully',
-            savedVendor,
+        const Vendor = await AddVendor(data);
+        handleApiResponse(res, 201, 'Vendor added successfully', {
+            Vendor,
         });
     } catch (error) {
         const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
         if (duplicateFieldMatches && duplicateFieldMatches.length > 0) {
             const duplicateFields = duplicateFieldMatches.map((field) => field.replace('vendor_', ''));
-            const Error = `Vendor with ${duplicateFields.join(', ')} is already exist.`;
-            res.status(400).json({ Message: 'An error occurred while adding the Vendor', Error });
+            const errorMessage = `Vendor with ${duplicateFields.join(', ')} is already exist.`;
+            handleApiResponse(res, 400, 'An error occurred while adding the Vendor', { error: errorMessage });
         } else {
-            res.status(error.status || 500).json({
-                success: false,
-                message: error.message || 'Internal server error',
-            });
+            handleApiResponse(res, error.status || 500, error.message || 'Internal server error');
         }
     }
 };
@@ -114,23 +101,21 @@ const postSingleVendor = async (req, res) => {
 const updateSingleVendor = async (req, res) => {
     try {
         const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
         const updateVendorData = req.body;
-
         const updatedVendor = await UpdateVendor(id, updateVendorData);
 
         if (!updatedVendor) {
-            return res.status(404).json({ message: 'Vendor not found, update unsuccessful' });
+            return handleApiResponse(res, 404, 'Vendor not found, update unsuccessful');
         }
-        res.status(200).json({
-            status: 'success',
-            message: 'Vendor updated successfully',
+
+        handleApiResponse(res, 200, 'Vendor updated successfully', {
             updatedVendor,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while updating the single Vendor',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while updating the single Vendor: ${error.message}`;
+
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
     }
 };
 

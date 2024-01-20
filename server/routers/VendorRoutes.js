@@ -1,3 +1,4 @@
+// Your routes file
 const express = require('express');
 const router = express.Router();
 const { getAllVendors, getSingleVendor, postSingleVendor, deleteSingleVendor, updateSingleVendor } = require('../controllers/VendorController');
@@ -21,6 +22,6 @@ router.post('/Vendors/add-Vendor', validate(vendorSchema), postSingleVendor);
 router.delete('/Vendors/:id', deleteSingleVendor);
 
 // To Update a Single Vendor Details
-router.put('/Vendors/:id', validate(vendorSchema), updateSingleVendor);
+router.put('/Vendors/:id',  validate(vendorSchema), updateSingleVendor);
 
 module.exports = router;

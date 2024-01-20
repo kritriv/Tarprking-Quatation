@@ -1,3 +1,5 @@
-const Roles = [ "USER", "ADMIN" , "SUPERADMIN"];
+const user = {
+    Roles : [ "USER", "ADMIN" , "SUPERADMIN"]
+};
 
-module.exports = {Roles}
+module.exports = {user};

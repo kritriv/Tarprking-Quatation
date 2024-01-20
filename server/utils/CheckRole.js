@@ -1,7 +1,7 @@
-const {Roles} = require('../constants/user');
+const { user } = require('../constants');
 
- function checkRole(role){
-    return Roles.includes(role);
+function checkRole(role) {
+    return user.Roles.includes(role);
 }
 
-module.exports = {checkRole}
+module.exports = { checkRole };
