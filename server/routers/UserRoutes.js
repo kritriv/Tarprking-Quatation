@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../middlewares/authentication');
+const { getPermissions } = require('../modules/permission');
 
 const { getAllUsers, postSingleUser, getSingleUser, deleteSingleUser, updateSingleUser } = require('../controllers/UserController');
 
-router.get('/', authMiddleware(['USER', 'ADMIN', 'SUPERADMIN']), async (req, res) => {
+router.get('/', authMiddleware(getPermissions('USER')), async (req, res) => {
     return res.send('This is user routes');
-});
+  });
 
 // To get All Users list
 router.get('/users', getAllUsers);
