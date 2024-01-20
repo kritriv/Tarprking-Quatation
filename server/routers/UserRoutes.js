@@ -5,23 +5,23 @@ const { getPermissions } = require('../modules/permission');
 
 const { getAllUsers, postSingleUser, getSingleUser, deleteSingleUser, updateSingleUser } = require('../controllers/UserController');
 
-router.get('/', authMiddleware(getPermissions('USER')), async (req, res) => {
+router.get('/test', authMiddleware(getPermissions('USER')), async (req, res) => {
     return res.send('This is user routes');
-  });
+});
 
 // To get All Users list
-router.get('/users', getAllUsers);
+router.get('/', getAllUsers);
 
 // To Add a User to Users list
-router.post('/users/add-user', postSingleUser);
+router.post('/add-user', postSingleUser);
 
 // To get Single User Details
-router.get('/users/:id', getSingleUser);
+router.get('/:id', getSingleUser);
 
 // To Delete Single User Details
-router.delete('/users/:id', deleteSingleUser);
+router.delete('/:id', deleteSingleUser);
 
 // To Update a Single User Details
-router.put('/users/:id', updateSingleUser);
+router.put('/:id', updateSingleUser);
 
 module.exports = router;

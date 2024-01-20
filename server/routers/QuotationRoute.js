@@ -1,22 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { authMiddleware } = require('../middlewares/authentication');
 
 const { getAllQuotes, createQuote, getSingleQuote, deleteSingleQuote, updateSingleQuote } = require('../controllers/QuotationController');
 
 // To get All Quotes list
-router.get('/Quotes', getAllQuotes);
+router.get('/', getAllQuotes);
 
 // To get Single Quote Details
-router.get('/Quotes/:id', getSingleQuote);
+router.get('/:id', getSingleQuote);
 
 // To Add a Quote to Quotes list
-router.post('/Quotes/add-Quote', createQuote);
+router.post('/add-Quote', createQuote);
 
 // To Delete Single Quote Details
-router.delete('/Quotes/:id', deleteSingleQuote);
+router.delete('/:id', deleteSingleQuote);
 
 // To Update a Single Quote Details
-router.put('/Quotes/:id', updateSingleQuote);
+router.put('/:id', updateSingleQuote);
 
 module.exports = router;

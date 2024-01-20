@@ -9,18 +9,18 @@ const validate = require('../validators/validate');
 router.use(express.json());
 
 // To get All Products list
-router.get('/products', getAllProducts);
+router.get('/', getAllProducts);
 
 // To get Single Product Details
-router.get('/products/:id', getSingleProduct);
+router.get('/:id', getSingleProduct);
 
 // To Add a Product to Products list
-router.post('/products/add-product', validate(productSchema), postSingleProduct);
+router.post('/add-product', validate(productSchema), postSingleProduct);
 
 // To Delete Single Product Details
-router.delete('/products/:id', deleteSingleProduct);
+router.delete('/:id', deleteSingleProduct);
 
 // To Update a Single Product Details
-router.put('/products/:id', updateSingleProduct);
+router.put('/:id', updateSingleProduct);
 
 module.exports = router;

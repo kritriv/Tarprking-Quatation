@@ -1,7 +1,7 @@
 const roles = {
-    ADMIN: ['ADMIN', 'SUPERADMIN'],
-    USER: ['USER', 'ADMIN', 'SUPERADMIN'],
-    SUPERADMIN: ['SUPERADMIN'],
+    MEDIUM: ['ADMIN', 'SUPERADMIN'],
+    LOW: ['USER', 'ADMIN', 'SUPERADMIN'],
+    HIGH: ['SUPERADMIN'],
   };
   
   const getPermissions = (role) => roles[role] || [];

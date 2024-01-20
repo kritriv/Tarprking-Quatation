@@ -9,19 +9,19 @@ router.get('/', authMiddleware(['USER', 'ADMIN', 'SUPERADMIN']), async (req, res
 });
 
 // To get All ProductCategorys list
-router.get('/categorys', getAllProductCategorys);
+router.get('/', getAllProductCategorys);
 
 // To Add a ProductCategory to ProductCategorys list
-router.post('/categorys/add-category', postSingleProductCategory);
+router.post('/add-category', postSingleProductCategory);
 
 // To get Single ProductCategory Details
-router.get('/categorys/:id', getSingleProductCategory);
+router.get('/:id', getSingleProductCategory);
 
 // To Delete Single ProductCategory Details
-router.delete('/categorys/:id', deleteSingleProductCategory);
+router.delete('/:id', deleteSingleProductCategory);
 
 // To Update a Single ProductCategory Details
-router.put('/categorys/:id', updateSingleProductCategory);
+router.put('/:id', updateSingleProductCategory);
 
 
 module.exports = router;

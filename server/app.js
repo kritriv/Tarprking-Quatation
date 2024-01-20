@@ -7,12 +7,8 @@ const logger = require('./utils/logger');
 
 const mongoDBConnection = require('./modules/database/connection');
 
-const user_routes = require('./routers/UserRoutes');
-const product_routes = require('./routers/ProductRoutes');
-const product_category_routes = require('./routers/ProductCategoryRoutes');
-const client_routes = require('./routers/ClientRoutes');
-const quote_routes = require('./routers/QuotationRoute');
-const authenticationRouter = require('./routers/authentication');
+const all_routes = require('./routers');
+
 const adminRouter = require('./routers/AdminRoutes');
 const userRouter = require('./routers/UserRoutes');
 const superRouter = require('./routers//SuperAdminRoutes');
@@ -29,16 +25,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 
-app.use('/v1/api', authenticationRouter);
 app.use('/admin/', adminRouter);
 app.use('/user/', userRouter);
 app.use('/super/', superRouter);
 
-app.use('/v1/api', user_routes); // middleware routes for Users
-app.use('/v1/api', product_routes); // middleware routes for Products
-app.use('/v1/api', client_routes); // middleware routes for Clients
-app.use('/v1/api', product_category_routes); // middleware routes for Product Category
-app.use('/v1/api', quote_routes); // middleware routes for Quote
+app.use('/api/v1', all_routes);
 
 const TarParkingQuotation = async () => {
     try {
