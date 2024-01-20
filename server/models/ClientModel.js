@@ -1,31 +1,31 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const VendorSchema = new Schema(
+const ClientSchema = new Schema(
     {
-        vendor_status: {
+        client_status: {
             type: Boolean,
             default: true,
         },
-        vendor_username: {
+        client_username: {
             type: String,
             unique: true,
             validate: {
                 async validator(value) {
                     try {
-                        const existingVendor = await this.constructor.findOne({ vendor_username: value });
-                        return !existingVendor || existingVendor._id.equals(this._id);
+                        const existingClient = await this.constructor.findOne({ client_username: value });
+                        return !existingClient || existingClient._id.equals(this._id);
                     } catch (error) {
                         throw new Error('Error occurred while validating username uniqueness');
                     }
                 },
-                message: 'Vendor with this Username already exists',
+                message: 'Client with this Username already exists',
             },
         },
-        vendor_name: {
+        client_name: {
             type: String,
         },
-        vendor_email: {
+        client_email: {
             type: String,
         },
         contact_no: {
@@ -47,7 +47,7 @@ const VendorSchema = new Schema(
         company_GST_no: {
             type: String,
         },
-        vendor_address: {
+        client_address: {
             street: {
                 type: String,
             },
@@ -68,6 +68,6 @@ const VendorSchema = new Schema(
     { timestamps: true },
 );
 
-const Vendor = mongoose.model('Vendor', VendorSchema);
+const Client = mongoose.model('Client', ClientSchema);
 
-module.exports = Vendor;
+module.exports = Client;

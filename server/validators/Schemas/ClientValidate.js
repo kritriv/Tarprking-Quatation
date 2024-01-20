@@ -1,11 +1,11 @@
 const z = require('zod');
 
-const vendorSchema = z.object({
-    vendor_status: z.boolean({
-        invalid_type_error: 'Vendor Status must be a boolean',
+const ClientSchema = z.object({
+    client_status: z.boolean({
+        invalid_type_error: 'Client Status must be a boolean',
     }).optional(),
 
-    vendor_username: z
+    client_username: z
         .string({
             invalid_type_error: 'Username must be a String',
             required_error: 'Username must be required!',
@@ -14,16 +14,16 @@ const vendorSchema = z.object({
         .min(5, { message: 'Username must be at least 5 characters.' })
         .max(16, { message: 'Username cannot be more than 16 characters.' }),
 
-    vendor_name: z
+    client_name: z
         .string({
-            invalid_type_error: 'Vendor Name must be a String',
+            invalid_type_error: 'Client Name must be a String',
         })
         .min(1, { message: 'Name cannot be empty.' })
         .min(3, { message: 'Name must be at least 3 characters.' })
         .max(100, { message: 'Name cannot be more than 100 characters.' })
         .optional(),
 
-    vendor_email: z
+    client_email: z
         .string({
             invalid_type_error: 'Email must be a Valid',
         })
@@ -52,7 +52,7 @@ const vendorSchema = z.object({
 
     age: z
         .number({
-            invalid_type_error: 'Vendor Age must be a Number',
+            invalid_type_error: 'Client Age must be a Number',
         })
         .min(1, { message: 'Age must be provided.' })
         .refine((value) => Number(value) >= 18 && Number(value) <= 80, {
@@ -82,7 +82,7 @@ const vendorSchema = z.object({
         .max(15, { message: 'GST number must not exceed 15 characters.' })
         .optional(),
 
-    vendor_address: z.object({
+    client_address: z.object({
         street: z
             .string({
                 invalid_type_error: 'Street must be a String',
@@ -129,4 +129,4 @@ const vendorSchema = z.object({
     }).optional(),
 });
 
-module.exports = vendorSchema;
+module.exports = ClientSchema;

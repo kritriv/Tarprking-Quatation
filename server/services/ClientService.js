@@ -1,8 +1,8 @@
-const Vendor = require('../models/Vendormodel');
+const Client = require('../models/ClientModel');
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 
-const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, vendor_email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
+const ViewClient = async ({id, client_status, client_username, client_name, client_email, contact_no, gender, company_name, company_GST_no, sort, select, page = 1, limit = 5 }) => {
     try {
         const queryObject = {};
 
@@ -12,19 +12,19 @@ const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, vend
             queryObject._id = id;
         }
 
-        if (vendor_status !== undefined) {
-            queryObject.Vendor_status = vendor_status.toLowerCase() === 'true';
+        if (client_status !== undefined) {
+            queryObject.client_status = client_status.toLowerCase() === 'true';
         }
-        if (vendor_username) {
-            queryObject.vendor_username = {
-                $regex: new RegExp(vendor_username, 'i'),
+        if (client_username) {
+            queryObject.client_username = {
+                $regex: new RegExp(client_username, 'i'),
             };
         }
-        if (vendor_name) {
-            queryObject.vendor_name = { $regex: new RegExp(vendor_name, 'i') };
+        if (client_name) {
+            queryObject.client_name = { $regex: new RegExp(client_name, 'i') };
         }
-        if (vendor_email) {
-            queryObject.vendor_email = { $regex: new RegExp(vendor_email, 'i') };
+        if (client_email) {
+            queryObject.client_email = { $regex: new RegExp(client_email, 'i') };
         }
         if (gender) {
             queryObject.gender = { $regex: new RegExp(gender, 'i') };
@@ -39,7 +39,7 @@ const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, vend
             queryObject.contact_no = contact_no;
         }
 
-        let apiData = Vendor.find(queryObject);
+        let apiData = Client.find(queryObject);
 
         // ======== Short , Select ======
 
@@ -57,68 +57,68 @@ const ViewVendor = async ({id, vendor_status, vendor_username, vendor_name, vend
         const skip = (page - 1) * limit;
         apiData = apiData.skip(skip).limit(limit);
 
-        const Vendors = await apiData;
-        return Vendors;
+        const Clients = await apiData;
+        return Clients;
     } catch (error) {
-        throw new Error('An error occurred while fetching vendors: ' + error.message);
+        throw new Error('An error occurred while fetching Clients: ' + error.message);
     }
 };
 
-const AddVendor = async (data) => {
+const AddClient = async (data) => {
     try {
-        const result = await Vendor(data).save();
+        const result = await Client(data).save();
         return result;
     } catch (error) {
-        throw new Error(`Error occurred while adding vendor: ${error.message}`);
+        throw new Error(`Error occurred while adding Client: ${error.message}`);
     }
 };
 
-const SingleVendor = async (id) => {
-    try {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw new Error('Invalid ID format');
-        }
-        const filter = { _id: new ObjectId(id) };
-        const result = await Vendor.findOne(filter);
-        return result;
-    } catch (error) {
-        throw new Error(`Error occurred while retrieving single vendor: ${error.message}`);
-    }
-};
-
-const DeleteVendor = async (id) => {
+const SingleClient = async (id) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new Error('Invalid ID format');
         }
         const filter = { _id: new ObjectId(id) };
-        const result = await Vendor.deleteOne(filter);
+        const result = await Client.findOne(filter);
         return result;
     } catch (error) {
-        throw new Error(`Error occurred while deleting vendor: ${error.message}`);
+        throw new Error(`Error occurred while retrieving single Client: ${error.message}`);
     }
 };
 
-const UpdateVendor = async (id, updateVendorData) => {
+const DeleteClient = async (id) => {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            throw new Error('Invalid ID format');
+        }
+        const filter = { _id: new ObjectId(id) };
+        const result = await Client.deleteOne(filter);
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while deleting Client: ${error.message}`);
+    }
+};
+
+const UpdateClient = async (id, updateClientData) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new Error('Invalid ID format');
         }
 
         const filter = { _id: id };
-        const result = await Vendor.findByIdAndUpdate(filter, updateVendorData, {
+        const result = await Client.findByIdAndUpdate(filter, updateClientData, {
             new: true,
         });
         return result;
     } catch (error) {
-        throw new Error(`Error occurred while updating vendor: ${error.message}`);
+        throw new Error(`Error occurred while updating Client: ${error.message}`);
     }
 };
 
 module.exports = {
-    ViewVendor,
-    AddVendor,
-    SingleVendor,
-    DeleteVendor,
-    UpdateVendor,
+    ViewClient,
+    AddClient,
+    SingleClient,
+    DeleteClient,
+    UpdateClient,
 };
