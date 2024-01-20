@@ -129,4 +129,4 @@ const ClientSchema = z.object({
     }).optional(),
 });
 
-module.exports = ClientSchema;
+module.exports = {ClientSchema};

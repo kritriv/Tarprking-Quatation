@@ -15,9 +15,7 @@ const DataBaseClient = new MongoClient(process.env.MONGODB_URL, {
 async function mongoDBConnection() {
     try {
         await DataBaseClient.connect();
-        // await DataBaseClient.db("vishh").command({ ping: 1 });
         console.log(" You successfully connected to Database");
-        // console.log(process.env.MONGODB_URL);
         return mongoose.connect(process.env.MONGODB_URL);
     }
     catch(e){

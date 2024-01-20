@@ -3,17 +3,14 @@ const { ViewUser, AddUser, SingleUser, DeleteUser, UpdateUser } = require('../se
 // To get All Users list
 const getAllUsers = async (req, res) => {
     try {
-        const {  username, fullname, role, email,  sort, select, page, limit } = req.query;
+        const { username, fullname, role, email, sort, select, page, limit } = req.query;
 
-        const Users = await ViewUser({  username, fullname,  role, email,  sort, select, page: Number(page) || 1, limit: Number(limit) || 5,
-        });
+        const Users = await ViewUser({ username, fullname, role, email, sort, select, page: Number(page) || 1, limit: Number(limit) || 5 });
 
         if (!Users || Users.length === 0) {
             return res.status(404).json({
                 Status: 'success',
                 Message: 'Users Not found',
-                Users: [],
-                nbHits: 0,
             });
         }
 
@@ -55,7 +52,6 @@ const getSingleUser = async (req, res) => {
 
 // To Add a User to Users list
 const postSingleUser = async (req, res) => {
-    
     const data = req.body;
     try {
         const savedUser = await AddUser(data);

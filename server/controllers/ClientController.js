@@ -1,7 +1,7 @@
 const { handleApiResponse } = require('../modules/responseHandler');
 const { ViewClient, AddClient, SingleClient, DeleteClient, UpdateClient } = require('../services/ClientService');
 
-const idSchema = require('../validators/Schemas/IdValidate');
+const { idSchema } = require('../validators/Schemas');
 
 // To get All Clients List
 const getAllClients = async (req, res) => {
@@ -113,9 +113,16 @@ const updateSingleClient = async (req, res) => {
             updatedClient,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while updating the single Client: ${error.message}`;
-
-        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide proper Id' : `An error occurred while updating the single Client: ${error.message}`;
+        if (errorMessage === 'Provide proper Id') {
+            handleApiResponse(res, 400, errorMessage, { error: error.issues[0].message });
+        } else {
+            if (error.message.includes('E11000 duplicate key error')) {
+                handleApiResponse(res, 500, 'client_username must be unique', { error: error.message });
+            } else {
+                handleApiResponse(res, 500, errorMessage, { error: error.message });
+            }
+        }
     }
 };
 

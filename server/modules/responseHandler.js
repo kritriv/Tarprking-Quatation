@@ -1,4 +1,4 @@
-const handleApiResponse = (res, status, message, data = null) => {
+const handleApiResponse = (res, status, message, data = null, error = null) => {
     const response = {
         status: status < 400 ? 'success' : 'fail',
         message,

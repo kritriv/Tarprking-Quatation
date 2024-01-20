@@ -5,7 +5,7 @@ const { getAllClients, getSingleClient, postSingleClient, deleteSingleClient, up
 const { authMiddleware } = require('../middlewares/authentication');
 const { getPermissions } = require('../modules/permission');
 
-const Clientschema = require('../validators/Schemas/Clientvalidate');
+const { ClientSchema } = require('../validators/Schemas');
 const validate = require('../validators/validate');
 
 // Middleware to parse JSON bodies
@@ -18,12 +18,12 @@ router.get('/', authMiddleware(getPermissions('MEDIUM')), getAllClients);
 router.get('/:id', authMiddleware(getPermissions('MEDIUM')), getSingleClient);
 
 // To Add a Client to Clients list
-router.post('/add-client', authMiddleware(getPermissions('MEDIUM')), validate(Clientschema), postSingleClient);
+router.post('/add-client', authMiddleware(getPermissions('MEDIUM')), validate(ClientSchema), postSingleClient);
 
 // To Delete Single Client Details
 router.delete('/:id', authMiddleware(getPermissions('MEDIUM')), deleteSingleClient);
 
 // To Update a Single Client Details
-router.put('/:id', authMiddleware(getPermissions('MEDIUM')),  validate(Clientschema), updateSingleClient);
+router.put('/:id', authMiddleware(getPermissions('MEDIUM')), validate(ClientSchema), updateSingleClient);
 
 module.exports = router;

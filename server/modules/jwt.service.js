@@ -7,7 +7,7 @@ const JWT_Algo = process.env.JWT_Algo;
 async function generateAccessToken(userId, role) {
     try {
         const secretCode = process.env.JWT_SECRET_TOKEN;
-        const expirationTime = process.env.Access_Token_Expire;
+        const expirationTime = process.env.Access_Token_Expire || '1h';
         const payload = {
             userId,
             role,

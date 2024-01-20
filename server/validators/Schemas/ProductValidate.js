@@ -122,4 +122,4 @@ const productSchema = z.object({
     }),
 });
 
-module.exports = productSchema;
+module.exports = {productSchema};

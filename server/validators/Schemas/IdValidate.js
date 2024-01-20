@@ -8,4 +8,4 @@ const idSchema = z
             .refine(value => mongoose.Types.ObjectId.isValid(value), { message: 'Invalid ID format' }),
     });
 
-module.exports = idSchema;
+module.exports = {idSchema};
