@@ -9,7 +9,9 @@ const mongoDBConnection = require('./modules/database/connection');
 
 const user_routes = require('./routers/UserRoutes');
 const product_routes = require('./routers/ProductRoutes');
+const product_category_routes = require('./routers/ProductCategoryRoutes');
 const vendor_routes = require('./routers/VendorRoutes');
+const quote_routes = require('./routers/QuotationRoute');
 const authenticationRouter = require('./routers/authentication');
 const adminRouter = require('./routers/AdminRoutes');
 const userRouter = require('./routers/UserRoutes');
@@ -35,6 +37,8 @@ app.use('/super/', superRouter);
 app.use('/v1/api', user_routes); // middleware routes for Users
 app.use('/v1/api', product_routes); // middleware routes for Products
 app.use('/v1/api', vendor_routes); // middleware routes for Vendors
+app.use('/v1/api', product_category_routes); // middleware routes for Vendors
+app.use('/v1/api', quote_routes); // middleware routes for Vendors
 
 const TarParkingQuotation = async () => {
     try {
