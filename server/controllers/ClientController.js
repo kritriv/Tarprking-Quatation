@@ -48,7 +48,7 @@ const getSingleClient = async (req, res) => {
         }
 
         handleApiResponse(res, 200, 'Client details fetched successfully', {
-            Clients: [Client],
+            Clients: Client,
             nbHits: 1,
         });
     } catch (error) {
@@ -62,14 +62,16 @@ const deleteSingleClient = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Client = await DeleteClient(id);
+        const DeletedClient = await SingleClient(id);
+        const DeletedClientStatus = await DeleteClient(id);
 
-        if (!Client || Client.deletedCount === 0) {
+        if (!DeletedClient) {
             return handleApiResponse(res, 404, 'Client not found, deletion unsuccessful');
         }
 
         handleApiResponse(res, 200, 'Client deleted successfully', {
-            deletedClient: Client,
+            details: DeletedClientStatus,
+            deletedclient: DeletedClient,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;
@@ -102,19 +104,19 @@ const updateSingleClient = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
+
         const updateClientData = req.body;
         const updatedClient = await UpdateClient(id, updateClientData);
 
         if (!updatedClient) {
             return handleApiResponse(res, 404, 'Client not found, update unsuccessful');
         }
-
         handleApiResponse(res, 200, 'Client updated successfully', {
-            updatedClient,
+            updatedclient: updatedClient,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide proper Id' : `An error occurred while updating the single Client: ${error.message}`;
-        if (errorMessage === 'Provide proper Id') {
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
+        if (errorMessage === 'Provide valid Id') {
             handleApiResponse(res, 400, errorMessage, { error: error.issues[0].message });
         } else {
             if (error.message.includes('E11000 duplicate key error')) {
