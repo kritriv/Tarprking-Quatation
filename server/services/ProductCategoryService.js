@@ -1,7 +1,7 @@
 const ProductCategory = require('../models/ProductCategoryModel');
 const { ObjectId } = require('mongodb');
 
-const ViewProductCategory = async ({  category_name, category_status, sort, select, page = 1, limit = 5 }) => {
+const ViewProductCategory = async ({ category_name, category_status, username, createdby, sort, select, page = 1, limit = 5 }) => {
     try {
         const queryObject = {};
 
@@ -13,6 +13,9 @@ const ViewProductCategory = async ({  category_name, category_status, sort, sele
 
         if (category_status !== undefined) {
             queryObject.category_status = category_status.toLowerCase() === 'true';
+        }
+        if (username) {
+            queryObject.createdby.username = { $regex: new RegExp(createdby.username, 'i') };
         }
 
         // ======== Short , Select ======

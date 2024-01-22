@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const autopopulate = require('mongoose-autopopulate');
 
 const ProductCategorySchema = new Schema(
     {
@@ -25,9 +26,16 @@ const ProductCategorySchema = new Schema(
             type: Boolean,
             default: true,
         },
+        createdby: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+            autopopulate: { select: '_id role username email' },
+        },
     },
     { timestamps: true },
 );
 
+ProductCategorySchema.plugin(autopopulate);
 const ProductCategory = mongoose.model('ProductCategory', ProductCategorySchema);
 module.exports = ProductCategory;

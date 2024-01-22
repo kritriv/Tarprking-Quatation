@@ -120,7 +120,7 @@ const updateSingleClient = async (req, res) => {
             handleApiResponse(res, 400, errorMessage, { error: error.issues[0].message });
         } else {
             if (error.message.includes('E11000 duplicate key error')) {
-                handleApiResponse(res, 500, 'client_username must be unique', { error: error.message });
+                handleApiResponse(res, 500, 'Client Username must be unique', { error: error.message });
             } else {
                 handleApiResponse(res, 500, errorMessage, { error: error.message });
             }

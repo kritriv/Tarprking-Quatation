@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const autopopulate = require('mongoose-autopopulate');
 const Schema = mongoose.Schema;
+const autopopulate = require('mongoose-autopopulate');
 
 // Define the schema for the product
 const ProductSchema = new Schema(

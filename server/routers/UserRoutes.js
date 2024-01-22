@@ -7,9 +7,6 @@ const { getPermissions } = require('../modules/permission');
 const {Userschema} = require('../validators/Schemas');
 const validate = require('../validators/validate');
 
-// Middleware to parse JSON bodies
-router.use(express.json());
-
 // To get All Users list
 router.get('/', authMiddleware(getPermissions('MEDIUM')), getAllUsers);
 

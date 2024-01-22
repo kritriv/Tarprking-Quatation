@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const autopopulate = require('mongoose-autopopulate');
 
 const ClientSchema = new Schema(
     {
@@ -21,6 +22,12 @@ const ClientSchema = new Schema(
                 },
                 message: 'Client with this Username already exists',
             },
+        },
+        createdby: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+            autopopulate: { select: '_id role username email' },
         },
         client_name: {
             type: String,
@@ -68,6 +75,7 @@ const ClientSchema = new Schema(
     { timestamps: true },
 );
 
+ClientSchema.plugin(autopopulate);
 const Client = mongoose.model('Client', ClientSchema);
 
 module.exports = Client;

@@ -1,32 +1,24 @@
+const { handleApiResponse } = require('../modules/responseHandler');
 const { ViewProductCategory, AddProductCategory, SingleProductCategory, DeleteProductCategory, UpdateProductCategory } = require('../services/ProductCategoryService');
+const { idSchema } = require('../validators/Schemas');
 
 // To get All ProductCategorys list
 const getAllProductCategorys = async (req, res) => {
     try {
-        const { category_name, category_status, sort, select, page, limit } = req.query;
+        const { category_name, category_status, createdby, sort, select, page, limit } = req.query;
 
-        const ProductCategorys = await ViewProductCategory({ category_name, category_status, sort, select, page: Number(page) || 1, limit: Number(limit) || 5 });
+        const ProductCategory = await ViewProductCategory({ category_name, category_status, createdby, sort, select, page: Number(page) || 1, limit: Number(limit) || 5 });
 
-        if (!ProductCategorys || ProductCategorys.length === 0) {
-            return res.status(404).json({
-                Status: 'success',
-                Message: 'ProductCategorys Not found',
-                ProductCategorys: [],
-                nbHits: 0,
-            });
+        if (!ProductCategory || ProductCategory.length === 0) {
+            return handleApiResponse(res, 404, 'Category not found');
         }
-
-        res.status(200).json({
-            Status: 'success',
-            Message: 'ProductCategorys fetched successfully',
-            ProductCategorys,
-            nbHits: ProductCategorys.length,
+        handleApiResponse(res, 200, 'Product Categories fetched successfully', {
+            categories: ProductCategory,
+            nbHits: ProductCategory.length,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while fetching ProductCategorys',
-            error: error.message,
-        });
+        console.log(error);
+        handleApiResponse(res, 500, 'An error occurred while fetching the Categories', { error: error.message });
     }
 };
 
@@ -34,21 +26,19 @@ const getAllProductCategorys = async (req, res) => {
 const getSingleProductCategory = async (req, res) => {
     try {
         const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
         const ProductCategory = await SingleProductCategory(id);
 
         if (!ProductCategory) {
-            return res.status(404).json({ message: 'ProductCategory not found' });
+            return handleApiResponse(res, 404, 'Category not found');
         }
-        res.status(200).json({
-            status: 'success',
-            message: 'ProductCategory details fetched successfully',
-            data: ProductCategory,
+        handleApiResponse(res, 200, 'Product Category details fetched successfully', {
+            category: ProductCategory,
+            nbHits: 1,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while fetching the single ProductCategory',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the Category: ${error.message}`;
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
     }
 };
 
@@ -57,23 +47,14 @@ const postSingleProductCategory = async (req, res) => {
     const data = req.body;
     try {
         const savedProductCategory = await AddProductCategory(data);
-        res.status(201).json({
-            status: 'success',
-            message: 'ProductCategory added successfully',
+        handleApiResponse(res, 201, 'Category added successfully', {
             savedProductCategory,
         });
     } catch (error) {
         if (error.message.includes('Category with this name already exists')) {
-            res.status(400).json({
-                status: 'fail',
-                error: `${error.message}`,
-                message: 'Category with this name already exists',
-            });
+            handleApiResponse(res, 400, 'Category with this name already exists');
         } else {
-            res.status(500).json({
-                status: 'error',
-                message: `An error occurred while adding the ProductCategory: ${error.message}`,
-            });
+            handleApiResponse(res, error.status || 500, error.message || 'Internal server error');
         }
     }
 };
@@ -82,22 +63,21 @@ const postSingleProductCategory = async (req, res) => {
 const deleteSingleProductCategory = async (req, res) => {
     try {
         const id = req.params.id;
-        const ProductCategory = await DeleteProductCategory(id);
+        await idSchema.parseAsync({ _id: id });
+        const DeletedCategory = await SingleProductCategory(id);
+        const DeletedCategoryStatus = await DeleteProductCategory(id);
 
-        if (!ProductCategory || ProductCategory.deletedCount === 0) {
-            return res.status(404).json({ message: 'ProductCategory not found, deletion unsuccessful' });
+        if (!DeletedCategory) {
+            return handleApiResponse(res, 404, 'Category not found, deletion unsuccessful');
         }
 
-        res.status(200).json({
-            status: 'success',
-            message: 'ProductCategory deleted successfully',
-            deletedProductCategory: ProductCategory,
+        handleApiResponse(res, 200, 'Category deleted successfully', {
+            details: DeletedCategoryStatus,
+            deletedCategory: DeletedCategory,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while deleting the single ProductCategory',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Category: ${error.message}`;
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
     }
 };
 
@@ -105,24 +85,28 @@ const deleteSingleProductCategory = async (req, res) => {
 const updateSingleProductCategory = async (req, res) => {
     try {
         const id = req.params.id;
-        const updateProductCategoryData = req.body;
+        await idSchema.parseAsync({ _id: id });
 
+        const updateProductCategoryData = req.body;
         const updatedProductCategory = await UpdateProductCategory(id, updateProductCategoryData);
 
         if (!updatedProductCategory) {
-            return res.status(404).json({ status: 'fail', message: 'Product Category not found'  });
+            return handleApiResponse(res, 404, 'Product Category not found, update unsuccessful');
         }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'ProductCategory updated successfully',
-            updatedProductCategory,
+        handleApiResponse(res, 200, 'Product Category updated successfully', {
+            updatedCategory: updatedProductCategory,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while updating the single ProductCategory',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
+        if (errorMessage === 'Provide valid Id') {
+            handleApiResponse(res, 400, errorMessage, { error: error.issues[0].message });
+        } else {
+            if (error.message.includes('E11000 duplicate key error')) {
+                handleApiResponse(res, 500, 'Category Name must be unique', { error: error.message });
+            } else {
+                handleApiResponse(res, 500, errorMessage, { error: error.message });
+            }
+        }
     }
 };
 

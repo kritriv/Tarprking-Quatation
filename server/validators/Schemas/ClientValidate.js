@@ -1,9 +1,11 @@
 const z = require('zod');
 
 const ClientSchema = z.object({
-    client_status: z.boolean({
-        invalid_type_error: 'Client Status must be a boolean',
-    }).optional(),
+    client_status: z
+        .boolean({
+            invalid_type_error: 'Client Status must be a boolean',
+        })
+        .optional(),
 
     client_username: z
         .string({
@@ -60,9 +62,11 @@ const ClientSchema = z.object({
         })
         .optional(),
 
-    site_address: z.string({
-        invalid_type_error: 'Company Name must be a String',
-    }).optional(),
+    site_address: z
+        .string({
+            invalid_type_error: 'Company Name must be a String',
+        })
+        .optional(),
 
     company_name: z
         .string({
@@ -82,51 +86,59 @@ const ClientSchema = z.object({
         .max(15, { message: 'GST number must not exceed 15 characters.' })
         .optional(),
 
-    client_address: z.object({
-        street: z
-            .string({
-                invalid_type_error: 'Street must be a String',
-            })
-            .min(1, { message: 'Street cannot be empty.' })
-            .min(3, { message: 'Street must be at least 3 characters.' })
-            .max(200, { message: 'Street cannot be more than 200 characters.' })
-            .optional(),
+    client_address: z
+        .object({
+            street: z
+                .string({
+                    invalid_type_error: 'Street must be a String',
+                })
+                .min(1, { message: 'Street cannot be empty.' })
+                .min(3, { message: 'Street must be at least 3 characters.' })
+                .max(200, { message: 'Street cannot be more than 200 characters.' })
+                .optional(),
 
-        City: z
-            .string({
-                invalid_type_error: 'City must be a String',
-            })
-            .min(1, { message: 'City cannot be empty.' })
-            .min(3, { message: 'City must be at least 3 characters.' })
-            .max(50, { message: 'City cannot be more than 50 characters.' })
-            .optional(),
+            City: z
+                .string({
+                    invalid_type_error: 'City must be a String',
+                })
+                .min(1, { message: 'City cannot be empty.' })
+                .min(3, { message: 'City must be at least 3 characters.' })
+                .max(50, { message: 'City cannot be more than 50 characters.' })
+                .optional(),
 
-        State: z
-            .string({
-                invalid_type_error: 'State must be a String',
-            })
-            .min(1, { message: 'State cannot be empty.' })
-            .min(3, { message: 'State must be at least 3 characters.' })
-            .max(50, { message: 'State cannot be more than 50 characters.' })
-            .optional(),
+            State: z
+                .string({
+                    invalid_type_error: 'State must be a String',
+                })
+                .min(1, { message: 'State cannot be empty.' })
+                .min(3, { message: 'State must be at least 3 characters.' })
+                .max(50, { message: 'State cannot be more than 50 characters.' })
+                .optional(),
 
-        pincode: z
-            .number({
-                invalid_type_error: 'Pincode must be a number',
-            })
-            .min(1, { message: 'Pincode cannot be empty.' })
-            .min(5, { message: 'Pincode must be 5 characters.' })
-            .optional(),
+            pincode: z
+                .number({
+                    invalid_type_error: 'Pincode must be a number',
+                })
+                .min(1, { message: 'Pincode cannot be empty.' })
+                .min(5, { message: 'Pincode must be 5 characters.' })
+                .optional(),
 
-        country: z
-            .string({
-                invalid_type_error: 'Country must be a String',
-            })
-            .min(1, { message: 'Country cannot be empty.' })
-            .min(3, { message: 'Country must be at least 3 characters.' })
-            .max(50, { message: 'Country cannot be more than 50 characters.' })
-            .optional(),
-    }).optional(),
+            country: z
+                .string({
+                    invalid_type_error: 'Country must be a String',
+                })
+                .min(1, { message: 'Country cannot be empty.' })
+                .min(3, { message: 'Country must be at least 3 characters.' })
+                .max(50, { message: 'Country cannot be more than 50 characters.' })
+                .optional(),
+        })
+        .optional(),
+
+    createdby: z
+        .string({
+            invalid_type_error: 'Created By must be a String',
+        })
+        .optional(),
 });
 
-module.exports = {ClientSchema};
+module.exports = { ClientSchema };
