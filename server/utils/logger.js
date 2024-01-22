@@ -1,9 +1,10 @@
 const winston = require('winston');
 const expressWinston = require('express-winston');
-const { combine, timestamp, printf, colorize } = winston.format;
+const { createLogger, format, transports } = winston;
+require('dotenv').config();
 
-// Define log format
-const logFormat = printf(({ level, message, timestamp }) => {
+// Define log format, including IP address
+const logFormat = format.printf(({ level, message, timestamp, req , ...info}) => {
     const formattedTimestamp = new Date(timestamp).toLocaleTimeString('en-US', {
         year: 'numeric',
         month: 'numeric',
@@ -14,22 +15,36 @@ const logFormat = printf(({ level, message, timestamp }) => {
         hour12: false,
     });
 
-    return `${formattedTimestamp} ${level}: ${message}`;
+    const fileName = 'combined.log';
+    const logLevel = info.level ? info.level.toUpperCase() : process.env.logger_level_default.toUpperCase();
+
+    return `${formattedTimestamp} | ${logLevel} [${fileName}] | ${level}: ${message} `;
 });
+
+const capitalizeLevel = format((info) => {
+    info.level = info.level.toUpperCase();
+    return info;
+})();
+
+// Transports to save the logs to
+const errorLogs = new transports.File({ filename: 'logs/error.log', level: 'error' });
+const combinedLogs = new transports.File({ filename: 'logs/combined.log' });
 
 // Create a logger
-const logger = winston.createLogger({
-    level: 'info',
-    format: combine(colorize(), timestamp(), logFormat),
-    transports: [new winston.transports.Console(), new winston.transports.File({ filename: 'logs/error.log', level: 'error' }), new winston.transports.File({ filename: 'logs/combined.log' })],
+const logger = createLogger({
+    format: format.combine(capitalizeLevel, format.timestamp(), logFormat, format.colorize()),
+    transports: [new transports.Console(), errorLogs, combinedLogs],
+    exitOnError: false,
 });
 
-// Express middleware for logging requests and responses
+// Express middleware for logging requests and responses, passing req object
 const expressLoggerMiddleware = expressWinston.logger({
     winstonInstance: logger,
+    expressFormat: true,
+    colorize: true,
     meta: true,
     msg: 'HTTP {{req.method}} {{req.url}}',
-    expressFormat: true,
+    req: true,
 });
 
 module.exports = { logger, expressLoggerMiddleware };
