@@ -1,6 +1,6 @@
 const winston = require('winston');
-const { format } = winston;
-const { combine, timestamp, printf, colorize } = format;
+const expressWinston = require('express-winston');
+const { combine, timestamp, printf, colorize } = winston.format;
 
 // Define log format
 const logFormat = printf(({ level, message, timestamp }) => {
@@ -24,4 +24,12 @@ const logger = winston.createLogger({
     transports: [new winston.transports.Console(), new winston.transports.File({ filename: 'logs/error.log', level: 'error' }), new winston.transports.File({ filename: 'logs/combined.log' })],
 });
 
-module.exports = logger;
+// Express middleware for logging requests and responses
+const expressLoggerMiddleware = expressWinston.logger({
+    winstonInstance: logger,
+    meta: true,
+    msg: 'HTTP {{req.method}} {{req.url}}',
+    expressFormat: true,
+});
+
+module.exports = { logger, expressLoggerMiddleware };

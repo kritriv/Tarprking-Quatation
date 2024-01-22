@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const morgan = require('morgan');
-const logger = require('./utils/logger');
+const { logger, expressLoggerMiddleware } = require('./utils/logger');
 
 const mongoDBConnection = require('./modules/database/connection');
 
@@ -24,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
+app.use(expressLoggerMiddleware);
 
 app.use('/admin/', adminRouter);
 app.use('/user/', userRouter);
@@ -38,7 +39,7 @@ const TarParkingQuotation = async () => {
             logger.info(`Server is running on port ${PORT}`);
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
     }
 };
 
