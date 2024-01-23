@@ -4,7 +4,7 @@ const { createLogger, format, transports } = winston;
 require('dotenv').config();
 
 // Define log format, including IP address
-const logFormat = format.printf(({ level, message, timestamp, req , ...info}) => {
+const logFormat = format.printf(({ level, message, timestamp, req, ...info }) => {
     const formattedTimestamp = new Date(timestamp).toLocaleTimeString('en-US', {
         year: 'numeric',
         month: 'numeric',
@@ -15,8 +15,14 @@ const logFormat = format.printf(({ level, message, timestamp, req , ...info}) =>
         hour12: false,
     });
 
-    const fileName = 'combined.log';
     const logLevel = info.level ? info.level.toUpperCase() : process.env.logger_level_default.toUpperCase();
+
+    let fileName;
+    if (level === 'error' || level === 'ERROR') {
+        fileName = 'error.log';
+    } else {
+        fileName = 'combined.log';
+    }
 
     return `${formattedTimestamp} | ${logLevel} [${fileName}] | ${level}: ${message} `;
 });
