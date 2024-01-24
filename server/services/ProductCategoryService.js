@@ -1,21 +1,24 @@
 const ProductCategory = require('../models/ProductCategoryModel');
 const { ObjectId } = require('mongodb');
+const { limitOffsetPageNumber } = require('../utils/pagination');
 
-const ViewProductCategory = async ({ category_name, category_status, username, createdby, sort, select, page = 1, limit = 5 }) => {
+const ViewProductCategory = async ({ CategoryId, Status, CreatedBy, Name, sort, select, page = 1, size = 5 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (category_name) {
-            queryObject.category_name = { $regex: new RegExp(category_name, 'i') };
+        if (CategoryId) {
+            queryObject._id = CategoryId;
         }
-
-        if (category_status !== undefined) {
-            queryObject.category_status = category_status.toLowerCase() === 'true';
+        if (Status !== undefined) {
+            queryObject.category_status = Status.toLowerCase() === 'true';
         }
-        if (username) {
-            queryObject.createdby.username = { $regex: new RegExp(createdby.username, 'i') };
+        if (CreatedBy) {
+            queryObject.createdby = CreatedBy;
+        }
+        if (Name) {
+            queryObject.category_name = { $regex: new RegExp(Name, 'i') };
         }
 
         // ======== Short , Select ======
@@ -33,8 +36,8 @@ const ViewProductCategory = async ({ category_name, category_status, username, c
 
         // ===== Pagination and limits ====
 
-        const skip = (page - 1) * limit;
-        apiData = apiData.skip(skip).limit(limit);
+        const { limit, offset } = limitOffsetPageNumber(page, size);
+        apiData = apiData.skip(offset).limit(limit);
 
         const ProductCategorys = await apiData;
         return ProductCategorys;

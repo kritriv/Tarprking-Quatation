@@ -82,7 +82,7 @@ const getSingleClient = async (req, res) => {
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the single Client: ${error.message}`;
-        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
     }
 };
 
@@ -176,7 +176,7 @@ const updateSingleClient = async (req, res) => {
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
         if (errorMessage === 'Provide valid Id') {
-            handleApiResponse(res, 400, errorMessage, { error: error.issues[0].message });
+            handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error' });
         } else {
             if (error.message.includes('E11000 duplicate key error')) {
                 handleApiResponse(res, 500, 'Client Username must be unique', { error: error.message });
