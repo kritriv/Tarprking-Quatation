@@ -5,16 +5,22 @@ const { idSchema } = require('../validators/Schemas');
 // To get All Users list
 const getAllUsers = async (req, res) => {
     try {
-        const { username, fullname, role, email, sort, select, page, limit } = req.query;
-
-        const Users = await ViewUser({ username, fullname, role, email, sort, select, page: Number(page) || 1, limit: Number(limit) || 5 });
+        const Users = await ViewUser(req.query);
 
         if (!Users || Users.length === 0) {
             return handleApiResponse(res, 404, 'Users Not found');
         }
 
+        const formattedUsers = Users.map((user) => ({
+            UserId: user._id,
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            role: user.role,
+        }));
+
         handleApiResponse(res, 200, 'Users fetched successfully', {
-            Users: Users,
+            Users: formattedUsers,
             nbHits: Users.length,
         });
     } catch (error) {
@@ -32,8 +38,16 @@ const getSingleUser = async (req, res) => {
         if (!User) {
             return res.status(404).json({ message: 'User not found' });
         }
+        const formattedUser = {
+            UserId: User._id,
+            username: User.username,
+            email: User.email,
+            password: User.password,
+            role: User.role,
+        };
+
         handleApiResponse(res, 200, 'User details fetched successfully', {
-            Users: User,
+            User: formattedUser,
             nbHits: 1,
         });
     } catch (error) {
@@ -46,9 +60,17 @@ const getSingleUser = async (req, res) => {
 const postSingleUser = async (req, res) => {
     const data = req.body;
     try {
-        const savedUser = await AddUser(data);
+        const User = await AddUser(data);
+
+        const formattedUser = {
+            UserId: User._id,
+            username: User.username,
+            email: User.email,
+            password: User.password,
+            role: User.role,
+        };
         handleApiResponse(res, 201, 'User added successfully', {
-            savedUser,
+            CreatedUser: formattedUser,
         });
     } catch (error) {
         if (error.message.includes('E11000 duplicate key error')) {
@@ -66,19 +88,25 @@ const deleteSingleUser = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
         const DeletedUser = await SingleUser(id);
 
-        const DeletedUserStatus = await DeleteUser(id);
-
         if (!DeletedUser) {
             return handleApiResponse(res, 404, 'User not found, deletion unsuccessful');
         }
+        const formattedDeletedUser = {
+            username: DeletedUser.username,
+            email: DeletedUser.email,
+            role: DeletedUser.role,
+        };
+
+        const DeletedUserStatus = await DeleteUser(id);
+
         handleApiResponse(res, 200, 'User deleted successfully', {
             details: DeletedUserStatus,
-            deleteduser: DeletedUser,
+            deletedUser: formattedDeletedUser,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;
         console.log(errorMessage);
-        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
     }
 };
 

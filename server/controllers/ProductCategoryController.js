@@ -65,19 +65,25 @@ const deleteSingleProductCategory = async (req, res) => {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
         const DeletedCategory = await SingleProductCategory(id);
-        const DeletedCategoryStatus = await DeleteProductCategory(id);
 
         if (!DeletedCategory) {
             return handleApiResponse(res, 404, 'Category not found, deletion unsuccessful');
         }
 
+        const formattedDeletedCategory = {
+            Name: DeletedCategory.category_name,
+            Descriptioon: DeletedCategory.category_description,
+        };
+
+        const DeletedCategoryStatus = await DeleteProductCategory(id);
+
         handleApiResponse(res, 200, 'Category deleted successfully', {
             details: DeletedCategoryStatus,
-            deletedCategory: DeletedCategory,
+            deletedCategory: formattedDeletedCategory,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Category: ${error.message}`;
-        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: error.issues[0].message });
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
     }
 };
 

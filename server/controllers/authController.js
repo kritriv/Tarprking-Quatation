@@ -43,6 +43,14 @@ const register = async (req, res) => {
         const newUser = new User(req.body);
         const savedUser = await newUser.save();
 
+        const formattedUser = {
+            UserId: savedUser._id,
+            username: savedUser.username,
+            email: savedUser.email,
+            password: savedUser.password,
+            role: savedUser.role,
+        };
+
         //generate access token..
         const accessToken = await generateAccessToken(savedUser._id, savedUser.role);
 
@@ -50,7 +58,7 @@ const register = async (req, res) => {
             success: true,
             message: 'Successfully registered.',
             accessToken: accessToken,
-            data: savedUser,
+            CreatedUser: formattedUser,
         });
     } catch (error) {
         console.log('error', error);

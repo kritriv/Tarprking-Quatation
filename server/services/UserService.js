@@ -1,23 +1,22 @@
 const User = require('../models/UserModel');
 const { ObjectId } = require('mongodb');
+const {limitOffsetPageNumber} = require('../utils/pagination');
 
-const ViewUser = async ({  username, fullname, role, email, sort, select, page = 1, limit = 5 }) => {
+const ViewUser = async ({  username, role, email, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (email) {
-            queryObject.email = { $regex: new RegExp(email, 'i') };
-        }
         if (username) {
             queryObject.username = { $regex: new RegExp(username, 'i') };
         }
-        if (role) {
-            queryObject.role = { $regex: new RegExp(role, 'i') };
+
+        if (email) {
+            queryObject.email = { $regex: new RegExp(email, 'i') };
         }
-        if (fullname) {
-            queryObject.fullname = { $regex: new RegExp(fullname, 'i') };
+        if (role) {
+            queryObject.role = role;
         }
 
         // ======== Short , Select ======
@@ -35,8 +34,8 @@ const ViewUser = async ({  username, fullname, role, email, sort, select, page =
 
         // ===== Pagination and limits ====
 
-        const skip = (page - 1) * limit;
-        apiData = apiData.skip(skip).limit(limit);
+        const { limit, offset } = limitOffsetPageNumber(page, size);
+        apiData = apiData.skip(offset).limit(limit);
 
         const Users = await apiData;
         return Users;

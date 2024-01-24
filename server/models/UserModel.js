@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { transformToJSON } = require('../utils/mongooseUtils');
 
 const userSchema = new Schema(
     {
@@ -35,6 +36,7 @@ const userSchema = new Schema(
     { timestamps: true },
 );
 
+transformToJSON(userSchema, 'UserId');
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
