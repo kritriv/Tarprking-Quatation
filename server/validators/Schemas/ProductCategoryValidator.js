@@ -30,6 +30,11 @@ const CategorySchema = z.object({
             invalid_type_error: 'Created By must be a String',
         })
         .optional(),
+    products: z
+        .array({
+            invalid_type_error: 'Products  must be a array',
+        })
+        .optional(),
 });
 
 module.exports = { CategorySchema };

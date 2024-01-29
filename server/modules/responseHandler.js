@@ -1,7 +1,7 @@
-const handleApiResponse = (res, status, message, data = null, error = null) => {
+const handleApiResponse = (res, status, Message, data = null, error = null) => {
     const response = {
-        status: status < 400 ? 'success' : 'fail',
-        message,
+        Status: status < 400 ? 'success' : 'fail',
+        Message,
         ...data, 
     };
 

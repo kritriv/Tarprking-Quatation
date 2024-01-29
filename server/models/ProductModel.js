@@ -2,31 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const autopopulate = require('mongoose-autopopulate');
 
-// Define the schema for the product
 const ProductSchema = new Schema(
     {
-        product_id: {
-            type: String,
-            unique: true,
-            validate: {
-                validator: async function (value) {
-                    const existingProduct = await this.constructor.findOne({ product_id: value });
-                    return !existingProduct || existingProduct._id.equals(this._id);
-                },
-                message: 'Product with this ID already exists',
-            },
-        },
-        product_HSN: {
-            type: String,
-            unique: true,
-            validate: {
-                validator: async function (value) {
-                    const existingProduct = await this.constructor.findOne({ product_HSN: value });
-                    return !existingProduct || existingProduct._id.equals(this._id);
-                },
-                message: 'Product with this HSN already exists',
-            },
-        },
         product_status: {
             type: Boolean,
             default: true,
@@ -39,121 +16,29 @@ const ProductSchema = new Schema(
         },
         product_name: {
             type: String,
+            unique: true,
+            validate: {
+                async validator(value) {
+                    try {
+                        const existingProduct = await this.constructor.findOne({ product_name: value });
+                        return !existingProduct || existingProduct._id.equals(this._id);
+                    } catch (error) {
+                        throw new Error('Error occurred while validating Category uniqueness');
+                    }
+                },
+                message: 'Product with this name already exists',
+            },
         },
         product_description: {
             type: String,
         },
-        sub_type: {
-            type: String,
-        },
-        product_img: {
-            type: String,
-        },
-
-        product_price: {
-            quantity: {
-                type: Number,
-                required: true,
-                default: 1,
-            },
-            basic_rate: {
-                type: Number,
-            },
-            installation_charges: {
-                type: Number,
-            },
-            subTotal: {            // basic_rate + installation_charges
-                type: Number,
-                default: 0,
-            },
-        },
-
-        product_features: {
-            type: [String],
-        },
-        product_safety: {
-            mechanical: {
-                type: String,
-            },
-            hydraulic: {
-                type: String,
-            },
-            electrical: {
-                type: String,
-            },
-        },
-        manufacturing_time: {
-            delivery_time: {
-                type: String,
-            },
-            installation_time: {
-                type: String,
-            },
-        },
-        product_specification: {
-            system_area: {
-                length: {
-                    type: String,
-                },
-                width: {
-                    type: String,
-                },
-                height: {
-                    type: String,
-                },
-            },
-            suitable_cars: {
-                length: {
-                    type: String,
-                },
-                width: {
-                    type: String,
-                },
-                height: {
-                    type: String,
-                },
-            },
-            lifting_capacity: {
-                type: String,
-            },
-            platform_length: {
-                type: String,
-            },
-            platform_width: {
-                type: String,
-            },
-            driving_unit: {
-                type: String,
-            },
-            travel_speed: {
-                type: String,
-            },
-            power_source: {
-                main: {
-                    type: String,
-                },
-                lighting: {
-                    type: String,
-                },
-            },
-            power_consumption: {
-                single_unit: {
-                    type: String,
-                },
-                combined_units: {
-                    type: String,
-                },
-            },
-            operation_control: {
-                type: String,
-            },
-        },
+        sub_products: [{ type: Schema.Types.ObjectId, ref: 'SubProduct' }],
     },
+
     { timestamps: true },
 );
 
 ProductSchema.plugin(autopopulate);
 
 const Product = mongoose.model('Product', ProductSchema);
-
 module.exports = Product;

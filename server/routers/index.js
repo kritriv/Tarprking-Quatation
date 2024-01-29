@@ -5,16 +5,18 @@ const router = express.Router();
 const userAuth = require('./authentication');
 const userRoutes = require('./UserRoutes');
 const clientRoutes = require('./ClientRoutes');
-const productRoutes = require('./ProductRoutes');
 const productCategoryRoutes = require('./ProductCategoryRoutes');
+const productRoutes = require('./ProductRoutes');
+const subProductRoutes = require('./SubProductRoutes');
 const quotationRoutes = require('./QuotationRoute');
 
 // Mount individual route files
 router.use('/', userAuth);
 router.use('/users', userRoutes);
 router.use('/clients', clientRoutes);
-router.use('/products', productRoutes);
 router.use('/categories', productCategoryRoutes);
+router.use('/products', productRoutes);
+router.use('/subproducts', subProductRoutes);
 router.use('/quotes', quotationRoutes);
 
 module.exports = router;

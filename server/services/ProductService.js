@@ -61,6 +61,7 @@ const AddProduct = async (data) => {
         const result = await Product(data).save();
         return result;
     } catch (error) {
+        console.log(error)
         throw new Error(`Error occurred while adding product: ${error.message}`);
     }
 };

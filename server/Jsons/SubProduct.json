@@ -1,0 +1,45 @@
+[
+    {
+        "model_no": "SHAIL-01-2D",
+        "product_HSN": "123456",
+        "sub_product_status": true,
+        "createdby": "65aa74c19a1866dade7d811e",
+        "product_category": "65b100b60191e947d003a227",
+        "main_product": "65a9fda5ec3151bf1fb31df6",
+        "sub_product_name": "Stack Parking System - Hydraulic",
+        "sub_product_description": "This is a Stack Parking System - Hydraulic sub-product description.",
+        "sub_product_img": "path/to/image.jpg",
+        "sub_product_price": {
+            "quantity": 1,
+            "basic_rate": 1500000,
+            "installation_charges": 6000,
+            "subTotal": 156000
+        },
+        "manufacturing_time": {
+            "delivery_time": "7-8 weeks",
+            "installation_time": "1-2 week"
+        },
+        "product_specification": "65b100b60191e947d003a22"
+    },
+    {
+        "model_no": "SHAIL-02-2D",
+        "product_HSN": "654321",
+        "sub_product_status": true,
+        "createdby": "65aa74c19a1866dade7d811e",
+        "product_category": "65b100b60191e947d003a227",
+        "main_product": "65a9fda5ec3151bf1fb31df6",
+        "sub_product_name": "Puzzle Parking System - OverGround",
+        "sub_product_description": "This is a Puzzle Parking System - OverGround sub-product description.",
+        "sub_product_img": "path/to/image.jpg",
+        "sub_product_price": {
+            "quantity": 1,
+            "basic_rate": 310000,
+            "installation_charges": 17000,
+            "subTotal": 327000
+        },
+        "manufacturing_time": {
+            "delivery_time": "3-4 week",
+            "installation_time": "1-2 week"
+        }
+    }
+]

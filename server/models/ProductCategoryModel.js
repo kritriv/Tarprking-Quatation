@@ -20,6 +20,12 @@ const ProductCategorySchema = new Schema(
                 message: 'Category with this name already exists',
             },
         },
+        createdby: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+            autopopulate: { select: '_id role username email' },
+        },
         category_description: {
             type: String,
         },
@@ -27,12 +33,7 @@ const ProductCategorySchema = new Schema(
             type: Boolean,
             default: true,
         },
-        createdby: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User',
-            required: true,
-            autopopulate: { select: '_id role username email' },
-        },
+        products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     },
     { timestamps: true },
 );

@@ -3,21 +3,7 @@ const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } =
 // To get All Products List
 const getAllProducts = async (req, res) => {
     try {
-        const { id, product_id, product_HSN, product_status, createdby, product_name, sub_type, sort, select, page, limit } = req.query;
-
-        const Products = await ViewProduct({
-            id,
-            product_id,
-            product_HSN,
-            product_status,
-            createdby,
-            product_name,
-            sub_type,
-            sort,
-            select,
-            page: Number(page) || 1,
-            limit: Number(limit) || 5,
-        });
+        const Products = await ViewProduct(req.query);
 
         if (!Products || Products.length === 0) {
             return res.status(404).json({
@@ -98,9 +84,9 @@ const postSingleProduct = async (req, res) => {
     } catch (error) {
         const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
         if (duplicateFieldMatches && duplicateFieldMatches.length > 0) {
-            const duplicateFields = duplicateFieldMatches.map(field => field.replace('product_', ''));
+            const duplicateFields = duplicateFieldMatches.map((field) => field.replace('product_', ''));
             const Error = `Product with ${duplicateFields.join(', ')} is already exists.`;
-            res.status(400).json({Message: 'An error occurred while adding the product', Error });
+            res.status(400).json({ Message: 'An error occurred while adding the product', Error });
         } else {
             res.status(500).json({ Message: 'An error occurred while adding the product', error: error.message });
         }
