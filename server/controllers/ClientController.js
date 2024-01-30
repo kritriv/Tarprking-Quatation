@@ -35,7 +35,7 @@ const getAllClients = async (req, res) => {
         }));
 
         handleApiResponse(res, 200, 'Client details fetched successfully', {
-            Clients: formattedClients,
+            data: formattedClients,
             nbHits: Clients.length,
         });
     } catch (error) {
@@ -77,7 +77,7 @@ const getSingleClient = async (req, res) => {
         };
 
         handleApiResponse(res, 200, 'Client details fetched successfully', {
-            Clients: formattedClient,
+            data: formattedClient,
             nbHits: 1,
         });
     } catch (error) {
@@ -104,7 +104,7 @@ const postSingleClient = async (req, res) => {
         };
 
         handleApiResponse(res, 201, 'Client added successfully', {
-            CreatedClient: formattedClient,
+            data: formattedClient,
         });
     } catch (error) {
         const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
@@ -140,7 +140,7 @@ const deleteSingleClient = async (req, res) => {
 
         handleApiResponse(res, 200, 'Client deleted successfully', {
             details: DeletedClientStatus,
-            DeletedClient: formattedDeletedClient,
+            data: formattedDeletedClient,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;
@@ -171,7 +171,7 @@ const updateSingleClient = async (req, res) => {
             GST: Client.company_GST_no,
         };
         handleApiResponse(res, 200, 'Client updated successfully', {
-            updatedclient: formattedClient,
+            data: formattedClient,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;

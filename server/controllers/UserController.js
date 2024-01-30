@@ -20,7 +20,7 @@ const getAllUsers = async (req, res) => {
         }));
 
         handleApiResponse(res, 200, 'Users fetched successfully', {
-            Users: formattedUsers,
+            data: formattedUsers,
             nbHits: Users.length,
         });
     } catch (error) {
@@ -47,7 +47,7 @@ const getSingleUser = async (req, res) => {
         };
 
         handleApiResponse(res, 200, 'User details fetched successfully', {
-            User: formattedUser,
+            data: formattedUser,
             nbHits: 1,
         });
     } catch (error) {
@@ -70,7 +70,7 @@ const postSingleUser = async (req, res) => {
             role: User.role,
         };
         handleApiResponse(res, 201, 'User added successfully', {
-            CreatedUser: formattedUser,
+            data: formattedUser,
         });
     } catch (error) {
         if (error.message.includes('E11000 duplicate key error')) {
@@ -101,7 +101,7 @@ const deleteSingleUser = async (req, res) => {
 
         handleApiResponse(res, 200, 'User deleted successfully', {
             details: DeletedUserStatus,
-            deletedUser: formattedDeletedUser,
+            data: formattedDeletedUser,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;
@@ -123,7 +123,7 @@ const updateSingleUser = async (req, res) => {
         }
 
         handleApiResponse(res, 200, 'User updated successfully', {
-            updateduser: updatedUser,
+            data: updatedUser,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;

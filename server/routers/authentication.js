@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { login, register } = require('../controllers/authController');
-const { authMiddleware } = require('../middlewares/authentication');
-const { getPermissions } = require('../modules/permission');
+const { register, login, logout } = require('../controllers/authController');
 
 const { RegisterSchema, LoginSchema } = require('../validators/Schemas/AuthValidator');
 const validate = require('../validators/validate');
 
-router.get('/', authMiddleware(getPermissions('USER')), async (req, res) => {
-    return res.send('This is user routes');
-  });
-
 router.post('/register', validate(RegisterSchema), register);
 router.post('/login', validate(LoginSchema), login);
+router.post('/logout', logout);
 
 module.exports = router;

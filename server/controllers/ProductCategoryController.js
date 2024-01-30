@@ -15,13 +15,13 @@ const getAllProductCategorys = async (req, res) => {
             CreatedBy: category.createdby.username,
             Name: category.category_name,
             Description: category.category_description,
+            Products: category.products,
         }));
         handleApiResponse(res, 200, 'Product Categories fetched successfully', {
-            categories: formattedCategory,
+            data: formattedCategory,
             nbHits: ProductCategory.length,
         });
     } catch (error) {
-        console.log(error);
         handleApiResponse(res, 500, 'An error occurred while fetching the Categories', { error: error.message });
     }
 };
@@ -42,13 +42,15 @@ const getSingleProductCategory = async (req, res) => {
             CreatedBy: ProductCategory.createdby.username,
             Name: ProductCategory.category_name,
             Description: ProductCategory.category_description,
+            Products: ProductCategory.products,
         };
 
         handleApiResponse(res, 200, 'Product Category details fetched successfully', {
-            CategoryDetail: formattedCategory,
+            data: formattedCategory,
             nbHits: 1,
         });
     } catch (error) {
+        console.log(error);
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the Category: ${error.message}`;
         handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'An error occurred while fetching the Category' });
     }
@@ -66,9 +68,10 @@ const postSingleProductCategory = async (req, res) => {
             CreatedBy: ProductCategory.createdby.username,
             Name: ProductCategory.category_name,
             Description: ProductCategory.category_description,
+            Products: ProductCategory.products,
         };
         handleApiResponse(res, 201, 'Category added successfully', {
-            CategoryDetail: formattedCategory,
+            data: formattedCategory,
         });
     } catch (error) {
         if (error.message.includes('Category with this name already exists')) {
@@ -98,8 +101,8 @@ const deleteSingleProductCategory = async (req, res) => {
         const DeletedCategoryStatus = await DeleteProductCategory(id);
 
         handleApiResponse(res, 200, 'Category deleted successfully', {
-            details: DeletedCategoryStatus,
-            DeletedCategory: formattedDeletedCategory,
+            Details: DeletedCategoryStatus,
+            data: formattedDeletedCategory,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Category: ${error.message}`;
@@ -125,17 +128,18 @@ const updateSingleProductCategory = async (req, res) => {
             CreatedBy: ProductCategory.createdby.username,
             Name: ProductCategory.category_name,
             Description: ProductCategory.category_description,
+            Products: ProductCategory.products,
         };
         handleApiResponse(res, 200, 'Product Category updated successfully', {
-            UpdatedCategory: formattedCategory,
+            data: formattedCategory,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Category: ${error.message}`;
         if (errorMessage === 'Provide valid Id') {
-            handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error'});
+            handleApiResponse(res, 400, errorMessage, { error: 'An error occurred while updating the single Category' });
         } else {
             if (error.message.includes('E11000 duplicate key error')) {
-                handleApiResponse(res, 500, 'Category Name must be unique', { error: error.message });
+                handleApiResponse(res, 400, 'Category Name must be unique', { error: error.message });
             } else {
                 handleApiResponse(res, 500, errorMessage, { error: 'Internal Server Error' });
             }

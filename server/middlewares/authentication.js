@@ -1,21 +1,25 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/UserModel');
 const { verifyAccessToken } = require('../modules/jwt.service');
+const { blacklistedTokens } = require('../utils/AccessTokenCheck');
+const { handleApiResponse } = require('../modules/responseHandler');
 const dotenv = require('dotenv');
 dotenv.config();
 
 function authMiddleware(roles) {
-    return async (request, response, next) => {
+    return async (req, res, next) => {
         try {
-            const authHeader = request.headers.authorization;
+            const authHeader = req.headers.authorization;
 
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                return response.status(401).json({
-                    success: false,
-                    message: 'Access token missing or invalid format.',
-                });
+                return handleApiResponse(res, 401, 'Access token missing or invalid format.');
             }
             const token = authHeader.split(' ')[1];
+
+            // Check if the token is blacklisted
+            if (blacklistedTokens.has(token)) {
+                return handleApiResponse(res, 401, 'You already Logout!  Please log in again.');
+            }
 
             try {
                 const decoded = await verifyAccessToken(token);
@@ -24,41 +28,22 @@ function authMiddleware(roles) {
                 const findUser = await User.findOne({ _id: decoded.userId }, { _id: 1, role: 1 }).lean();
 
                 if (!findUser || !roles.includes(findUser.role)) {
-                    return response.status(403).json({
-                        success: false,
-                        reason: `${findUser.role} is not allowed for this Path.`,
-                        message: 'Access Denied!',
-                    });
+                    return handleApiResponse(res, 403, `Access Denied! ${findUser.role} is not allowed.`);
                 }
 
-                request.user = findUser;
+                req.user = findUser;
                 next();
             } catch (error) {
                 if (error.message === 'Token expired') {
-                    return response.status(401).json({
-                        success: false,
-                        message: 'Token expired.',
-                    });
+                    return handleApiResponse(res, 401, 'Token expired.');
                 } else if (error.message === 'Invalid token') {
-                    return response.status(401).json({
-                        success: false,
-                        message: 'Invalid token.',
-                    });
+                    return handleApiResponse(res, 401, 'Invalid token.');
                 } else {
-                    console.error('Error verifying access token:', error);
-                    return response.status(500).json({
-                        success: false,
-                        message: 'Internal Server Error.',
-                        error: error.message,
-                    });
+                    return handleApiResponse(res, 500, 'Error verifying access token');
                 }
             }
         } catch (error) {
-            return response.status(500).json({
-                success: false,
-                message: 'Internal Server Error.',
-                error: error.message,
-            });
+            return handleApiResponse(res, 500, 'Internal Server Error.', { error: error.message });
         }
     };
 }

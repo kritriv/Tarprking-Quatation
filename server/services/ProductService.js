@@ -1,34 +1,24 @@
 const Product = require('../models/ProductModel');
 const { ObjectId } = require('mongodb');
+const { limitOffsetPageNumber } = require('../utils/pagination');
 
-const ViewProduct = async ({ id, product_id, product_HSN, product_status, createdby, product_name, sub_type, sort, select, page = 1, limit = 5 }) => {
+const ViewProduct = async ({ ProductId, Status, CreatedBy, Name, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (id) {
-            queryObject._id = id;
+        if (ProductId) {
+            queryObject._id = ProductId;
         }
-        if (product_id) {
-            queryObject.product_id = product_id;
+        if (Status !== undefined) {
+            queryObject.product_status = Status.toLowerCase() === 'true';
         }
-        if (product_HSN) {
-            queryObject.product_HSN = product_HSN;
+        if (CreatedBy) {
+            queryObject.createdby = CreatedBy;
         }
-        if (product_status !== undefined) {
-            queryObject.product_status = product_status.toLowerCase() === 'true';
-        }
-        if (createdby) {
-            queryObject.createdby = {
-                $regex: new RegExp(createdby, 'i'),
-            };
-        }
-        if (product_name) {
-            queryObject.product_name = { $regex: new RegExp(product_name, 'i') };
-        }
-        if (sub_type) {
-            queryObject.sub_type = { $regex: new RegExp(sub_type, 'i') };
+        if (Name) {
+            queryObject.product_name = { $regex: new RegExp(Name, 'i') };
         }
 
         let apiData = Product.find(queryObject);
@@ -46,8 +36,8 @@ const ViewProduct = async ({ id, product_id, product_HSN, product_status, create
 
         // ===== Pagination and limits ====
 
-        const skip = (page - 1) * limit;
-        apiData = apiData.skip(skip).limit(limit);
+        const { limit, offset } = limitOffsetPageNumber(page, size);
+        apiData = apiData.skip(offset).limit(limit);
 
         const Products = await apiData;
         return Products;

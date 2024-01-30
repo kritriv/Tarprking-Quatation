@@ -1,4 +1,6 @@
+const { handleApiResponse } = require('../modules/responseHandler');
 const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } = require('../services/ProductService');
+const { idSchema } = require('../validators/Schemas');
 
 // To get All Products List
 const getAllProducts = async (req, res) => {
@@ -6,68 +8,52 @@ const getAllProducts = async (req, res) => {
         const Products = await ViewProduct(req.query);
 
         if (!Products || Products.length === 0) {
-            return res.status(404).json({
-                Status: 'success',
-                Message: 'Products not found',
-                Products: [],
-                nbHits: 0,
-            });
+            return handleApiResponse(res, 404, 'Products not found');
         }
+        
+        const formattedProduct = Products.map((product) => ({
+            ProductId: product._id,
+            Status: product.product_status,
+            CreatedBy: product.createdby.username,
+            Name: product.product_name,
+            Description: product.product_description,
+            Products: product.sub_products,
+        }));
 
-        res.status(200).json({
-            Status: 'success',
-            Message: 'Products fetched successfully',
-            Products,
+        handleApiResponse(res, 200, 'Products  fetched successfully', {
+            data: formattedProduct,
             nbHits: Products.length,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while fetching products',
-            error: error.message,
-        });
+        handleApiResponse(res, 500, 'An error occurred while fetching the Products', { error: error.message });
     }
 };
 // To get Single Product Details
 const getSingleProduct = async (req, res) => {
     try {
         const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
         const Product = await SingleProduct(id);
 
         if (!Product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return handleApiResponse(res, 404, 'Product not found');
         }
-        res.status(200).json({
-            status: 'success',
-            message: 'Product details fetched successfully',
-            data: Product,
+        const formattedProduct = {
+            ProductId: Product._id,
+            Status: Product.product_status,
+            CreatedBy: Product.createdby.username,
+            Name: Product.product_name,
+            Description: Product.product_description,
+            Products: Product.sub_products,
+        };
+
+        handleApiResponse(res, 200, 'Product  details fetched successfully', {
+            data: formattedProduct,
+            nbHits: 1,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while fetching the single Product',
-            error: error.message,
-        });
-    }
-};
-
-// To Delete a Single Product Details
-const deleteSingleProduct = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const Product = await DeleteProduct(id);
-
-        if (!Product || Product.deletedCount === 0) {
-            return res.status(404).json({ message: 'Product not found, deletion unsuccessful' });
-        }
-        res.status(200).json({
-            status: 'success',
-            message: 'Product deleted successfully',
-            deletedProduct: Product,
-        });
-    } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while deleting the single Product',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the Product: ${error.message}`;
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'An error occurred while fetching the Product' });
     }
 };
 
@@ -75,28 +61,66 @@ const deleteSingleProduct = async (req, res) => {
 const postSingleProduct = async (req, res) => {
     const data = req.body;
     try {
-        const savedProduct = await AddProduct(data);
-        res.status(201).json({
-            status: 'success',
-            message: 'Product added successfully',
-            savedProduct,
+        const Product = await AddProduct(data);
+        
+        const formattedProduct = {
+            ProductId: Product._id,
+            Status: Product.product_status,
+            CreatedBy: Product.createdby.username,
+            Name: Product.product_name,
+            Description: Product.product_description,
+            Products: Product.sub_products,
+        };
+
+        handleApiResponse(res, 201, 'Product added successfully', {
+            data: formattedProduct,
         });
     } catch (error) {
         const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
         if (duplicateFieldMatches && duplicateFieldMatches.length > 0) {
             const duplicateFields = duplicateFieldMatches.map((field) => field.replace('product_', ''));
-            const Error = `Product with ${duplicateFields.join(', ')} is already exists.`;
-            res.status(400).json({ Message: 'An error occurred while adding the product', Error });
+            const errorMessage = `Product with ${duplicateFields.join(', ')} is already exists.`;
+            handleApiResponse(res, 400, errorMessage, error);
         } else {
-            res.status(500).json({ Message: 'An error occurred while adding the product', error: error.message });
+            handleApiResponse(res, error.status || 500, error.message || 'Internal server error');
         }
     }
 };
+
+// To Delete a Single Product Details
+const deleteSingleProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
+
+        const DeletedProduct = await SingleProduct(id);
+
+        const Product = await DeleteProduct(id);
+
+        if (!DeletedProduct) {
+            return handleApiResponse(res, 404, 'Product not found, deletion unsuccessful');
+
+        }
+        const formattedProduct = {
+            Name: DeletedProduct.product_name,
+            Description: DeletedProduct.product_description,
+        };
+        handleApiResponse(res, 200, 'Product deleted successfully', {
+            details: Product,
+            data: formattedProduct,
+        });
+    } catch (error) {
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Product: ${error.message}`;
+        handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
+    }
+};
+
 
 // To Update a Single Product Details
 const updateSingleProduct = async (req, res) => {
     try {
         const id = req.params.id;
+        await idSchema.parseAsync({ _id: id });
         const updateProductData = req.body;
 
         const updatedProduct = await UpdateProduct(id, updateProductData);
@@ -104,17 +128,29 @@ const updateSingleProduct = async (req, res) => {
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found, update unsuccessful' });
         }
+        const formattedProduct = {
+            ProductId: updatedProduct._id,
+            Status: updatedProduct.product_status,
+            CreatedBy: updatedProduct.createdby.username,
+            Name: updatedProduct.product_name,
+            Description: updatedProduct.product_description,
+            Products: updatedProduct.sub_products,
+        };
 
-        res.status(200).json({
-            status: 'success',
-            message: 'Product updated successfully',
-            updatedProduct,
+        handleApiResponse(res, 200, 'Product updated successfully', {
+            data: formattedProduct,
         });
     } catch (error) {
-        res.status(500).json({
-            message: 'An error occurred while updating the single Product',
-            error: error.message,
-        });
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Product: ${error.message}`;
+        if (errorMessage === 'Provide valid Id') {
+            handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error' });
+        } else {
+            if (error.message.includes('E11000 duplicate key error')) {
+                handleApiResponse(res, 500, 'Product Name must be unique', { error: error.message });
+            } else {
+                handleApiResponse(res, 500, errorMessage, { error: 'Internal Server Error' });
+            }
+        }
     }
 };
 

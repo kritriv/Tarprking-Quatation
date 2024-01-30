@@ -24,7 +24,7 @@ const RegisterSchema = z.object({
     .refine(
       (value) => ["USER", "ADMIN", "SUPERADMIN"].includes(value.toUpperCase()),
       {
-        message: "Invalid role provided!",
+        message: "Unkown role provided!",
       }
     )
     .optional(),
