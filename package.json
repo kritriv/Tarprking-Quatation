@@ -1,16 +1,16 @@
 {
-  "name": "server",
+  "name": "tar-parking-quotation-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Tar parking quotation is use to create CRM for manufacturing unit",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "start": "node server/app.js",
     "createAPI": "node server/createAPI.js",
     "server": "nodemon server/app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vishal Saraiwal<vishalsaraiwal68@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,11 +23,11 @@
     "mongoose": "^8.0.3",
     "mongoose-autopopulate": "^1.1.0",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.2",
     "winston": "^3.11.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "nodemon": "^3.0.2",
     "jest": "^29.7.0",
     "supertest": "^6.3.4"
   }
