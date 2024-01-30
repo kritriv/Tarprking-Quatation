@@ -31,6 +31,8 @@ const productSchema = z.object({
         .min(3, { message: 'Product description must be at least 3 characters.' })
         .max(200, { message: 'Product description cannot be more than 200 characters.' }),
 
+    category: z.string().optional(),
+
     sub_products: z
         .array(
             z.string().refine((value) => value.length === 24, {

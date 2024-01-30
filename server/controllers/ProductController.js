@@ -10,14 +10,15 @@ const getAllProducts = async (req, res) => {
         if (!Products || Products.length === 0) {
             return handleApiResponse(res, 404, 'Products not found');
         }
-        
+
         const formattedProduct = Products.map((product) => ({
             ProductId: product._id,
             Status: product.product_status,
             CreatedBy: product.createdby.username,
             Name: product.product_name,
             Description: product.product_description,
-            Products: product.sub_products,
+            Category: product.category.category_name,
+            SubProducts: product.sub_products,
         }));
 
         handleApiResponse(res, 200, 'Products  fetched successfully', {
@@ -44,7 +45,8 @@ const getSingleProduct = async (req, res) => {
             CreatedBy: Product.createdby.username,
             Name: Product.product_name,
             Description: Product.product_description,
-            Products: Product.sub_products,
+            Category: Product.category.category_name,
+            SubProducts: Product.sub_products,
         };
 
         handleApiResponse(res, 200, 'Product  details fetched successfully', {
@@ -59,17 +61,17 @@ const getSingleProduct = async (req, res) => {
 
 // To Add a Product to Products list
 const postSingleProduct = async (req, res) => {
-    const data = req.body;
     try {
-        const Product = await AddProduct(data);
-        
+        const product = await AddProduct(req.body);
+
         const formattedProduct = {
-            ProductId: Product._id,
-            Status: Product.product_status,
-            CreatedBy: Product.createdby.username,
-            Name: Product.product_name,
-            Description: Product.product_description,
-            Products: Product.sub_products,
+            ProductId: product._id,
+            Status: product.product_status,
+            CreatedBy: product.createdby.username,
+            Name: product.product_name,
+            Description: product.product_description,
+            Category: product.category.category_name,
+            SubProducts: product.sub_products,
         };
 
         handleApiResponse(res, 201, 'Product added successfully', {
@@ -81,6 +83,8 @@ const postSingleProduct = async (req, res) => {
             const duplicateFields = duplicateFieldMatches.map((field) => field.replace('product_', ''));
             const errorMessage = `Product with ${duplicateFields.join(', ')} is already exists.`;
             handleApiResponse(res, 400, errorMessage, error);
+        } else if (error.message.includes('Category not found')) {
+            handleApiResponse(res, 404, 'Category not found', { error: error.message });
         } else {
             handleApiResponse(res, error.status || 500, error.message || 'Internal server error');
         }
@@ -95,18 +99,17 @@ const deleteSingleProduct = async (req, res) => {
 
         const DeletedProduct = await SingleProduct(id);
 
-        const Product = await DeleteProduct(id);
-
         if (!DeletedProduct) {
             return handleApiResponse(res, 404, 'Product not found, deletion unsuccessful');
-
         }
+
+        const DeletedProductRes = await DeleteProduct(id);
+
         const formattedProduct = {
-            Name: DeletedProduct.product_name,
-            Description: DeletedProduct.product_description,
+            Name: DeletedProductRes.product_name,
+            Description: DeletedProductRes.product_description,
         };
         handleApiResponse(res, 200, 'Product deleted successfully', {
-            details: Product,
             data: formattedProduct,
         });
     } catch (error) {
@@ -114,7 +117,6 @@ const deleteSingleProduct = async (req, res) => {
         handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
     }
 };
-
 
 // To Update a Single Product Details
 const updateSingleProduct = async (req, res) => {
@@ -134,7 +136,8 @@ const updateSingleProduct = async (req, res) => {
             CreatedBy: updatedProduct.createdby.username,
             Name: updatedProduct.product_name,
             Description: updatedProduct.product_description,
-            Products: updatedProduct.sub_products,
+            Category: product.category,
+            SubProducts: updatedProduct.sub_products,
         };
 
         handleApiResponse(res, 200, 'Product updated successfully', {

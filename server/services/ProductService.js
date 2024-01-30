@@ -1,4 +1,5 @@
 const Product = require('../models/ProductModel');
+const ProductCategory = require('../models/ProductCategoryModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
@@ -39,19 +40,36 @@ const ViewProduct = async ({ ProductId, Status, CreatedBy, Name, sort, select, p
         const { limit, offset } = limitOffsetPageNumber(page, size);
         apiData = apiData.skip(offset).limit(limit);
 
-        const Products = await apiData;
+        const Products = await apiData.populate('category').exec();
         return Products;
     } catch (error) {
         throw new Error('An error occurred while fetching products: ' + error.message);
     }
 };
 
-const AddProduct = async (data) => {
+const AddProduct = async ({ product_status, product_name, createdby, product_description, category, sub_products }) => {
     try {
-        const result = await Product(data).save();
+        const existingCategory = await ProductCategory.findById(category);
+
+        if (!existingCategory) {
+            throw new Error('Category not found');
+        }
+
+        const newProduct = new Product({
+            product_status,
+            product_name,
+            createdby,
+            product_description,
+            category,
+            sub_products,
+        });
+
+        const result = await newProduct.save();
+
+        existingCategory.products.push(result._id);
+        await existingCategory.save();
         return result;
     } catch (error) {
-        console.log(error)
         throw new Error(`Error occurred while adding product: ${error.message}`);
     }
 };
@@ -59,7 +77,7 @@ const AddProduct = async (data) => {
 const SingleProduct = async (id) => {
     try {
         const filter = { _id: new ObjectId(id) };
-        const result = await Product.findOne(filter);
+        const result = await Product.findOne(filter).populate('category').exec();
         return result;
     } catch (error) {
         throw new Error(`Error occurred while retrieving single product: ${error.message}`);
@@ -68,8 +86,17 @@ const SingleProduct = async (id) => {
 
 const DeleteProduct = async (id) => {
     try {
-        const filter = { _id: new ObjectId(id) };
-        const result = await Product.deleteOne(filter);
+        const product = await Product.findById(id);
+        const categoryId = product.category;
+        const result = await Product.findByIdAndDelete(id);
+
+        // Remove the product from the associated category
+        const category = await ProductCategory.findById(categoryId);
+        if (category) {
+            category.products.pull(id);
+            await category.save();
+        }
+
         return result;
     } catch (error) {
         throw new Error(`Error occurred while deleting product: ${error.message}`);

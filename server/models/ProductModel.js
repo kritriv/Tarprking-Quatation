@@ -32,6 +32,11 @@ const ProductSchema = new Schema(
         product_description: {
             type: String,
         },
+        category: {
+            type: Schema.Types.ObjectId,
+            ref: 'ProductCategory',
+            autopopulate: { select: '_id category_name' },
+        },
         sub_products: [{ type: Schema.Types.ObjectId, ref: 'SubProduct' }],
     },
 

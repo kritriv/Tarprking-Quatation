@@ -15,8 +15,12 @@ const getAllProductCategorys = async (req, res) => {
             CreatedBy: category.createdby.username,
             Name: category.category_name,
             Description: category.category_description,
-            Products: category.products,
+            Products: category.products.map((product) => ({
+                ProductId: product._id,
+                ProductName: product.product_name,
+            })),
         }));
+
         handleApiResponse(res, 200, 'Product Categories fetched successfully', {
             data: formattedCategory,
             nbHits: ProductCategory.length,
@@ -42,7 +46,10 @@ const getSingleProductCategory = async (req, res) => {
             CreatedBy: ProductCategory.createdby.username,
             Name: ProductCategory.category_name,
             Description: ProductCategory.category_description,
-            Products: ProductCategory.products,
+            Products: ProductCategory.products.map((product) => ({
+                ProductId: product._id,
+                ProductName: product.product_name,
+            })),
         };
 
         handleApiResponse(res, 200, 'Product Category details fetched successfully', {
@@ -58,9 +65,8 @@ const getSingleProductCategory = async (req, res) => {
 
 // To Add a ProductCategory to ProductCategorys list
 const postSingleProductCategory = async (req, res) => {
-    const data = req.body;
     try {
-        const ProductCategory = await AddProductCategory(data);
+        const ProductCategory = await AddProductCategory(req.body);
 
         const formattedCategory = {
             CategoryId: ProductCategory._id,
@@ -68,8 +74,12 @@ const postSingleProductCategory = async (req, res) => {
             CreatedBy: ProductCategory.createdby.username,
             Name: ProductCategory.category_name,
             Description: ProductCategory.category_description,
-            Products: ProductCategory.products,
+            Products: ProductCategory.products.map((product) => ({
+                ProductId: product._id,
+                ProductName: product.product_name,
+            })),
         };
+
         handleApiResponse(res, 201, 'Category added successfully', {
             data: formattedCategory,
         });
@@ -92,16 +102,14 @@ const deleteSingleProductCategory = async (req, res) => {
         if (!DeletedCategory) {
             return handleApiResponse(res, 404, 'Category not found, deletion unsuccessful');
         }
+        const DeletedCategoryRes = await DeleteProductCategory(id);
 
         const formattedDeletedCategory = {
-            Name: DeletedCategory.category_name,
-            Descriptioon: DeletedCategory.category_description,
+            Name: DeletedCategoryRes.category_name,
+            Descriptioon: DeletedCategoryRes.category_description,
         };
 
-        const DeletedCategoryStatus = await DeleteProductCategory(id);
-
         handleApiResponse(res, 200, 'Category deleted successfully', {
-            Details: DeletedCategoryStatus,
             data: formattedDeletedCategory,
         });
     } catch (error) {
@@ -128,8 +136,12 @@ const updateSingleProductCategory = async (req, res) => {
             CreatedBy: ProductCategory.createdby.username,
             Name: ProductCategory.category_name,
             Description: ProductCategory.category_description,
-            Products: ProductCategory.products,
+            Products: ProductCategory.products.map((product) => ({
+                ProductId: product._id,
+                ProductName: product.product_name,
+            })),
         };
+
         handleApiResponse(res, 200, 'Product Category updated successfully', {
             data: formattedCategory,
         });
