@@ -9,32 +9,30 @@ const getAllSubProducts = async (req, res) => {
         if (!SubProducts || SubProducts.length === 0) {
             return handleApiResponse(res, 404, 'Sub Product not found');
         }
-        const formattedSubProduct = SubProducts.map((product) => ({
-            SubProductId: product._id,
-            Status: product.sub_product_status,
-            ModelNo: product.model_no,
-            ProductHSN: product.product_HSN,
-            CreatedBy: product.createdby.username,
-            Name: product.sub_product_name,
-            Description: product.sub_product_description,
-            ImgURL: product.sub_product_img,
-            Category: product.product_category.category_name,
-            MainProduct: product.main_product.product_name,
-            Prices: {
-                Quantity: product.sub_product_price.quantity,
-                BasicRate: product.sub_product_price.basic_rate,
-                Installation: product.sub_product_price.installation_charges,
-                SubTotal: product.sub_product_price.subTotal,
+
+        const formattedSubProduct = SubProducts.map((SubProduct) => ({
+            SubProductId: SubProduct._id,
+            status: SubProduct.status,
+            createdby: SubProduct.createdby.username,
+            category: SubProduct.category.category_name,
+            main_product: SubProduct.product.product_name,
+            name: SubProduct.name,
+            description: SubProduct.description,
+            image: SubProduct.image,
+            price: {
+                quantity: SubProduct.price.quantity,
+                basic_rate: SubProduct.price.basic_rate,
+                installation_charges: SubProduct.price.installation_charges,
+                subTotal: SubProduct.price.subTotal,
             },
-            ManufacturingTime: {
-                Dilivery: product.manufacturing_time.delivery_time,
-                Installation: product.manufacturing_time.installation_time,
+            timings: {
+                delivery_time: SubProduct.timings.delivery_time,
+                installation_time: SubProduct.timings.installation_time,
             },
-            Specifications: product.product_specification,
         }));
 
         handleApiResponse(res, 200, 'Sub Products fetched successfully', {
-            SubProducts: formattedSubProduct,
+            data: formattedSubProduct,
             nbHits: SubProducts.length,
         });
     } catch (error) {
@@ -47,37 +45,34 @@ const getSingleSubProduct = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const product = await SingleSubProduct(id);
+        const SubProduct = await SingleSubProduct(id);
 
-        if (!product) {
+        if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found');
         }
         const formattedSubProduct = {
-            SubProductId: product._id,
-            Status: product.sub_product_status,
-            ModelNo: product.model_no,
-            ProductHSN: product.product_HSN,
-            CreatedBy: product.createdby.username,
-            Name: product.sub_product_name,
-            Description: product.sub_product_description,
-            ImgURL: product.sub_product_img,
-            Category: product.product_category.category_name,
-            MainProduct: product.main_product.product_name,
-            Prices: {
-                Quantity: product.sub_product_price.quantity,
-                BasicRate: product.sub_product_price.basic_rate,
-                Installation: product.sub_product_price.installation_charges,
-                SubTotal: product.sub_product_price.subTotal,
+            SubProductId: SubProduct._id,
+            status: SubProduct.status,
+            createdby: SubProduct.createdby.username,
+            category: SubProduct.category.category_name,
+            main_product: SubProduct.product.product_name,
+            name: SubProduct.name,
+            description: SubProduct.description,
+            image: SubProduct.image,
+            price: {
+                quantity: SubProduct.price.quantity,
+                basic_rate: SubProduct.price.basic_rate,
+                installation_charges: SubProduct.price.installation_charges,
+                subTotal: SubProduct.price.subTotal,
             },
-            ManufacturingTime: {
-                Dilivery: product.manufacturing_time.delivery_time,
-                Installation: product.manufacturing_time.installation_time,
+            timings: {
+                delivery_time: SubProduct.timings.delivery_time,
+                installation_time: SubProduct.timings.installation_time,
             },
-            Specifications: product.product_specification,
         };
 
         handleApiResponse(res, 200, 'Sub Product details fetched successfully', {
-            SubProduct: formattedSubProduct,
+            data: formattedSubProduct,
             nbHits: 1,
         });
     } catch (error) {
@@ -88,35 +83,32 @@ const getSingleSubProduct = async (req, res) => {
 
 // To Add a SubProduct to SubProducts list
 const postSingleSubProduct = async (req, res) => {
-    const data = req.body;
     try {
-        const product = await AddSubProduct(data);
+        const SubProduct = await AddSubProduct(req.body);
+
         const formattedSubProduct = {
-            SubProductId: product._id,
-            Status: product.sub_product_status,
-            ModelNo: product.model_no,
-            ProductHSN: product.product_HSN,
-            CreatedBy: product.createdby.username,
-            Name: product.sub_product_name,
-            Description: product.sub_product_description,
-            ImgURL: product.sub_product_img,
-            Category: product.product_category.category_name,
-            MainProduct: product.main_product.product_name,
-            Prices: {
-                Quantity: product.sub_product_price.quantity,
-                BasicRate: product.sub_product_price.basic_rate,
-                Installation: product.sub_product_price.installation_charges,
-                SubTotal: product.sub_product_price.subTotal,
+            SubProductId: SubProduct._id,
+            status: SubProduct.status,
+            createdby: SubProduct.createdby.username,
+            category: SubProduct.category.category_name,
+            main_product: SubProduct.product.product_name,
+            name: SubProduct.name,
+            description: SubProduct.description,
+            image: SubProduct.image,
+            price: {
+                quantity: SubProduct.price.quantity,
+                basic_rate: SubProduct.price.basic_rate,
+                installation_charges: SubProduct.price.installation_charges,
+                subTotal: SubProduct.price.subTotal,
             },
-            ManufacturingTime: {
-                Dilivery: product.manufacturing_time.delivery_time,
-                Installation: product.manufacturing_time.installation_time,
+            timings: {
+                delivery_time: SubProduct.timings.delivery_time,
+                installation_time: SubProduct.timings.installation_time,
             },
-            Specifications: product.product_specification,
         };
 
         handleApiResponse(res, 201, 'Sub Product added successfully', {
-            SubProductDetail: formattedSubProduct,
+            data: formattedSubProduct,
         });
     } catch (error) {
         const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);
@@ -135,28 +127,24 @@ const deleteSingleSubProduct = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const product = await SingleSubProduct(id);
+        const SubProduct = await SingleSubProduct(id);
 
-        if (!product) {
+        if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found, deletion unsuccessful');
         }
 
+        const SubProductRes = await DeleteSubProduct(id);
+
         const formattedSubProduct = {
-            SubProductId: product._id,
-            Status: product.sub_product_status,
-            ModelNo: product.model_no,
-            ProductHSN: product.product_HSN,
-            Name: product.sub_product_name,
-            Description: product.sub_product_description,
-            Category: product.product_category.category_name,
-            MainProduct: product.main_product.product_name,
+            SubProductId: SubProductRes._id,
+            category: SubProductRes.category.category_name,
+            main_product: SubProductRes.product.product_name,
+            name: SubProductRes.name,
+            description: SubProductRes.description,
         };
 
-        const SubProductStatus = await DeleteSubProduct(id);
-
         handleApiResponse(res, 200, 'Sub Product deleted successfully', {
-            Details: SubProductStatus,
-            DeletedSubProduct: formattedSubProduct,
+            deleted: formattedSubProduct,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Category: ${error.message}`;
@@ -171,37 +159,34 @@ const updateSingleSubProduct = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateSubProductData = req.body;
-        const product = await UpdateSubProduct(id, updateSubProductData);
+        const SubProduct = await UpdateSubProduct(id, updateSubProductData);
 
-        if (!product) {
+        if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found, update unsuccessful');
         }
         const formattedSubProduct = {
-            SubProductId: product._id,
-            Status: product.sub_product_status,
-            ModelNo: product.model_no,
-            ProductHSN: product.product_HSN,
-            CreatedBy: product.createdby.username,
-            Name: product.sub_product_name,
-            Description: product.sub_product_description,
-            ImgURL: product.sub_product_img,
-            Category: product.product_category.category_name,
-            MainProduct: product.main_product.product_name,
-            Prices: {
-                Quantity: product.sub_product_price.quantity,
-                BasicRate: product.sub_product_price.basic_rate,
-                Installation: product.sub_product_price.installation_charges,
-                SubTotal: product.sub_product_price.subTotal,
+            SubProductId: SubProduct._id,
+            status: SubProduct.status,
+            createdby: SubProduct.createdby.username,
+            category: SubProduct.category.category_name,
+            main_product: SubProduct.product.product_name,
+            name: SubProduct.name,
+            description: SubProduct.description,
+            image: SubProduct.image,
+            price: {
+                quantity: SubProduct.price.quantity,
+                basic_rate: SubProduct.price.basic_rate,
+                installation_charges: SubProduct.price.installation_charges,
+                subTotal: SubProduct.price.subTotal,
             },
-            ManufacturingTime: {
-                Dilivery: product.manufacturing_time.delivery_time,
-                Installation: product.manufacturing_time.installation_time,
+            timings: {
+                delivery_time: SubProduct.timings.delivery_time,
+                installation_time: SubProduct.timings.installation_time,
             },
-            Specifications: product.product_specification,
         };
 
         handleApiResponse(res, 200, 'Sub Product updated successfully', {
-            UpdatedSubProduct: formattedSubProduct,
+            data: formattedSubProduct,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
@@ -224,4 +209,3 @@ module.exports = {
     deleteSingleSubProduct,
     updateSingleSubProduct,
 };
-

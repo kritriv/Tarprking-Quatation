@@ -5,7 +5,7 @@ const { transformToJSON } = require('../utils/mongooseUtils');
 
 const SubProductSchema = new Schema(
     {
-        sub_product_status: {
+        status: {
             type: Boolean,
             default: true,
         },
@@ -20,12 +20,12 @@ const SubProductSchema = new Schema(
                 message: 'Sub Product with this ModelNo already exists',
             },
         },
-        product_HSN: {
+        HSN_no: {
             type: String,
             unique: true,
             validate: {
                 validator: async function (value) {
-                    const existingProduct = await this.constructor.findOne({ product_HSN: value });
+                    const existingProduct = await this.constructor.findOne({ HSN_no: value });
                     return !existingProduct || existingProduct._id.equals(this._id);
                 },
                 message: 'Sub Product with this HSN already exists',
@@ -37,29 +37,37 @@ const SubProductSchema = new Schema(
             required: true,
             autopopulate: { select: '_id role username email' },
         },
-        
-        sub_product_name: {
+
+        name: {
+            type: String,
+            unique: true,
+            validate: {
+                validator: async function (value) {
+                    const existingProduct = await this.constructor.findOne({ name: value });
+                    return !existingProduct || existingProduct._id.equals(this._id);
+                },
+                message: 'Sub Product with this Name already exists',
+            },
+        },
+        description: {
             type: String,
         },
-        sub_product_description: {
+        image: {
             type: String,
         },
-        sub_product_img: {
-            type: String,
-        },
-        product_category: {
+        category: {
             type: mongoose.Schema.ObjectId,
             ref: 'ProductCategory',
-            required: true, 
+            required: true,
             autopopulate: { select: '_id category_name category_description -createdby' },
         },
-        main_product: {
+        product: {
             type: mongoose.Schema.ObjectId,
             ref: 'Product',
             required: true,
-            autopopulate: true,
+            autopopulate: { select: '_id product_name' },
         },
-        sub_product_price: {
+        price: {
             quantity: {
                 type: Number,
                 required: true,
@@ -76,7 +84,7 @@ const SubProductSchema = new Schema(
                 default: 0,
             },
         },
-        manufacturing_time: {
+        timings: {
             delivery_time: {
                 type: String,
             },
@@ -84,10 +92,9 @@ const SubProductSchema = new Schema(
                 type: String,
             },
         },
-        product_specification: {
+        specifications: {
             type: mongoose.Schema.ObjectId,
             ref: 'ProductSpecification',
-            // required: true,
             autopopulate: true,
         },
     },

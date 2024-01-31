@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const autopopulate = require('mongoose-autopopulate');
+const { transformToJSON } = require('../utils/mongooseUtils');
 
 const ProductSchema = new Schema(
     {
@@ -44,6 +45,6 @@ const ProductSchema = new Schema(
 );
 
 ProductSchema.plugin(autopopulate);
-
+transformToJSON(ProductSchema, 'ProductId');
 const Product = mongoose.model('Product', ProductSchema);
 module.exports = Product;

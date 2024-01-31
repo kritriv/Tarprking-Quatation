@@ -1,16 +1,22 @@
 const z = require('zod');
 
 const SubProductSchema = z.object({
-    product_id: z
-        .string({
-            required_error: 'Product Id must be required!',
-            invalid_type_error: 'Product Id must be a String',
+    status: z
+        .boolean({
+            invalid_type_error: 'Sub Product Status must be a boolean',
         })
-        .min(1, { message: 'Product Id cannot be empty.' })
-        .min(3, { message: 'Product Id must be at least 3 characters.' })
-        .max(8, { message: 'Product Id cannot be more than 8 characters.' }),
+        .optional(),
 
-    product_HSN: z
+    model_no: z
+        .string({
+            required_error: 'Sub Product Model must be required!',
+            invalid_type_error: 'Sub Product Model must be a String',
+        })
+        .min(1, { message: 'Sub Product Model cannot be empty.' })
+        .min(3, { message: 'Sub Product Model must be at least 3 characters.' })
+        .max(100, { message: 'Sub Product Model cannot be more than 100 characters.' }),
+
+    HSN_no: z
         .string({
             required_error: 'Product HSN must be required!',
             invalid_type_error: 'Product HSN must be a String',
@@ -19,17 +25,14 @@ const SubProductSchema = z.object({
         .min(3, { message: 'Product HSN must be at least 3 characters.' })
         .max(8, { message: 'Product HSN cannot be more than 8 characters.' }),
 
-    product_status: z.boolean({
-        invalid_type_error: 'Product Status must be a boolean',
-    }),
-
     createdby: z
-        .string({
-            required_error: 'createdby Id must be required!',
-            invalid_type_error: 'createdby Id must be a String',
-        }),
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for Createdby',
+        })
+        .optional(),
 
-    product_name: z
+    name: z
         .string({
             required_error: 'Product Name must be required!',
             invalid_type_error: 'Product Name must be a String',
@@ -38,7 +41,7 @@ const SubProductSchema = z.object({
         .min(3, { message: 'Product Name must be at least 3 characters.' })
         .max(200, { message: 'Product Name cannot be more than 200 characters.' }),
 
-    product_description: z
+    description: z
         .string({
             required_error: 'Product description must be required!',
             invalid_type_error: 'Product description must be a String',
@@ -47,17 +50,25 @@ const SubProductSchema = z.object({
         .min(3, { message: 'Product description must be at least 3 characters.' })
         .max(200, { message: 'Product description cannot be more than 200 characters.' }),
 
-    sub_type: z
-        .string({
-            invalid_type_error: 'Product Sub-type must be a String',
-        })
-        .max(200, { message: 'Product Sub-type cannot be more than 200 characters.' }),
-
-    product_img: z.string({
+    image: z.string({
         invalid_type_error: 'Product Image must be a String',
     }),
 
-    product_price: z.object({
+    category: z
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for Category',
+        })
+        .optional(),
+
+    product: z
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for product',
+        })
+        .optional(),
+
+    price: z.object({
         quantity: z.number({
             invalid_type_error: 'Product Quantity must be a Number',
         }),
@@ -72,7 +83,7 @@ const SubProductSchema = z.object({
         }),
     }),
 
-    manufacturing_time: z.object({
+    timings: z.object({
         delivery_time: z.string({
             invalid_type_error: 'Product Delivery time must be a String',
         }),
@@ -81,45 +92,12 @@ const SubProductSchema = z.object({
         }),
     }),
 
-    product_specification: z.object({
-        system_area: z.object({
-            length: z.string(),
-            width: z.string(),
-            height: z.string(),
-        }),
-
-        suitable_cars: z.object({
-            length: z.string(),
-            width: z.string(),
-            height: z.string(),
-        }),
-
-        lifting_capacity: z.string(),
-        platform_length: z.string(),
-        platform_width: z.string(),
-        driving_unit: z.string(),
-        travel_speed: z.string(),
-
-        power_source: z.object({
-            main: z.string(),
-            lighting: z.string(),
-        }),
-
-        power_consumption: z.object({
-            single_unit: z.string(),
-            combined_units: z.string(),
-        }),
-
-        operation_control: z.string(),
-    }),
-
-    product_features: z.array(z.string()),
-
-    product_safety: z.object({
-        mechanical: z.string(),
-        hydraulic: z.string(),
-        electrical: z.string(),
-    }),
+    specifications: z
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for product',
+        })
+        .optional(),
 });
 
-module.exports = {SubProductSchema};
+module.exports = { SubProductSchema };

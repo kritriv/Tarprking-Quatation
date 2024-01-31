@@ -40,10 +40,32 @@ const ViewProduct = async ({ ProductId, Status, CreatedBy, Name, sort, select, p
         const { limit, offset } = limitOffsetPageNumber(page, size);
         apiData = apiData.skip(offset).limit(limit);
 
-        const Products = await apiData.populate('category').exec();
+        const Products = await apiData
+            .populate('category')
+            .populate({
+                path: 'sub_products',
+            })
+            .exec();
+
         return Products;
     } catch (error) {
         throw new Error('An error occurred while fetching products: ' + error.message);
+    }
+};
+
+const SingleProduct = async (id) => {
+    try {
+        const filter = { _id: new ObjectId(id) };
+        const result = await Product.findOne(filter)
+            .populate('category')
+            .populate({
+                path: 'sub_products',
+            })
+            .exec();
+            
+        return result;
+    } catch (error) {
+        throw new Error(`Error occurred while retrieving single product: ${error.message}`);
     }
 };
 
@@ -71,16 +93,6 @@ const AddProduct = async ({ product_status, product_name, createdby, product_des
         return result;
     } catch (error) {
         throw new Error(`Error occurred while adding product: ${error.message}`);
-    }
-};
-
-const SingleProduct = async (id) => {
-    try {
-        const filter = { _id: new ObjectId(id) };
-        const result = await Product.findOne(filter).populate('category').exec();
-        return result;
-    } catch (error) {
-        throw new Error(`Error occurred while retrieving single product: ${error.message}`);
     }
 };
 

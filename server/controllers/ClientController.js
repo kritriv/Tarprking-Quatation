@@ -140,7 +140,7 @@ const deleteSingleClient = async (req, res) => {
 
         handleApiResponse(res, 200, 'Client deleted successfully', {
             details: DeletedClientStatus,
-            data: formattedDeletedClient,
+            deleted: formattedDeletedClient,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;

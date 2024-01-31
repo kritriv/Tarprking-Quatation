@@ -17,8 +17,11 @@ const getAllProducts = async (req, res) => {
             CreatedBy: product.createdby.username,
             Name: product.product_name,
             Description: product.product_description,
-            Category: product.category.category_name,
-            SubProducts: product.sub_products,
+            Category: product.category ? product.category.category_name : null,
+            SubProducts: product.sub_products.map((subproduct) => ({
+                SubProductId: subproduct._id,
+                SubProductName: subproduct.name, 
+            })),
         }));
 
         handleApiResponse(res, 200, 'Products  fetched successfully', {
@@ -110,7 +113,7 @@ const deleteSingleProduct = async (req, res) => {
             Description: DeletedProductRes.product_description,
         };
         handleApiResponse(res, 200, 'Product deleted successfully', {
-            data: formattedProduct,
+            deleted: formattedProduct,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Product: ${error.message}`;

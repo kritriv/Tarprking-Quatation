@@ -24,6 +24,6 @@ router.post('/add-product', authMiddleware(getPermissions('HIGH')), validate(pro
 router.delete('/:id', authMiddleware(getPermissions('HIGH')), deleteSingleProduct);
 
 // To Update a Single Product Details
-router.put('/:id', authMiddleware(getPermissions('HIGH')), updateSingleProduct);
+router.put('/:id', authMiddleware(getPermissions('HIGH')), validate(productSchema), updateSingleProduct);
 
 module.exports = router;

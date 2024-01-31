@@ -110,7 +110,7 @@ const deleteSingleProductCategory = async (req, res) => {
         };
 
         handleApiResponse(res, 200, 'Category deleted successfully', {
-            data: formattedDeletedCategory,
+            deleted: formattedDeletedCategory,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Category: ${error.message}`;
