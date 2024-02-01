@@ -5,17 +5,17 @@ const { transformToJSON } = require('../utils/mongooseUtils');
 
 const ClientSchema = new Schema(
     {
-        client_status: {
+        status: {
             type: Boolean,
             default: true,
         },
-        client_username: {
+        username: {
             type: String,
             unique: true,
             validate: {
                 async validator(value) {
                     try {
-                        const existingClient = await this.constructor.findOne({ client_username: value });
+                        const existingClient = await this.constructor.findOne({ username: value });
                         return !existingClient || existingClient._id.equals(this._id);
                     } catch (error) {
                         throw new Error('Error occurred while validating username uniqueness');
@@ -30,13 +30,13 @@ const ClientSchema = new Schema(
             required: true,
             autopopulate: { select: '_id role username email' },
         },
-        client_name: {
+        name: {
             type: String,
         },
-        client_email: {
+        email: {
             type: String,
         },
-        contact_no: {
+        phone: {
             type: String,
         },
         gender: {
@@ -46,23 +46,23 @@ const ClientSchema = new Schema(
         age: {
             type: Number,
         },
-        site_address: {
+        company: {
             type: String,
         },
-        company_name: {
+        gst: {
             type: String,
         },
-        company_GST_no: {
-            type: String,
-        },
-        client_address: {
+        address: {
+            site: {
+                type: String,
+            },
             street: {
                 type: String,
             },
-            City: {
+            city: {
                 type: String,
             },
-            State: {
+            state: {
                 type: String,
             },
             pincode: {

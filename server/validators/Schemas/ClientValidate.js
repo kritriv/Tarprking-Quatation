@@ -1,13 +1,13 @@
 const z = require('zod');
 
 const ClientSchema = z.object({
-    client_status: z
+    status: z
         .boolean({
             invalid_type_error: 'Client Status must be a boolean',
         })
         .optional(),
 
-    client_username: z
+    username: z
         .string({
             invalid_type_error: 'Username must be a String',
             required_error: 'Username must be required!',
@@ -16,7 +16,13 @@ const ClientSchema = z.object({
         .min(5, { message: 'Username must be at least 5 characters.' })
         .max(16, { message: 'Username cannot be more than 16 characters.' }),
 
-    client_name: z
+    createdby: z
+        .string({
+            invalid_type_error: 'Created By must be a String',
+        })
+        .optional(),
+
+    name: z
         .string({
             invalid_type_error: 'Client Name must be a String',
         })
@@ -25,7 +31,7 @@ const ClientSchema = z.object({
         .max(100, { message: 'Name cannot be more than 100 characters.' })
         .optional(),
 
-    client_email: z
+    email: z
         .string({
             invalid_type_error: 'Email must be a Valid',
         })
@@ -33,7 +39,7 @@ const ClientSchema = z.object({
         .email({ message: 'Invalid email format!' })
         .optional(),
 
-    contact_no: z
+    phone: z
         .string({
             invalid_type_error: 'Contact number must be a string',
         })
@@ -62,13 +68,7 @@ const ClientSchema = z.object({
         })
         .optional(),
 
-    site_address: z
-        .string({
-            invalid_type_error: 'Company Name must be a String',
-        })
-        .optional(),
-
-    company_name: z
+    company: z
         .string({
             invalid_type_error: 'Company Name must be a String',
         })
@@ -77,7 +77,7 @@ const ClientSchema = z.object({
         .max(200, { message: 'Company Name cannot be more than 200 characters.' })
         .optional(),
 
-    company_GST_no: z
+    gst: z
         .string({
             invalid_type_error: 'Company GST No must be a String',
         })
@@ -86,8 +86,17 @@ const ClientSchema = z.object({
         .max(15, { message: 'GST number must not exceed 15 characters.' })
         .optional(),
 
-    client_address: z
+    address: z
         .object({
+            site: z
+                .string({
+                    invalid_type_error: 'Site must be a String',
+                })
+                .min(1, { message: 'Site cannot be empty.' })
+                .min(3, { message: 'Site must be at least 3 characters.' })
+                .max(200, { message: 'Site cannot be more than 200 characters.' })
+                .optional(),
+
             street: z
                 .string({
                     invalid_type_error: 'Street must be a String',
@@ -97,7 +106,7 @@ const ClientSchema = z.object({
                 .max(200, { message: 'Street cannot be more than 200 characters.' })
                 .optional(),
 
-            City: z
+            city: z
                 .string({
                     invalid_type_error: 'City must be a String',
                 })
@@ -106,7 +115,7 @@ const ClientSchema = z.object({
                 .max(50, { message: 'City cannot be more than 50 characters.' })
                 .optional(),
 
-            State: z
+            state: z
                 .string({
                     invalid_type_error: 'State must be a String',
                 })
@@ -131,12 +140,6 @@ const ClientSchema = z.object({
                 .min(3, { message: 'Country must be at least 3 characters.' })
                 .max(50, { message: 'Country cannot be more than 50 characters.' })
                 .optional(),
-        })
-        .optional(),
-
-    createdby: z
-        .string({
-            invalid_type_error: 'Created By must be a String',
         })
         .optional(),
 });

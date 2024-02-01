@@ -12,25 +12,25 @@ const getAllClients = async (req, res) => {
             return handleApiResponse(res, 404, 'Client Not found');
         }
 
-        const formattedClients = Clients.map((client) => ({
-            ClientId: client._id,
-            CreatedBy: client.createdby.username,
-            Status: client.client_status,
-            ClientUsername: client.client_username,
-            ClientName: client.client_name,
-            ClientEmail: client.client_email,
-            ContactNo: client.contact_no,
-            Gender: client.gender,
-            Age: client.age,
-            SiteAddress: client.site_address,
-            CompanyName: client.company_name,
-            GST: client.company_GST_no,
-            ClientAddress: {
-                Street: client.client_address.street,
-                City: client.client_address.City,
-                State: client.client_address.State,
-                Pincode: client.client_address.pincode,
-                Country: client.client_address.country,
+        const formattedClients = Clients.map((Client) => ({
+            ClientId: Client._id,
+            status: Client.status,
+            username: Client.username,
+            createdby: Client.createdby.username,
+            name: Client.name,
+            email: Client.email,
+            phone: Client.phone,
+            gender: Client.gender,
+            age: Client.age,
+            company: Client.company,
+            gst: Client.gst,
+            address: {
+                site: Client.address.site,
+                street: Client.address.street,
+                city: Client.address.city,
+                state: Client.address.state,
+                pincode: Client.address.pincode,
+                country: Client.address.country,
             },
         }));
 
@@ -56,23 +56,23 @@ const getSingleClient = async (req, res) => {
 
         const formattedClient = {
             ClientId: Client._id,
-            CreatedBy: Client.createdby.username,
-            Status: Client.client_status,
-            ClientUsername: Client.client_username,
-            ClientName: Client.client_name,
-            ClientEmail: Client.client_email,
-            ContactNo: Client.contact_no,
-            Gender: Client.gender,
-            Age: Client.age,
-            SiteAddress: Client.site_address,
-            CompanyName: Client.company_name,
-            GST: Client.company_GST_no,
-            ClientAddress: {
-                Street: Client.client_address.street,
-                City: Client.client_address.City,
-                State: Client.client_address.State,
-                Pincode: Client.client_address.pincode,
-                Country: Client.client_address.country,
+            status: Client.status,
+            username: Client.username,
+            createdby: Client.createdby.username,
+            name: Client.name,
+            email: Client.email,
+            phone: Client.phone,
+            gender: Client.gender,
+            age: Client.age,
+            company: Client.company,
+            gst: Client.gst,
+            address: {
+                site: Client.address.site,
+                street: Client.address.street,
+                city: Client.address.city,
+                state: Client.address.state,
+                pincode: Client.address.pincode,
+                country: Client.address.country,
             },
         };
 
@@ -94,13 +94,24 @@ const postSingleClient = async (req, res) => {
 
         const formattedClient = {
             ClientId: Client._id,
-            CreatedBy: Client.createdby.username,
-            ClientUsername: Client.client_username,
-            ClientName: Client.client_name,
-            ClientEmail: Client.client_email,
-            ContactNo: Client.contact_no,
-            CompanyName: Client.company_name,
-            GST: Client.company_GST_no,
+            status: Client.status,
+            username: Client.username,
+            createdby: Client.createdby.username,
+            name: Client.name,
+            email: Client.email,
+            phone: Client.phone,
+            gender: Client.gender,
+            age: Client.age,
+            company: Client.company,
+            gst: Client.gst,
+            address: {
+                site: Client.address.site,
+                street: Client.address.street,
+                city: Client.address.city,
+                state: Client.address.state,
+                pincode: Client.address.pincode,
+                country: Client.address.country,
+            },
         };
 
         handleApiResponse(res, 201, 'Client added successfully', {
@@ -123,24 +134,26 @@ const deleteSingleClient = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const DeletedClient = await SingleClient(id);
+        const Client = await SingleClient(id);
 
-        if (!DeletedClient) {
+        if (!Client) {
             return handleApiResponse(res, 404, 'Client not found, deletion unsuccessful');
         }
-        const formattedDeletedClient = {
-            username: DeletedClient.client_username,
-            ClientName: DeletedClient.client_name,
-            ClientEmail: DeletedClient.client_email,
-            ClientContact: DeletedClient.contact_no,
-            CompanyName: DeletedClient.company_name,
+        const ClientRes = await DeleteClient(id);
+
+        const formattedClient = {
+            ClientId: ClientRes._id,
+            username: ClientRes.username,
+            createdby: ClientRes.createdby.username,
+            name: ClientRes.name,
+            email: ClientRes.email,
+            phone: ClientRes.phone,
+            company: ClientRes.company,
+            gst: ClientRes.gst,
         };
 
-        const DeletedClientStatus = await DeleteClient(id);
-
         handleApiResponse(res, 200, 'Client deleted successfully', {
-            details: DeletedClientStatus,
-            deleted: formattedDeletedClient,
+            deleted: formattedClient,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;
@@ -155,20 +168,31 @@ const updateSingleClient = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateClientData = req.body;
-        const updatedClient = await UpdateClient(id, updateClientData);
+        const Client = await UpdateClient(id, updateClientData);
 
-        if (!updatedClient) {
+        if (!Client) {
             return handleApiResponse(res, 404, 'Client not found, update unsuccessful');
         }
         const formattedClient = {
             ClientId: Client._id,
-            CreatedBy: Client.createdby.username,
-            ClientUsername: Client.client_username,
-            ClientName: Client.client_name,
-            ClientEmail: Client.client_email,
-            ContactNo: Client.contact_no,
-            CompanyName: Client.company_name,
-            GST: Client.company_GST_no,
+            status: Client.status,
+            username: Client.username,
+            createdby: Client.createdby.username,
+            name: Client.name,
+            email: Client.email,
+            phone: Client.phone,
+            gender: Client.gender,
+            age: Client.age,
+            company: Client.company,
+            gst: Client.gst,
+            address: {
+                site: Client.address.site,
+                street: Client.address.street,
+                city: Client.address.city,
+                state: Client.address.state,
+                pincode: Client.address.pincode,
+                country: Client.address.country,
+            },
         };
         handleApiResponse(res, 200, 'Client updated successfully', {
             data: formattedClient,

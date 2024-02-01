@@ -3,55 +3,53 @@ const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
-const ViewClient = async ({ ClientId, CreatedBy, Status, ClientUsername, ClientName, ClientEmail, ContactNo, Gender, CompanyName, GST, City, Pincode, State, Country, sort, select, page = 1, size = 10 }) => {
+const ViewClient = async ({ id, createdby, status, username, name, email, phone, gender, company, gst, city, pincode, state, country, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (ClientId) {
-            queryObject._id = ClientId;
+        if (id) {
+            queryObject._id = id;
         }
-        if (CreatedBy) {
-            queryObject.createdby = CreatedBy;
+        if (status !== undefined) {
+            queryObject.status = status.toLowerCase() === 'true';
         }
-        if (Status !== undefined) {
-            queryObject.client_status = Status.toLowerCase() === 'true';
+        if (username) {
+            queryObject.username = { $regex: new RegExp(username, 'i') };
         }
-        if (ClientUsername) {
-            queryObject.client_username = {
-                $regex: new RegExp(ClientUsername, 'i'),
-            };
+        if (createdby) {
+            queryObject.createdby = createdby;
         }
-        if (ClientName) {
-            queryObject.client_name = { $regex: new RegExp(ClientName, 'i') };
+        if (name) {
+            queryObject.name = { $regex: new RegExp(name, 'i') };
         }
-        if (ClientEmail) {
-            queryObject.client_email = { $regex: new RegExp(ClientEmail, 'i') };
+        if (email) {
+            queryObject.email = { $regex: new RegExp(email, 'i') };
         }
-        if (ContactNo) {
-            queryObject.contact_no = ContactNo;
+        if (phone) {
+            queryObject.contact_no = { $regex: new RegExp(phone, 'i') };
         }
-        if (Gender) {
-            queryObject.gender = { $regex: new RegExp(Gender, 'i') };
+        if (gender) {
+            queryObject.gender = { $regex: new RegExp(gender, 'i') };
         }
-        if (CompanyName) {
-            queryObject.company_name = { $regex: new RegExp(CompanyName, 'i') };
+        if (company) {
+            queryObject.company = { $regex: new RegExp(company, 'i') };
         }
-        if (GST) {
-            queryObject.company_GST_no = { $regex: new RegExp(GST, 'i') };
+        if (gst) {
+            queryObject.gst = { $regex: new RegExp(gst, 'i') };
         }
-        if (City) {
-            queryObject['client_address.City'] = { $regex: new RegExp(City, 'i') };
+        if (city) {
+            queryObject['address.city'] = { $regex: new RegExp(city, 'i') };
         }
-        if (Pincode) {
-            queryObject['client_address.pincode'] = Pincode;
+        if (pincode) {
+            queryObject['address.pincode'] = pincode;
         }
-        if (State) {
-            queryObject['client_address.State'] = { $regex: new RegExp(State, 'i') };
+        if (state) {
+            queryObject['address.state'] = { $regex: new RegExp(state, 'i') };
         }
-        if (Country) {
-            queryObject['client_address.country'] = { $regex: new RegExp(Country, 'i') };
+        if (country) {
+            queryObject['address.country'] = { $regex: new RegExp(country, 'i') };
         }
 
         let apiData = Client.find(queryObject);
@@ -107,7 +105,7 @@ const DeleteClient = async (id) => {
             throw new Error('Invalid ID format');
         }
         const filter = { _id: new ObjectId(id) };
-        const result = await Client.deleteOne(filter);
+        const result = await Client.findByIdAndDelete(filter);
         return result;
     } catch (error) {
         throw new Error(`Error occurred while deleting Client: ${error.message}`);
