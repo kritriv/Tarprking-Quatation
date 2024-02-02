@@ -5,26 +5,26 @@ const { idSchema } = require('../validators/Schemas');
 // To get All Users list
 const getAllUsers = async (req, res) => {
     try {
-        const Users = await ViewUser(req.query);
+        const users = await ViewUser(req.query);
 
-        if (!Users || Users.length === 0) {
-            return handleApiResponse(res, 404, 'Users Not found');
+        if (!users.length) {
+            return handleApiResponse(res, 404, 'Users not found');
         }
 
-        const formattedUsers = Users.map((user) => ({
-            id: user._id,
-            username: user.username,
-            email: user.email,
-            password: user.password,
-            role: user.role,
+        const formattedUsers = users.map(({ _id, username, email, role, password }) => ({
+            id: _id,
+            username,
+            email,
+            password,
+            role,
         }));
 
         handleApiResponse(res, 200, 'Users fetched successfully', {
             data: formattedUsers,
-            nbHits: Users.length,
+            nbHits: users.length,
         });
     } catch (error) {
-        handleApiResponse(res, 500, 'An error occurred while fetching users', { error: error.message });
+        handleApiResponse(res, 500, 'Error fetching users', { error: error.message });
     }
 };
 
@@ -51,7 +51,7 @@ const getSingleUser = async (req, res) => {
             nbHits: 1,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the single Client: ${error.message}`;
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while fetching the single User: ${error.message}`;
         handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
     }
 };
