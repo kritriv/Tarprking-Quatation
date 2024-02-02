@@ -1,25 +1,26 @@
 const ProductCategory = require('../models/ProductCategoryModel');
 const Product = require('../models/ProductModel');
+const User = require('../models/UserModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
-const ViewProductCategory = async ({ CategoryId, Status, CreatedBy, Name, sort, select, page = 1, size = 5 }) => {
+const ViewProductCategory = async ({ id, status, createdby, name, sort, select, page = 1, size = 5 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (CategoryId) {
-            queryObject._id = CategoryId;
+        if (id) {
+            queryObject._id = id;
         }
-        if (Status !== undefined) {
-            queryObject.category_status = Status.toLowerCase() === 'true';
+        if (status !== undefined) {
+            queryObject.status = status.toLowerCase() === 'true';
         }
-        if (CreatedBy) {
-            queryObject.createdby = CreatedBy;
+        if (createdby) {
+            queryObject.createdby = createdby;
         }
-        if (Name) {
-            queryObject.category_name = { $regex: new RegExp(Name, 'i') };
+        if (name) {
+            queryObject.name = { $regex: new RegExp(name, 'i') };
         }
 
         // ======== Short , Select ======
@@ -47,13 +48,19 @@ const ViewProductCategory = async ({ CategoryId, Status, CreatedBy, Name, sort, 
     }
 };
 
-const AddProductCategory = async ({ category_name, createdby, category_description, category_status }) => {
+const AddProductCategory = async ({ status, createdby, name, description }) => {
     try {
+        const existingUser = await User.findById(createdby);
+
+        if (!existingUser) {
+            throw new Error('User not found');
+        }
+
         const newProductCategory = new ProductCategory({
-            category_name,
+            status,
             createdby,
-            category_description,
-            category_status,
+            name,
+            description,
         });
 
         const result = await ProductCategory(newProductCategory).save();

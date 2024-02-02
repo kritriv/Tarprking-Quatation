@@ -17,8 +17,9 @@ const ClientSchema = z.object({
         .max(16, { message: 'Username cannot be more than 16 characters.' }),
 
     createdby: z
-        .string({
-            invalid_type_error: 'Created By must be a String',
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for Createdby',
         })
         .optional(),
 

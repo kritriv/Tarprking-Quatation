@@ -5,7 +5,7 @@ const { transformToJSON } = require('../utils/mongooseUtils');
 
 const ProductSchema = new Schema(
     {
-        product_status: {
+        status: {
             type: Boolean,
             default: true,
         },
@@ -15,13 +15,13 @@ const ProductSchema = new Schema(
             required: true,
             autopopulate: { select: '_id role username email' },
         },
-        product_name: {
+        name: {
             type: String,
             unique: true,
             validate: {
                 async validator(value) {
                     try {
-                        const existingProduct = await this.constructor.findOne({ product_name: value });
+                        const existingProduct = await this.constructor.findOne({ name: value });
                         return !existingProduct || existingProduct._id.equals(this._id);
                     } catch (error) {
                         throw new Error('Error occurred while validating Category uniqueness');
@@ -30,13 +30,13 @@ const ProductSchema = new Schema(
                 message: 'Product with this name already exists',
             },
         },
-        product_description: {
+        description: {
             type: String,
         },
         category: {
             type: Schema.Types.ObjectId,
             ref: 'ProductCategory',
-            autopopulate: { select: '_id category_name' },
+            autopopulate: { select: '_id name' },
         },
         sub_products: [{ type: Schema.Types.ObjectId, ref: 'SubProduct' }],
     },
@@ -45,6 +45,6 @@ const ProductSchema = new Schema(
 );
 
 ProductSchema.plugin(autopopulate);
-transformToJSON(ProductSchema, 'ProductId');
+transformToJSON(ProductSchema, 'id');
 const Product = mongoose.model('Product', ProductSchema);
 module.exports = Product;

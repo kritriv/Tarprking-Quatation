@@ -36,7 +36,7 @@ const userSchema = new Schema(
     { timestamps: true },
 );
 
-transformToJSON(userSchema, 'UserId');
+transformToJSON(userSchema, 'id');
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

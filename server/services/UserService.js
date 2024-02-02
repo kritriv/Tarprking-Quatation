@@ -2,11 +2,15 @@ const User = require('../models/UserModel');
 const { ObjectId } = require('mongodb');
 const {limitOffsetPageNumber} = require('../utils/pagination');
 
-const ViewUser = async ({  username, role, email, sort, select, page = 1, size = 10 }) => {
+const ViewUser = async ({ id, username, role, email, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
+
+        if (id) {
+            queryObject._id = id;
+        }
 
         if (username) {
             queryObject.username = { $regex: new RegExp(username, 'i') };

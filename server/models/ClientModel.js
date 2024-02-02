@@ -77,7 +77,7 @@ const ClientSchema = new Schema(
 );
 
 ClientSchema.plugin(autopopulate);
-transformToJSON(ClientSchema, 'ClientId');
+transformToJSON(ClientSchema, 'id');
 const Client = mongoose.model('Client', ClientSchema);
 
 module.exports = Client;

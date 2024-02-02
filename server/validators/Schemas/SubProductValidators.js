@@ -16,7 +16,7 @@ const SubProductSchema = z.object({
         .min(3, { message: 'Sub Product Model must be at least 3 characters.' })
         .max(100, { message: 'Sub Product Model cannot be more than 100 characters.' }),
 
-    HSN_no: z
+    hsn: z
         .string({
             required_error: 'Product HSN must be required!',
             invalid_type_error: 'Product HSN must be a String',

@@ -5,13 +5,23 @@ const { transformToJSON } = require('../utils/mongooseUtils');
 
 const ProductCategorySchema = new Schema(
     {
-        category_name: {
+        status: {
+            type: Boolean,
+            default: true,
+        },
+        createdby: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+            autopopulate: { select: '_id role username email' },
+        },
+        name: {
             type: String,
             unique: true,
             validate: {
                 async validator(value) {
                     try {
-                        const existingCategory = await this.constructor.findOne({ category_name: value });
+                        const existingCategory = await this.constructor.findOne({ name: value });
                         return !existingCategory || existingCategory._id.equals(this._id);
                     } catch (error) {
                         throw new Error('Error occurred while validating Category uniqueness');
@@ -20,18 +30,8 @@ const ProductCategorySchema = new Schema(
                 message: 'Category with this name already exists',
             },
         },
-        createdby: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User',
-            required: true,
-            autopopulate: { select: '_id role username email' },
-        },
-        category_description: {
+        description: {
             type: String,
-        },
-        category_status: {
-            type: Boolean,
-            default: true,
         },
         products: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
     },
@@ -39,6 +39,6 @@ const ProductCategorySchema = new Schema(
 );
 
 ProductCategorySchema.plugin(autopopulate);
-transformToJSON(ProductCategorySchema, 'CategoryId');
+transformToJSON(ProductCategorySchema, 'id');
 const ProductCategory = mongoose.model('ProductCategory', ProductCategorySchema);
 module.exports = ProductCategory;

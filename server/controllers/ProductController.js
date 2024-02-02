@@ -12,15 +12,15 @@ const getAllProducts = async (req, res) => {
         }
 
         const formattedProduct = Products.map((product) => ({
-            ProductId: product._id,
-            Status: product.product_status,
-            CreatedBy: product.createdby.username,
-            Name: product.product_name,
-            Description: product.product_description,
-            Category: product.category ? product.category.category_name : null,
-            SubProducts: product.sub_products.map((subproduct) => ({
-                SubProductId: subproduct._id,
-                SubProductName: subproduct.name, 
+            id: product._id,
+            status: product.status,
+            createdby: product.createdby.username,
+            name: product.name,
+            description: product.description,
+            category: product.category.name,
+            subproducts: product.sub_products.map((subproduct) => ({
+                id: subproduct._id,
+                name: subproduct.name,
             })),
         }));
 
@@ -43,13 +43,16 @@ const getSingleProduct = async (req, res) => {
             return handleApiResponse(res, 404, 'Product not found');
         }
         const formattedProduct = {
-            ProductId: Product._id,
-            Status: Product.product_status,
-            CreatedBy: Product.createdby.username,
-            Name: Product.product_name,
-            Description: Product.product_description,
-            Category: Product.category.category_name,
-            SubProducts: Product.sub_products,
+            id: Product._id,
+            status: Product.status,
+            createdby: Product.createdby.username,
+            name: Product.name,
+            description: Product.description,
+            category: Product.category.name,
+            subproducts: Product.sub_products.map((subproduct) => ({
+                id: subproduct._id,
+                name: subproduct.name,
+            })),
         };
 
         handleApiResponse(res, 200, 'Product  details fetched successfully', {
@@ -65,16 +68,14 @@ const getSingleProduct = async (req, res) => {
 // To Add a Product to Products list
 const postSingleProduct = async (req, res) => {
     try {
-        const product = await AddProduct(req.body);
-
+        const Product = await AddProduct(req.body);
         const formattedProduct = {
-            ProductId: product._id,
-            Status: product.product_status,
-            CreatedBy: product.createdby.username,
-            Name: product.product_name,
-            Description: product.product_description,
-            Category: product.category.category_name,
-            SubProducts: product.sub_products,
+            id: Product._id,
+            status: Product.status,
+            createdby: Product.createdby.username,
+            name: Product.name,
+            description: Product.description,
+            category: Product.category.name,
         };
 
         handleApiResponse(res, 201, 'Product added successfully', {
@@ -88,6 +89,8 @@ const postSingleProduct = async (req, res) => {
             handleApiResponse(res, 400, errorMessage, error);
         } else if (error.message.includes('Category not found')) {
             handleApiResponse(res, 404, 'Category not found', { error: error.message });
+        } else if (error.message.includes('User not found')) {
+            handleApiResponse(res, 404, 'User not found', { error: error.message });
         } else {
             handleApiResponse(res, error.status || 500, error.message || 'Internal server error');
         }
@@ -109,8 +112,9 @@ const deleteSingleProduct = async (req, res) => {
         const DeletedProductRes = await DeleteProduct(id);
 
         const formattedProduct = {
-            Name: DeletedProductRes.product_name,
-            Description: DeletedProductRes.product_description,
+            id: DeletedProductRes._id,
+            name: DeletedProductRes.name,
+            description: DeletedProductRes.description,
         };
         handleApiResponse(res, 200, 'Product deleted successfully', {
             deleted: formattedProduct,
@@ -134,13 +138,12 @@ const updateSingleProduct = async (req, res) => {
             return res.status(404).json({ message: 'Product not found, update unsuccessful' });
         }
         const formattedProduct = {
-            ProductId: updatedProduct._id,
-            Status: updatedProduct.product_status,
-            CreatedBy: updatedProduct.createdby.username,
-            Name: updatedProduct.product_name,
-            Description: updatedProduct.product_description,
-            Category: product.category,
-            SubProducts: updatedProduct.sub_products,
+            id: Product._id,
+            status: Product.status,
+            createdby: Product.createdby.username,
+            name: Product.name,
+            description: Product.description,
+            category: Product.category.name,
         };
 
         handleApiResponse(res, 200, 'Product updated successfully', {

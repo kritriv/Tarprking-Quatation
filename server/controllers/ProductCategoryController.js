@@ -10,14 +10,14 @@ const getAllProductCategorys = async (req, res) => {
             return handleApiResponse(res, 404, 'Category not found');
         }
         const formattedCategory = ProductCategory.map((category) => ({
-            CategoryId: category._id,
-            Status: category.category_status,
-            CreatedBy: category.createdby.username,
-            Name: category.category_name,
-            Description: category.category_description,
-            Products: category.products.map((product) => ({
-                ProductId: product._id,
-                ProductName: product.product_name,
+            id: category._id,
+            status: category.status,
+            createdby: category.createdby.username,
+            name: category.name,
+            description: category.description,
+            products: category.products.map((product) => ({
+                id: product._id,
+                name: product.name,
             })),
         }));
 
@@ -41,14 +41,14 @@ const getSingleProductCategory = async (req, res) => {
             return handleApiResponse(res, 404, 'Category not found');
         }
         const formattedCategory = {
-            CategoryId: ProductCategory._id,
-            Status: ProductCategory.category_status,
-            CreatedBy: ProductCategory.createdby.username,
-            Name: ProductCategory.category_name,
-            Description: ProductCategory.category_description,
-            Products: ProductCategory.products.map((product) => ({
-                ProductId: product._id,
-                ProductName: product.product_name,
+            id: ProductCategory._id,
+            status: ProductCategory.status,
+            createdby: ProductCategory.createdby.username,
+            name: ProductCategory.name,
+            description: ProductCategory.description,
+            products: ProductCategory.products.map((product) => ({
+                id: product._id,
+                name: product.name,
             })),
         };
 
@@ -69,14 +69,14 @@ const postSingleProductCategory = async (req, res) => {
         const ProductCategory = await AddProductCategory(req.body);
 
         const formattedCategory = {
-            CategoryId: ProductCategory._id,
-            Status: ProductCategory.category_status,
-            CreatedBy: ProductCategory.createdby.username,
-            Name: ProductCategory.category_name,
-            Description: ProductCategory.category_description,
-            Products: ProductCategory.products.map((product) => ({
-                ProductId: product._id,
-                ProductName: product.product_name,
+            id: ProductCategory._id,
+            status: ProductCategory.status,
+            createdby: ProductCategory.createdby.username,
+            name: ProductCategory.name,
+            description: ProductCategory.description,
+            products: ProductCategory.products.map((product) => ({
+                id: product._id,
+                name: product.name,
             })),
         };
 
@@ -84,8 +84,11 @@ const postSingleProductCategory = async (req, res) => {
             data: formattedCategory,
         });
     } catch (error) {
+        console.log(error);
         if (error.message.includes('Category with this name already exists')) {
             handleApiResponse(res, 400, 'Category with this name already exists');
+        } else if (error.message.includes('ObjectId failed' && 'User')) {
+            handleApiResponse(res, 404, 'User not found', { error: error.message });
         } else {
             handleApiResponse(res, error.status || 500, error.message || 'Internal server error');
         }
@@ -105,8 +108,9 @@ const deleteSingleProductCategory = async (req, res) => {
         const DeletedCategoryRes = await DeleteProductCategory(id);
 
         const formattedDeletedCategory = {
-            Name: DeletedCategoryRes.category_name,
-            Descriptioon: DeletedCategoryRes.category_description,
+            id: DeletedCategoryRes._id,
+            name: DeletedCategoryRes.name,
+            description: DeletedCategoryRes.description,
         };
 
         handleApiResponse(res, 200, 'Category deleted successfully', {
@@ -131,14 +135,14 @@ const updateSingleProductCategory = async (req, res) => {
             return handleApiResponse(res, 404, 'Product Category not found, update unsuccessful');
         }
         const formattedCategory = {
-            CategoryId: ProductCategory._id,
-            Status: ProductCategory.category_status,
-            CreatedBy: ProductCategory.createdby.username,
-            Name: ProductCategory.category_name,
-            Description: ProductCategory.category_description,
-            Products: ProductCategory.products.map((product) => ({
-                ProductId: product._id,
-                ProductName: product.product_name,
+            id: ProductCategory._id,
+            status: ProductCategory.status,
+            createdby: ProductCategory.createdby.username,
+            name: ProductCategory.name,
+            description: ProductCategory.description,
+            products: ProductCategory.products.map((product) => ({
+                id: product._id,
+                name: product.name,
             })),
         };
 

@@ -1,25 +1,26 @@
 const Product = require('../models/ProductModel');
 const ProductCategory = require('../models/ProductCategoryModel');
+const User = require('../models/UserModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
-const ViewProduct = async ({ ProductId, Status, CreatedBy, Name, sort, select, page = 1, size = 10 }) => {
+const ViewProduct = async ({ id, status, createdby, name, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (ProductId) {
-            queryObject._id = ProductId;
+        if (id) {
+            queryObject._id = id;
         }
-        if (Status !== undefined) {
-            queryObject.product_status = Status.toLowerCase() === 'true';
+        if (status !== undefined) {
+            queryObject.status = status.toLowerCase() === 'true';
         }
-        if (CreatedBy) {
-            queryObject.createdby = CreatedBy;
+        if (createdby) {
+            queryObject.createdby = createdby;
         }
-        if (Name) {
-            queryObject.product_name = { $regex: new RegExp(Name, 'i') };
+        if (name) {
+            queryObject.name = { $regex: new RegExp(name, 'i') };
         }
 
         let apiData = Product.find(queryObject);
@@ -62,15 +63,21 @@ const SingleProduct = async (id) => {
                 path: 'sub_products',
             })
             .exec();
-            
+
         return result;
     } catch (error) {
         throw new Error(`Error occurred while retrieving single product: ${error.message}`);
     }
 };
 
-const AddProduct = async ({ product_status, product_name, createdby, product_description, category, sub_products }) => {
+const AddProduct = async ({ status, name, createdby, description, category, sub_products }) => {
     try {
+        const existingUser = await User.findById(createdby);
+
+        if (!existingUser) {
+            throw new Error('User not found');
+        }
+
         const existingCategory = await ProductCategory.findById(category);
 
         if (!existingCategory) {
@@ -78,10 +85,10 @@ const AddProduct = async ({ product_status, product_name, createdby, product_des
         }
 
         const newProduct = new Product({
-            product_status,
-            product_name,
+            status,
+            name,
             createdby,
-            product_description,
+            description,
             category,
             sub_products,
         });

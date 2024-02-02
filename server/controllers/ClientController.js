@@ -13,7 +13,7 @@ const getAllClients = async (req, res) => {
         }
 
         const formattedClients = Clients.map((Client) => ({
-            ClientId: Client._id,
+            id: Client._id,
             status: Client.status,
             username: Client.username,
             createdby: Client.createdby.username,
@@ -55,7 +55,7 @@ const getSingleClient = async (req, res) => {
         }
 
         const formattedClient = {
-            ClientId: Client._id,
+            id: Client._id,
             status: Client.status,
             username: Client.username,
             createdby: Client.createdby.username,
@@ -93,7 +93,7 @@ const postSingleClient = async (req, res) => {
         const Client = await AddClient(data);
 
         const formattedClient = {
-            ClientId: Client._id,
+            id: Client._id,
             status: Client.status,
             username: Client.username,
             createdby: Client.createdby.username,
@@ -142,7 +142,7 @@ const deleteSingleClient = async (req, res) => {
         const ClientRes = await DeleteClient(id);
 
         const formattedClient = {
-            ClientId: ClientRes._id,
+            id: ClientRes._id,
             username: ClientRes.username,
             createdby: ClientRes.createdby.username,
             name: ClientRes.name,
@@ -174,7 +174,7 @@ const updateSingleClient = async (req, res) => {
             return handleApiResponse(res, 404, 'Client not found, update unsuccessful');
         }
         const formattedClient = {
-            ClientId: Client._id,
+            id: Client._id,
             status: Client.status,
             username: Client.username,
             createdby: Client.createdby.username,

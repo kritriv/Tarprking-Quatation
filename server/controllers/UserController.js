@@ -12,7 +12,7 @@ const getAllUsers = async (req, res) => {
         }
 
         const formattedUsers = Users.map((user) => ({
-            UserId: user._id,
+            id: user._id,
             username: user.username,
             email: user.email,
             password: user.password,
@@ -39,7 +39,7 @@ const getSingleUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
         const formattedUser = {
-            UserId: User._id,
+            id: User._id,
             username: User.username,
             email: User.email,
             password: User.password,
@@ -63,7 +63,7 @@ const postSingleUser = async (req, res) => {
         const User = await AddUser(data);
 
         const formattedUser = {
-            UserId: User._id,
+            id: User._id,
             username: User.username,
             email: User.email,
             password: User.password,

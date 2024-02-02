@@ -11,11 +11,13 @@ const getAllSubProducts = async (req, res) => {
         }
 
         const formattedSubProduct = SubProducts.map((SubProduct) => ({
-            SubProductId: SubProduct._id,
+            id: SubProduct._id,
             status: SubProduct.status,
             createdby: SubProduct.createdby.username,
-            category: SubProduct.category.category_name,
-            main_product: SubProduct.product.product_name,
+            category: SubProduct.category.name,
+            main_product: SubProduct.product.name,
+            model: SubProduct.model_no,
+            hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
             image: SubProduct.image,
@@ -51,11 +53,13 @@ const getSingleSubProduct = async (req, res) => {
             return handleApiResponse(res, 404, 'Sub Product not found');
         }
         const formattedSubProduct = {
-            SubProductId: SubProduct._id,
+            id: SubProduct._id,
             status: SubProduct.status,
             createdby: SubProduct.createdby.username,
-            category: SubProduct.category.category_name,
-            main_product: SubProduct.product.product_name,
+            category: SubProduct.category.name,
+            main_product: SubProduct.product.name,
+            model: SubProduct.model_no,
+            hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
             image: SubProduct.image,
@@ -87,11 +91,13 @@ const postSingleSubProduct = async (req, res) => {
         const SubProduct = await AddSubProduct(req.body);
 
         const formattedSubProduct = {
-            SubProductId: SubProduct._id,
+            id: SubProduct._id,
             status: SubProduct.status,
             createdby: SubProduct.createdby.username,
-            category: SubProduct.category.category_name,
-            main_product: SubProduct.product.product_name,
+            category: SubProduct.category.name,
+            main_product: SubProduct.product.name,
+            model: SubProduct.model_no,
+            hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
             image: SubProduct.image,
@@ -136,9 +142,10 @@ const deleteSingleSubProduct = async (req, res) => {
         const SubProductRes = await DeleteSubProduct(id);
 
         const formattedSubProduct = {
-            SubProductId: SubProductRes._id,
-            category: SubProductRes.category.category_name,
-            main_product: SubProductRes.product.product_name,
+            id: SubProductRes._id,
+            status: SubProductRes.status,
+            model: SubProductRes.model_no,
+            hsn: SubProductRes.hsn,
             name: SubProductRes.name,
             description: SubProductRes.description,
         };
@@ -165,11 +172,13 @@ const updateSingleSubProduct = async (req, res) => {
             return handleApiResponse(res, 404, 'Sub Product not found, update unsuccessful');
         }
         const formattedSubProduct = {
-            SubProductId: SubProduct._id,
+            id: SubProduct._id,
             status: SubProduct.status,
             createdby: SubProduct.createdby.username,
-            category: SubProduct.category.category_name,
-            main_product: SubProduct.product.product_name,
+            category: SubProduct.category.name,
+            main_product: SubProduct.product.name,
+            model: SubProduct.model_no,
+            hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
             image: SubProduct.image,

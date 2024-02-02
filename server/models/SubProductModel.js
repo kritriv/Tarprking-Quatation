@@ -20,12 +20,12 @@ const SubProductSchema = new Schema(
                 message: 'Sub Product with this ModelNo already exists',
             },
         },
-        HSN_no: {
+        hsn: {
             type: String,
             unique: true,
             validate: {
                 validator: async function (value) {
-                    const existingProduct = await this.constructor.findOne({ HSN_no: value });
+                    const existingProduct = await this.constructor.findOne({ hsn: value });
                     return !existingProduct || existingProduct._id.equals(this._id);
                 },
                 message: 'Sub Product with this HSN already exists',
@@ -59,13 +59,13 @@ const SubProductSchema = new Schema(
             type: mongoose.Schema.ObjectId,
             ref: 'ProductCategory',
             required: true,
-            autopopulate: { select: '_id category_name category_description -createdby' },
+            autopopulate: { select: '_id name description -createdby' },
         },
         product: {
             type: mongoose.Schema.ObjectId,
             ref: 'Product',
             required: true,
-            autopopulate: { select: '_id product_name' },
+            autopopulate: { select: '_id name' },
         },
         price: {
             quantity: {
@@ -102,6 +102,6 @@ const SubProductSchema = new Schema(
 );
 
 SubProductSchema.plugin(autopopulate);
-transformToJSON(SubProductSchema, 'SubProductId');
+transformToJSON(SubProductSchema, 'id');
 const SubProduct = mongoose.model('SubProduct', SubProductSchema);
 module.exports = SubProduct;

@@ -4,14 +4,14 @@ const SubProduct = require('../models/SubProductModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
-const ViewSubProduct = async ({ SubProductId, status, createdby, category, main_product, name, sort, select, page = 1, size = 10 }) => {
+const ViewSubProduct = async ({ id, status, createdby, category, main_product, model_no, hsn, name, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
         // ======= Filters Queries =======
 
-        if (SubProductId) {
-            queryObject._id = SubProductId;
+        if (id) {
+            queryObject._id = id;
         }
         if (status !== undefined) {
             queryObject.status = status.toLowerCase() === 'true';
@@ -24,6 +24,12 @@ const ViewSubProduct = async ({ SubProductId, status, createdby, category, main_
         }
         if (main_product) {
             queryObject.main_product = main_product;
+        }
+        if (model_no) {
+            queryObject.model_no = { $regex: new RegExp(model_no, 'i') };
+        }
+        if (hsn) {
+            queryObject.hsn = { $regex: new RegExp(hsn, 'i') };
         }
         if (name) {
             queryObject.name = { $regex: new RegExp(name, 'i') };
@@ -69,14 +75,14 @@ const SingleSubProduct = async (id) => {
                 path: 'category',
             })
             .exec();
-            
+
         return result;
     } catch (error) {
         throw new Error(`Error occurred while retrieving single SubProduct: ${error.message}`);
     }
 };
 
-const AddSubProduct = async ({ model_no, HSN_no, status, createdby, category, product, name, description, image, price, timings }) => {
+const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, image, price, timings }) => {
     try {
         const existingCategory = await ProductCategory.findById(category);
 
@@ -92,7 +98,7 @@ const AddSubProduct = async ({ model_no, HSN_no, status, createdby, category, pr
 
         const newSubProduct = new SubProduct({
             model_no,
-            HSN_no,
+            hsn,
             status,
             createdby,
             category,

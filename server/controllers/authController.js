@@ -31,7 +31,7 @@ const register = async (req, res) => {
         const savedUser = await newUser.save();
 
         const formattedUser = {
-            UserId: savedUser._id,
+            id: savedUser._id,
             username: savedUser.username,
             email: savedUser.email,
             password: savedUser.password,
@@ -64,7 +64,7 @@ const login = async (req, res) => {
         }
         //generate access token..
         const accessToken = await generateAccessToken(user._id, user.role);
-        return handleApiResponse(res, 200, 'Login successfully.', { UserId: user._id, userRole: user.role, accessToken: accessToken });
+        return handleApiResponse(res, 200, 'Login successfully.', { id: user._id, role: user.role, accessToken: accessToken });
     } catch (error) {
         handleApiResponse(res, 500, 'Internal Server Error');
     }
