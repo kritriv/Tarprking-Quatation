@@ -1,0 +1,14 @@
+[
+    {
+        "status": true,
+        "createdby": "65bc74363ac56f4a93563c3w",
+        "name": "Parking System",
+        "description": "This category only for Parking System manufacturing"
+    },
+    {
+        "status": false,
+        "createdby": "65bc74363ac56f4a93563c3w",
+        "name": "Other System",
+        "description": "This category only for Other System manufacturing"
+    }
+]

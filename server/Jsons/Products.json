@@ -1,61 +1,16 @@
 [
   {
-    "product_id": "101",
-    "product_HSN": "567836",
-    "product_status": true,
-    "admin_create_username": "admin",
-    "product_name": "Bike Car Parking System",
-    "product_description": "Bike Car Parking System is two level Parking system",
-    "sub_type": "Bike Parking System Hydraulic",
-    "product_img": "https://www.tarparking.com/tarparking-assets/parking-product/Bike-parking-02.webp",
-    "product_price": {
-      "quantity": 1,
-      "basic_rate": 170000,
-      "installation_charges": 10000,
-      "taxRate": 0, 
-      "subTotal": 180000, 
-      "taxTotal": 0, 
-      "total_price": 180000 
-    },
-    "product_specification": {
-      "system_area": {
-        "length": "5000",
-        "width": "2500",
-        "height": "3350 to 3900 (As per site)"
-      },
-      "suitable_cars": {
-        "length": "4500",
-        "width": "2000",
-        "height": "(As per site)"
-      },
-      "lifting_capacity": "2000",
-      "platform_length": "4250",
-      "platform_width": "2100",
-      "driving_unit": "Power Pack 3 HP/Double Cylinder with Chain Drive",
-      "travel_speed": "3m/min",
-      "power_source": {
-        "main": "AC 415V, 3PH,50HZ",
-        "lighting": "AC 220V, 1PH,50HZ"
-      },
-      "power_consumption": {
-        "single_unit": "1.5kw",
-        "combined_units": "2.5kw for 2-6"
-      },
-      "operation_control": "Push Button Control / Contactor Type"
-    },
-    "product_features": [
-      "Double Cylinder & Double Chain Mechanism / Creation of Additional Car Parking space",
-      "Rugged Design",
-      "Corrosion Resistant Coating",
-      "Silent Operation / Virtually Maintenance Free",
-      "Can be Dismantled & Relocated",
-      "Extra Features for Safety",
-      "Quick Installation"
-    ],
-    "product_safety": {
-      "mechanical": "Car Stopper /Barrier /pallet slope/chequered or bubble type GI sheet use for wheel friction/ Guide shoe/Zinc plating of machining items for corrosion.",
-      "hydraulic": "Manually operated 2/2 Solenoid coil for lower lifting if power failure, Flow control for speed control, Pressure flow control valve, Pressure meter",
-      "electrical": "Phase reversal/ 3 phase Indicator/ Emergency stop Switch / Limit Switch/ key oriented operating switch for misuse stop/electro magnet lock."
-    }
+    "status": true,
+    "createdby": "65bc74363ac56f4a93563c3c",
+    "name": "Stack Car Parking System",
+    "description": "Stack Car Parking System is two level Parking system",
+    "category": "65bc7d4e020a5888bcd5b61c"
+  },
+  {
+    "status": true,
+    "createdby": "65bc74363ac56f4a93563c3c",
+    "name": "Puzzle Car Parking System",
+    "description": "Puzzle Car Parking System is two level Parking system",
+    "category": "65bc7d4e020a5888bcd5b61c"
   }
 ]

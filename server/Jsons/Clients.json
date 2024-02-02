@@ -1,0 +1,22 @@
+[
+  {
+    "status": true,
+    "username": "vishh",
+    "createdby": "65bc740d3ac56f4a93563c38",
+    "name": "Vishal Saraiwal",
+    "email": "vishal@gmail.com",
+    "phone": "9193378534",
+    "gender": "Male",
+    "age": 22,
+    "company": "Naestinn",
+    "gst": "250036751856fff",
+    "address": {
+      "site": "Plot no 14 meerut",
+      "street": "Friends Colont",
+      "city": "Meerut",
+      "state": "Uttar Pradesh",
+      "pincode": 250001,
+      "country": "India"
+    }
+  }
+]

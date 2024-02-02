@@ -1,0 +1,34 @@
+[
+    {
+        "system_module": "Puzzle car parking 6 grid and 5 rows for SUV",
+        "system_area": "6000 x 10300 - 9300 (As per Plan Layout)",
+        "car_size": "6000 x 10300 - 9300 (As per Plan Layout)",
+        "lifting_capacity": "2000KG",
+        "lifting_height": {
+            "top": 1700,
+            "ground": 2000
+        },
+        "platform": {
+            "lenght": 4250,
+            "width": 2100
+        },
+        "power": "AC, 415V, 50HZ, 3Phase",
+        "driving_unit": "Helical brake geared motor 2.2kw for lifting & 0.2kw for slidig, Wire Rope & Chain",
+        "travelling_speed": {
+            "lifting": "0.1 m/s",
+            "horizontal": "0.125 m/s"
+        },
+        "material_delivery": "3-4 Months after PO & advance clearance.",
+        "installation": "1-2 Months after site clearance.",
+        "safety": [
+            "Mechanical-Car Stopper/pallet slope/mechanical lock/chequered sheet for wheel friction/Guide shoe/Guiderail.",
+            "Electrical- Emergency stop Switch / helical brake geared motor/sensor/Limit Switch."
+        ],
+        "features": [
+            "Creation of Additional Car Parking space/Rugged Design/Corrosion Resistant Coating.",
+            "Silent Operation / Virtually Maintenance Free /Extra Features for Safety."
+        ],
+        "amc": "1 Year free. Then chargeable.",
+        "material_quality": "International standard ISO 9001:2015, ISO 14001:2015, ISO 45001: 2018. CERTIFIED AND LAB TESTED"
+    }
+]
