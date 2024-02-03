@@ -10,7 +10,7 @@ const SpecificationSchema = new Schema(
             ref: 'SubProduct',
             // required: true,
             unique: true,
-            autopopulate: true,
+            autopopulate: { select: '_id name' },
             validate: {
                 validator: async function (value) {
                     const existingProduct = await this.constructor.findOne({ sub_product: value });

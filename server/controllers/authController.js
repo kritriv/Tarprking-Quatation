@@ -53,10 +53,10 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
-
         // Validate and extract token
         const token = authHeader?.split(' ')[1];
-        if (!token || !token.startsWith('Bearer ')) {
+        console.log(token)
+        if (!token) {
             return handleApiResponse(res, 401, 'Invalid or missing access token.');
         }
 

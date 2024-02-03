@@ -12,7 +12,7 @@ const getAllProductCategorys = async (req, res) => {
         const formattedCategory = ProductCategory.map((category) => ({
             id: category._id,
             status: category.status,
-            createdby: category.createdby.username,
+            createdby: category.createdby ? category.createdby.username : null,
             name: category.name,
             description: category.description,
             products: category.products.map((product) => ({
@@ -43,7 +43,7 @@ const getSingleProductCategory = async (req, res) => {
         const formattedCategory = {
             id: ProductCategory._id,
             status: ProductCategory.status,
-            createdby: ProductCategory.createdby.username,
+            createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
             name: ProductCategory.name,
             description: ProductCategory.description,
             products: ProductCategory.products.map((product) => ({
@@ -71,7 +71,7 @@ const postSingleProductCategory = async (req, res) => {
         const formattedCategory = {
             id: ProductCategory._id,
             status: ProductCategory.status,
-            createdby: ProductCategory.createdby.username,
+            createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
             name: ProductCategory.name,
             description: ProductCategory.description,
             products: ProductCategory.products.map((product) => ({
@@ -136,7 +136,7 @@ const updateSingleProductCategory = async (req, res) => {
         const formattedCategory = {
             id: ProductCategory._id,
             status: ProductCategory.status,
-            createdby: ProductCategory.createdby.username,
+            createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
             name: ProductCategory.name,
             description: ProductCategory.description,
             products: ProductCategory.products.map((product) => ({

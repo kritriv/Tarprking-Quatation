@@ -92,7 +92,7 @@ const SubProductSchema = new Schema(
                 type: String,
             },
         },
-        specifications: [{ type: Schema.Types.ObjectId, ref: 'Specification' }],
+        specifications: { type: Schema.Types.ObjectId, ref: 'Specification' },
     },
     { timestamps: true },
 );

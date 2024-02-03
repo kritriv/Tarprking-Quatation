@@ -14,10 +14,10 @@ const getAllProducts = async (req, res) => {
         const formattedProduct = Products.map((product) => ({
             id: product._id,
             status: product.status,
-            createdby: product.createdby.username,
+            createdby: product.createdby ? product.createdby.username : null,
             name: product.name,
             description: product.description,
-            category: product.category.name,
+            category: product.category ? product.category.name : null,
             subproducts: product.sub_products.map((subproduct) => ({
                 id: subproduct._id,
                 name: subproduct.name,
@@ -45,10 +45,10 @@ const getSingleProduct = async (req, res) => {
         const formattedProduct = {
             id: Product._id,
             status: Product.status,
-            createdby: Product.createdby.username,
+            createdby: Product.createdby ? Product.createdby.username : null,
             name: Product.name,
             description: Product.description,
-            category: Product.category.name,
+            category: Product.category ? Product.category.name : null,
             subproducts: Product.sub_products.map((subproduct) => ({
                 id: subproduct._id,
                 name: subproduct.name,
@@ -72,10 +72,10 @@ const postSingleProduct = async (req, res) => {
         const formattedProduct = {
             id: Product._id,
             status: Product.status,
-            createdby: Product.createdby.username,
+            createdby: Product.createdby ? Product.createdby.username : null,
             name: Product.name,
             description: Product.description,
-            category: Product.category.name,
+            category: Product.category ? Product.category.name : null,
         };
 
         handleApiResponse(res, 201, 'Product added successfully', {
@@ -140,10 +140,10 @@ const updateSingleProduct = async (req, res) => {
         const formattedProduct = {
             id: Product._id,
             status: Product.status,
-            createdby: Product.createdby.username,
+            createdby: Product.createdby ? Product.createdby.username : null,
             name: Product.name,
             description: Product.description,
-            category: Product.category.name,
+            category: Product.category ? Product.category.name : null,
         };
 
         handleApiResponse(res, 200, 'Product updated successfully', {

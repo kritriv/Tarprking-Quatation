@@ -59,6 +59,9 @@ const ViewSubProduct = async ({ id, status, createdby, category, main_product, m
             .populate({
                 path: 'category',
             })
+            // .populate({
+            //     path: 'specifications',
+            // })
             .exec();
 
         return SubProducts;

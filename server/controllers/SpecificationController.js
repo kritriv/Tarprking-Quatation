@@ -10,8 +10,28 @@ const getAllSpecifications = async (req, res) => {
             return handleApiResponse(res, 404, 'Specification not found');
         }
 
+        const formattedSpecification = Specifications.map((Specification) => ({
+            id: Specification._id,
+            sub_product: Specification.sub_product.name,
+            system_module: Specification.system_module,
+            system_area: Specification.system_area,
+            car_size: Specification.car_size,
+            lifting_capacity: Specification.lifting_capacity,
+            lifting_height: Specification.lifting_height,
+            platform: Specification.platform,
+            power: Specification.power,
+            driving_unit: Specification.driving_unit,
+            travelling_speed: Specification.travelling_speed,
+            material_delivery: Specification.material_delivery,
+            installation: Specification.installation,
+            safety: Specification.safety,
+            features: Specification.features,
+            amc: Specification.amc,
+            material_quality: Specification.material_quality,
+        }));
+
         handleApiResponse(res, 200, 'Specifications fetched successfully', {
-            data: Specifications,
+            data: formattedSpecification,
             nbHits: Specifications.length,
         });
     } catch (error) {
@@ -30,8 +50,28 @@ const getSingleSpecification = async (req, res) => {
             return handleApiResponse(res, 404, 'Specification not found');
         }
 
+        const formattedSpecification = {
+            id: Specification._id,
+            sub_product: Specification.sub_product ? Specification.sub_product.name : null,
+            system_module: Specification.system_module,
+            system_area: Specification.system_area,
+            car_size: Specification.car_size,
+            lifting_capacity: Specification.lifting_capacity,
+            lifting_height: Specification.lifting_height,
+            platform: Specification.platform,
+            power: Specification.power,
+            driving_unit: Specification.driving_unit,
+            travelling_speed: Specification.travelling_speed,
+            material_delivery: Specification.material_delivery,
+            installation: Specification.installation,
+            safety: Specification.safety,
+            features: Specification.features,
+            amc: Specification.amc,
+            material_quality: Specification.material_quality,
+        };
+
         handleApiResponse(res, 200, 'Specification details fetched successfully', {
-            data: Specification,
+            data: formattedSpecification,
             nbHits: 1,
         });
     } catch (error) {
@@ -45,8 +85,28 @@ const postSingleSpecification = async (req, res) => {
     try {
         const Specification = await AddSpecification(req.body);
 
+        const formattedSpecification = {
+            id: Specification._id,
+            sub_product: Specification.sub_product ? Specification.sub_product.name : null,
+            system_module: Specification.system_module,
+            system_area: Specification.system_area,
+            car_size: Specification.car_size,
+            lifting_capacity: Specification.lifting_capacity,
+            lifting_height: Specification.lifting_height,
+            platform: Specification.platform,
+            power: Specification.power,
+            driving_unit: Specification.driving_unit,
+            travelling_speed: Specification.travelling_speed,
+            material_delivery: Specification.material_delivery,
+            installation: Specification.installation,
+            safety: Specification.safety,
+            features: Specification.features,
+            amc: Specification.amc,
+            material_quality: Specification.material_quality,
+        };
+
         handleApiResponse(res, 201, 'Specification added successfully', {
-            data: Specification,
+            data: formattedSpecification,
         });
     } catch (error) {
         if (error.message.includes('Specification with this Sub Product Id already exists')) {
@@ -70,8 +130,14 @@ const deleteSingleSpecification = async (req, res) => {
 
         const SpecificationRes = await DeleteSpecification(id);
 
+        const formattedSpecification = {
+            id: SpecificationRes._id,
+            sub_product: SpecificationRes.sub_product ? SpecificationRes.sub_product.name : null,
+
+        };
+
         handleApiResponse(res, 200, 'Specification deleted successfully', {
-            deleted: SpecificationRes,
+            deleted: formattedSpecification,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the Category: ${error.message}`;
@@ -91,9 +157,27 @@ const updateSingleSpecification = async (req, res) => {
         if (!Specification) {
             return handleApiResponse(res, 404, 'Specification not found, update unsuccessful');
         }
-
+        const formattedSpecification = {
+            id: Specification._id,
+            sub_product: Specification.sub_product ? Specification.sub_product.name : null,
+            system_module: Specification.system_module,
+            system_area: Specification.system_area,
+            car_size: Specification.car_size,
+            lifting_capacity: Specification.lifting_capacity,
+            lifting_height: Specification.lifting_height,
+            platform: Specification.platform,
+            power: Specification.power,
+            driving_unit: Specification.driving_unit,
+            travelling_speed: Specification.travelling_speed,
+            material_delivery: Specification.material_delivery,
+            installation: Specification.installation,
+            safety: Specification.safety,
+            features: Specification.features,
+            amc: Specification.amc,
+            material_quality: Specification.material_quality,
+        };
         handleApiResponse(res, 200, 'Specification updated successfully', {
-            data: SpecificationRes,
+            data: formattedSpecification,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;

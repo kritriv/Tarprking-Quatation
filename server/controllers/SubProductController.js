@@ -13,9 +13,9 @@ const getAllSubProducts = async (req, res) => {
         const formattedSubProduct = SubProducts.map((SubProduct) => ({
             id: SubProduct._id,
             status: SubProduct.status,
-            createdby: SubProduct.createdby.username,
-            category: SubProduct.category.name,
-            main_product: SubProduct.product.name,
+            createdby: SubProduct.createdby ? SubProduct.createdby.username : null,
+            category: SubProduct.category ? SubProduct.category.name : null,
+            main_product: SubProduct.product ? SubProduct.product.name : null,
             model: SubProduct.model_no,
             hsn: SubProduct.hsn,
             name: SubProduct.name,
@@ -31,7 +31,7 @@ const getAllSubProducts = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
-            specifications: SubProduct.specifications,
+            specifications: SubProduct.specifications ? SubProduct.specifications : null,
         }));
 
         handleApiResponse(res, 200, 'Sub Products fetched successfully', {
@@ -56,9 +56,9 @@ const getSingleSubProduct = async (req, res) => {
         const formattedSubProduct = {
             id: SubProduct._id,
             status: SubProduct.status,
-            createdby: SubProduct.createdby.username,
-            category: SubProduct.category.name,
-            main_product: SubProduct.product.name,
+            createdby: SubProduct.createdby ? SubProduct.createdby.username : null,
+            category: SubProduct.category ? SubProduct.category.name : null,
+            main_product: SubProduct.product ? SubProduct.product.name : null,
             model: SubProduct.model_no,
             hsn: SubProduct.hsn,
             name: SubProduct.name,
@@ -74,7 +74,7 @@ const getSingleSubProduct = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
-            specifications: SubProduct.specifications,
+            specifications: SubProduct.specifications ? SubProduct.specifications : null,
         };
 
         handleApiResponse(res, 200, 'Sub Product details fetched successfully', {
@@ -95,9 +95,9 @@ const postSingleSubProduct = async (req, res) => {
         const formattedSubProduct = {
             id: SubProduct._id,
             status: SubProduct.status,
-            createdby: SubProduct.createdby.username,
-            category: SubProduct.category.name,
-            main_product: SubProduct.product.name,
+            createdby: SubProduct.createdby ? SubProduct.createdby.username : null,
+            category: SubProduct.category ? SubProduct.category.name : null,
+            main_product: SubProduct.product ? SubProduct.product.name : null,
             model: SubProduct.model_no,
             hsn: SubProduct.hsn,
             name: SubProduct.name,
@@ -113,7 +113,7 @@ const postSingleSubProduct = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
-            specifications: SubProduct.specifications,
+            specifications: SubProduct.specifications ? SubProduct.specifications : null,
         };
 
         handleApiResponse(res, 201, 'Sub Product added successfully', {
@@ -177,9 +177,9 @@ const updateSingleSubProduct = async (req, res) => {
         const formattedSubProduct = {
             id: SubProduct._id,
             status: SubProduct.status,
-            createdby: SubProduct.createdby.username,
-            category: SubProduct.category.name,
-            main_product: SubProduct.product.name,
+            createdby: SubProduct.createdby ? SubProduct.createdby.username : null,
+            category: SubProduct.category ? SubProduct.category.name : null,
+            main_product: SubProduct.product ? SubProduct.product.name : null,
             model: SubProduct.model_no,
             hsn: SubProduct.hsn,
             name: SubProduct.name,
@@ -195,7 +195,7 @@ const updateSingleSubProduct = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
-            specifications: SubProduct.specifications,
+            specifications: SubProduct.specifications ? SubProduct.specifications : null,
         };
 
         handleApiResponse(res, 200, 'Sub Product updated successfully', {

@@ -95,7 +95,7 @@ const AddSpecification = async ({
         });
 
         const result = await Specification(newSpecification).save();
-        existingSubProduct.specifications.push(result._id);
+        existingSubProduct.specifications = result._id;
         await existingSubProduct.save();
 
         return result;
@@ -115,6 +115,7 @@ const DeleteSpecification = async (id) => {
         const subProduct = await SubProduct.findById(subProductId);
         if (subProduct) {
             subProduct.specifications.pull(id);
+            subProduct.specifications = null;
             await subProduct.save();
         }
 
