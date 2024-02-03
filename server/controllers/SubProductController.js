@@ -31,6 +31,7 @@ const getAllSubProducts = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
+            specifications: SubProduct.specifications,
         }));
 
         handleApiResponse(res, 200, 'Sub Products fetched successfully', {
@@ -73,6 +74,7 @@ const getSingleSubProduct = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
+            specifications: SubProduct.specifications,
         };
 
         handleApiResponse(res, 200, 'Sub Product details fetched successfully', {
@@ -111,6 +113,7 @@ const postSingleSubProduct = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
+            specifications: SubProduct.specifications,
         };
 
         handleApiResponse(res, 201, 'Sub Product added successfully', {
@@ -192,6 +195,7 @@ const updateSingleSubProduct = async (req, res) => {
                 delivery_time: SubProduct.timings.delivery_time,
                 installation_time: SubProduct.timings.installation_time,
             },
+            specifications: SubProduct.specifications,
         };
 
         handleApiResponse(res, 200, 'Sub Product updated successfully', {

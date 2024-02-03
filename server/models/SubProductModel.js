@@ -92,11 +92,7 @@ const SubProductSchema = new Schema(
                 type: String,
             },
         },
-        specifications: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'ProductSpecification',
-            autopopulate: true,
-        },
+        specifications: [{ type: Schema.Types.ObjectId, ref: 'Specification' }],
     },
     { timestamps: true },
 );

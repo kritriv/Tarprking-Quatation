@@ -1,6 +1,7 @@
 const Product = require('../models/ProductModel');
 const ProductCategory = require('../models/ProductCategoryModel');
 const SubProduct = require('../models/SubProductModel');
+const Specification = require('../models/SpecificationModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
@@ -82,7 +83,7 @@ const SingleSubProduct = async (id) => {
     }
 };
 
-const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, image, price, timings }) => {
+const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, image, price, timings, specification }) => {
     try {
         const existingCategory = await ProductCategory.findById(category);
 
@@ -108,6 +109,7 @@ const AddSubProduct = async ({ model_no, hsn, status, createdby, category, produ
             image,
             price,
             timings,
+            specification,
         });
 
         const result = await SubProduct(newSubProduct).save();
@@ -133,7 +135,7 @@ const DeleteSubProduct = async (id) => {
             product.sub_products.pull(id);
             await product.save();
         }
-
+        await Specification.deleteMany({ sub_product: result._id });
         return result;
     } catch (error) {
         throw new Error(`Error occurred while deleting SubProduct: ${error.message}`);

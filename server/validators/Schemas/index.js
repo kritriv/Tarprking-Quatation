@@ -5,5 +5,6 @@ const { ClientSchema } = require('./ClientValidate');
 const { CategorySchema } = require('./ProductCategoryValidator');
 const { productSchema } = require('./ProductValidate');
 const { SubProductSchema } = require('./SubProductValidators');
+const { SpecificationSchema } = require('./SpecificationValidate');
 
-module.exports = { idSchema, RegisterSchema, LoginSchema , Userschema, ClientSchema, CategorySchema, productSchema, SubProductSchema};
+module.exports = { idSchema, RegisterSchema, LoginSchema , Userschema, ClientSchema, CategorySchema, productSchema, SubProductSchema, SpecificationSchema};

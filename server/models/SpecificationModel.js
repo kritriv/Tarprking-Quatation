@@ -5,10 +5,19 @@ const { transformToJSON } = require('../utils/mongooseUtils');
 
 const SpecificationSchema = new Schema(
     {
-        category: {
+        sub_product: {
             type: Schema.Types.ObjectId,
             ref: 'SubProduct',
+            // required: true,
+            unique: true,
             autopopulate: true,
+            validate: {
+                validator: async function (value) {
+                    const existingProduct = await this.constructor.findOne({ sub_product: value });
+                    return !existingProduct || existingProduct._id.equals(this._id);
+                },
+                message: 'Specification with this Sub Product Id already exists',
+            },
         },
         system_module: {
             type: String,

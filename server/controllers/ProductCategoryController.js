@@ -84,7 +84,6 @@ const postSingleProductCategory = async (req, res) => {
             data: formattedCategory,
         });
     } catch (error) {
-        console.log(error);
         if (error.message.includes('Category with this name already exists')) {
             handleApiResponse(res, 400, 'Category with this name already exists');
         } else if (error.message.includes('ObjectId failed' && 'User')) {
