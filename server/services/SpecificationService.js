@@ -1,4 +1,3 @@
-const Product = require('../models/ProductModel');
 const SubProduct = require('../models/SubProductModel');
 const Specification = require('../models/SpecificationModel');
 const { ObjectId } = require('mongodb');

@@ -1,5 +1,7 @@
 const ProductCategory = require('../models/ProductCategoryModel');
 const Product = require('../models/ProductModel');
+const SubProduct = require('../models/SubProductModel');
+const Specification = require('../models/SpecificationModel');
 const User = require('../models/UserModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
@@ -83,7 +85,17 @@ const SingleProductCategory = async (id) => {
 const DeleteProductCategory = async (id) => {
     try {
         const result = await ProductCategory.findByIdAndDelete(id);
+
+        const products = await Product.find({ category: result._id });
+
+        for (const product of products) {
+            await SubProduct.deleteMany({ _id: { $in: product.sub_products } });
+
+            await Specification.deleteMany({ sub_product: { $in: product.sub_products } });
+        }
+
         await Product.deleteMany({ category: result._id });
+
         return result;
     } catch (error) {
         throw new Error(`Error occurred while deleting ProductCategory: ${error.message}`);
