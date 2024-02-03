@@ -12,7 +12,7 @@ const validate = require('../validators/validate');
 router.get('/', authMiddleware(getPermissions('HIGH')), getAllSpecifications);
 
 // To Add a Specification to Specifications list
-router.post('/add-specification', authMiddleware(getPermissions('HIGH')), postSingleSpecification);
+router.post('/add-specification', authMiddleware(getPermissions('HIGH')), validate(SpecificationSchema), postSingleSpecification);
 
 // To get Single Specification Details
 router.get('/:id', authMiddleware(getPermissions('HIGH')), getSingleSpecification);
