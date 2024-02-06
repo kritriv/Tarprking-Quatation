@@ -86,7 +86,7 @@ const SingleSubProduct = async (id) => {
     }
 };
 
-const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, image, price, timings, specification }) => {
+const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, images, price, timings, specification }) => {
     try {
         const existingCategory = await ProductCategory.findById(category);
 
@@ -109,7 +109,7 @@ const AddSubProduct = async ({ model_no, hsn, status, createdby, category, produ
             product,
             name,
             description,
-            image,
+            images,
             price,
             timings,
             specification,

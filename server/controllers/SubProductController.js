@@ -20,7 +20,7 @@ const getAllSubProducts = async (req, res) => {
             hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
-            image: SubProduct.image,
+            images: SubProduct.images,
             price: {
                 quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
@@ -63,7 +63,7 @@ const getSingleSubProduct = async (req, res) => {
             hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
-            image: SubProduct.image,
+            images: SubProduct.images,
             price: {
                 quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
@@ -102,7 +102,7 @@ const postSingleSubProduct = async (req, res) => {
             hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
-            image: SubProduct.image,
+            images: SubProduct.images,
             price: {
                 quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
@@ -184,7 +184,7 @@ const updateSingleSubProduct = async (req, res) => {
             hsn: SubProduct.hsn,
             name: SubProduct.name,
             description: SubProduct.description,
-            image: SubProduct.image,
+            images: SubProduct.images,
             price: {
                 quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
