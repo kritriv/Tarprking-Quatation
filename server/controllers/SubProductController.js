@@ -202,7 +202,7 @@ const updateSingleSubProduct = async (req, res) => {
             data: formattedSubProduct,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Sub Product: ${error.message}`;
         if (errorMessage === 'Provide valid Id') {
             handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error' });
         } else {

@@ -180,7 +180,7 @@ const updateSingleSpecification = async (req, res) => {
             data: formattedSpecification,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Specification: ${error.message}`;
         if (errorMessage === 'Provide valid Id') {
             handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error' });
         } else {

@@ -24,7 +24,7 @@ const ProductSchema = new Schema(
                         const existingProduct = await this.constructor.findOne({ name: value });
                         return !existingProduct || existingProduct._id.equals(this._id);
                     } catch (error) {
-                        throw new Error('Error occurred while validating Category uniqueness');
+                        throw new Error('Error occurred while validating Product uniqueness');
                     }
                 },
                 message: 'Product with this name already exists',

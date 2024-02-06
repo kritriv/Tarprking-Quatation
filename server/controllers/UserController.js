@@ -104,7 +104,7 @@ const deleteSingleUser = async (req, res) => {
             deleted: formattedDeletedUser,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single Client: ${error.message}`;
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Use a Proper Id' : `An error occurred while deleting the single User: ${error.message}`;
         console.log(errorMessage);
         handleApiResponse(res, error.message.includes('Invalid ID format') ? 400 : 500, errorMessage, { error: 'Internal Server Error' });
     }
@@ -126,7 +126,7 @@ const updateSingleUser = async (req, res) => {
             data: updatedUser,
         });
     } catch (error) {
-        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Client: ${error.message}`;
+        const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single User: ${error.message}`;
         if (errorMessage === 'Provide valid Id') {
             handleApiResponse(res, 400, errorMessage, { error: error.issues[0].message });
         } else {
