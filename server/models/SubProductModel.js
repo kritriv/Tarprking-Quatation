@@ -95,6 +95,7 @@ const SubProductSchema = new Schema(
             },
         },
         specifications: { type: Schema.Types.ObjectId, ref: 'Specification' },
+        tnc: { type: Schema.Types.ObjectId, ref: 'TermAndCondition' },
     },
     { timestamps: true },
 );

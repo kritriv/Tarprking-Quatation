@@ -95,7 +95,14 @@ const SubProductSchema = z.object({
     specifications: z
         .string()
         .refine((value) => value.length === 24, {
-            message: 'Invalid ObjectId for product',
+            message: 'Invalid ObjectId for specifications',
+        })
+        .optional(),
+    
+    tnc: z
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for tnc',
         })
         .optional(),
 });

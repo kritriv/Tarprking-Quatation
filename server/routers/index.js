@@ -10,6 +10,7 @@ const productRoutes = require('./ProductRoutes');
 const subProductRoutes = require('./SubProductRoutes');
 const specificationRoutes = require('./SpecificationRoutes');
 const ourCompanyRoutes = require('./OurCompanyRoutes');
+const termAndConditionRoutes = require('./TermAndConditionRoutes');
 const quotationRoutes = require('./QuotationRoute');
 
 // Mount individual route files
@@ -21,6 +22,7 @@ router.use('/products', productRoutes);
 router.use('/subproducts', subProductRoutes);
 router.use('/specifications', specificationRoutes);
 router.use('/company-details', ourCompanyRoutes);
+router.use('/terms-conditions', termAndConditionRoutes);
 router.use('/quotes', quotationRoutes);
 
 module.exports = router;

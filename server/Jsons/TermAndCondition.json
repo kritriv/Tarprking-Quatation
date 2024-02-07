@@ -1,0 +1,41 @@
+[
+    {
+        "prices": "Above Prices are according to Noida (U.P.). The given prices will be applicable for 15 materials from the date of offer given. Prices are subject to change as per the change in price of meterial.",
+        "payment_terms": [
+            "30% of the contract value shall be payable with your acceptance.",
+            "20% after Structure readiness.",
+            "20% after Motor, Chain Sprocket, Wire rope, Electrical Fitting readiness.",
+            "20% after Platform & Panel Assembly readiness.",
+            "5% after all mechanical work completion at site.",
+            "5% after all Electrical work completion without trial & Testing at site."
+        ],
+        "packing_forwarding": "We recommend that the Equipment be dispatched on exclusive suitable vehicle on door-to-door basis. In such an event no packing is required.",
+        "client_responsibilities": [
+            "Civil work/Infrastructure Development as required for the system.",
+            "Canopy/Rear & Side Cover as per the system.",
+            "Adequate scaffolding, Hydra, Hydraulic oil & water at site.",
+            "Electricity (3 phase & single-phase connection with Neutral for installation).",
+            "Material unloading at site.",
+            "Material storage purpose lock room required.",
+            "To provide adequate safety and security personnel in the level where the parking systems are to be installed and outside the storage area to prevent any damage, theft or pilferages of material during storage, installation & erection period until the systems are handed over.",
+            "Acceptance by authorized personnel of buyer after installation ."
+        ],
+        "material_delivery": "3-4 Months from the date of your confirmed Purchase Order with Advance payments prior to dispatch through NEFT / RTGS. (In case RTGS/NEFT payment cannot be done then We shall process order or dispatch after realization of cheque payment clearance only).",
+        "installation_process": [
+            "Plan Layout & GA Drawing Finalize as per actual site measurement.",
+            "Civil /Foundation Assembly ",
+            "Structure Assembly",
+            "Motor & chain fitting Assembly",
+            "Pallet Assembly (Top Floor, 4th, 3rd, 2nd & Ground floor)",
+            "Electrical Fitting Assembly (Motor, Limit Switch, Locking device fitting, Operatingn panel, Sensor fittings)",
+            "Trial & testing-Manual/Automatic ",
+            "Load Testing with manual/Automatic"
+        ],
+        "operation": "The operation panels are typically located at RCC supports near the system. The main control panel comprises of PLC and other control components. The device uses a computerized system, which controls the lateral and vertical movements and positioning of cars and allows for automatic recall of pallets. The system also has self-diagnostic features to detect trouble, if any and to display the same with error message. In case of PLC failure, the system can be operated in Manual mode and all cars from a level scan be retrieved.",
+        "force_majeure": "SHAIL GREEN ENERGY POWER PRIVATE LIMITED shall not be liable for any loss, damage or delay due to causes beyond its reasonable control including, but not limited to strikes, lockouts, fire accidents, explosion, theft, floods, riots, civil commotion, war, malicious mischief, power shortage, delay in supplies of raw materials and components, rail/ road transporters strikes, act of god or of the state’s enemies or any third party either at our suppliers works or our manufacturing facilities due to any or all of the above mentioned reasons. The customer shall also compensate us if damage occurs to our materials, tools or workmen on your premises from any such cause. ",
+        "warranty": "The equipment offered are covered by our warranty for 12 months from the date of completion of installation and request for handover to client or 13 months from the date of intimation of material ready for dispatch, whichever is earlier. The warranty includes replacement or repairs of all components which found faulty due to manufacturing defect and does not cover defects arising out of vandalism, theft, rain, fire, rodents, any external damage etc. The warranty shall not be applicable in case of tempering or maintained or serviced by any technician not authorized by SHAIL GREEN ENERGY POWER PRIVATE LIMITED. ",
+        "termination": "At any stage delay in the decided payment plan will terminate this contract. further work on development of the system will be stopped immediately.",
+        "jurisdiction": "The jurisdiction of the Courts of Greater Noida West only shall apply.",
+        "validity": "System will have its life of 25 years from the date of material delivery. Where first year of maintenances will be free and take care from the manufacturer and after that it will be paid from the customer as per the given price at the time of requirement."
+    }
+]

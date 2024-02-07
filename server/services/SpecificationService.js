@@ -50,23 +50,7 @@ const SingleSpecification = async (id) => {
     }
 };
 
-const AddSpecification = async ({
-    sub_product,
-    system_module,
-    system_area,
-    car_size,
-    lifting_capacity,
-    lifting_height,
-    platform,
-    power,
-    driving_unit,
-    travelling_speed,
-    material_delivery,
-    installation,
-    safety,
-    features,
-    amc,
-    material_quality,
+const AddSpecification = async ({ sub_product, system_module, system_area, car_size, lifting_capacity, lifting_height, platform, power, driving_unit, travelling_speed, material_delivery, installation, safety, features, amc, material_quality,
 }) => {
     try {
         const existingSubProduct = await SubProduct.findById(sub_product);
@@ -110,10 +94,10 @@ const DeleteSpecification = async (id) => {
 
         const deletedSpecification = await Specification.findByIdAndDelete(id);
 
-        // Remove the product from the associated category
+        // Remove the Specification from the Sub PRoduct
         const subProduct = await SubProduct.findById(subProductId);
         if (subProduct) {
-            subProduct.specifications.pull(id);
+            // subProduct.specifications.pull(id);
             subProduct.specifications = null;
             await subProduct.save();
         }
