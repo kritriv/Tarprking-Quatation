@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const server = express();
 const cors = require('cors');
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' })
 const { expressLoggerMiddleware, logger } = require('../../utils/logger');
 const Routes = require('../../routers');
 

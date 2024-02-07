@@ -52,11 +52,9 @@ const SubProductSchema = new Schema(
         description: {
             type: String,
         },
-        images: [
-            {
-                type: String,
-            },
-        ],
+        image: {
+            type: String,
+        },
         category: {
             type: mongoose.Schema.ObjectId,
             ref: 'ProductCategory',

@@ -50,9 +50,7 @@ const SubProductSchema = z.object({
         .min(3, { message: 'Product description must be at least 3 characters.' })
         .max(200, { message: 'Product description cannot be more than 200 characters.' }),
 
-    images: z.array(z.string()).refine((arr) => arr === null || (Array.isArray(arr) && arr.every((item) => typeof item === 'string')), {
-        message: 'Product Image Items must be an array of strings or null',
-    }),
+    image: z.string({ invalid_type_error: 'Product Image must be a String' }).optional(),
 
     category: z
         .string()
@@ -98,7 +96,7 @@ const SubProductSchema = z.object({
             message: 'Invalid ObjectId for specifications',
         })
         .optional(),
-    
+
     tnc: z
         .string()
         .refine((value) => value.length === 24, {

@@ -4,6 +4,7 @@ const SubProduct = require('../models/SubProductModel');
 const Specification = require('../models/SpecificationModel');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
+const path = require('path');
 
 const ViewSubProduct = async ({ id, status, createdby, category, main_product, model_no, hsn, name, sort, select, page = 1, size = 10 }) => {
     try {
@@ -86,7 +87,7 @@ const SingleSubProduct = async (id) => {
     }
 };
 
-const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, images, price, timings, specification }) => {
+const AddSubProduct = async ({ model_no, hsn, status, createdby, category, product, name, description, image, price, timings, specifications, tnc }) => {
     try {
         const existingCategory = await ProductCategory.findById(category);
 
@@ -109,10 +110,11 @@ const AddSubProduct = async ({ model_no, hsn, status, createdby, category, produ
             product,
             name,
             description,
-            images,
+            image,
             price,
             timings,
-            specification,
+            specifications,
+            tnc
         });
 
         const result = await SubProduct(newSubProduct).save();
@@ -157,10 +159,28 @@ const UpdateSubProduct = async (id, updateSubProductData) => {
     }
 };
 
+const AddSubProductImg = async (id, file) => {
+    try {
+        const subProduct = await SubProduct.findById(id);
+
+        if (!subProduct) {
+            throw new Error('Sub product not found');
+        }
+        
+        const imagePath =  path.join(file.path);
+        subProduct.image = imagePath;
+        await subProduct.save();
+        return `${imagePath}`;
+    } catch (error) {
+        throw new Error(`Error occurred while adding Img to SubProduct: ${error.message}`);
+    }
+};
+
 module.exports = {
     ViewSubProduct,
     AddSubProduct,
     SingleSubProduct,
     DeleteSubProduct,
     UpdateSubProduct,
+    AddSubProductImg,
 };

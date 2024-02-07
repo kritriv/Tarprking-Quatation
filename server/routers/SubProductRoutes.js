@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../middlewares/authentication');
 const { getPermissions } = require('../modules/permission');
-
-const { getAllSubProducts, postSingleSubProduct, getSingleSubProduct, deleteSingleSubProduct, updateSingleSubProduct } = require('../controllers/SubProductController');
+const { uploadImg } = require('../utils/uploadByMulter');
+const { getAllSubProducts, postSingleSubProduct, getSingleSubProduct, deleteSingleSubProduct, updateSingleSubProduct, UploadSubProductImg } = require('../controllers/SubProductController');
 
 const { SubProductSchema } = require('../validators/Schemas');
 const validate = require('../validators/validate');
@@ -22,5 +22,8 @@ router.delete('/:id', authMiddleware(getPermissions('HIGH')), deleteSingleSubPro
 
 // To Update a Single SubProduct Details
 router.put('/:id', authMiddleware(getPermissions('HIGH')), validate(SubProductSchema), updateSingleSubProduct);
+
+// To Add a Images of SubProduct 
+router.put('/upload-image/:id', authMiddleware(getPermissions('HIGH')), uploadImg,  UploadSubProductImg);
 
 module.exports = router;
