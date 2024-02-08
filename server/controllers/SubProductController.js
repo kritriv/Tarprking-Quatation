@@ -22,7 +22,6 @@ const getAllSubProducts = async (req, res) => {
             description: SubProduct.description,
             image: SubProduct.image,
             price: {
-                quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
                 installation_charges: SubProduct.price.installation_charges,
                 subTotal: SubProduct.price.subTotal,
@@ -66,7 +65,6 @@ const getSingleSubProduct = async (req, res) => {
             description: SubProduct.description,
             image: SubProduct.image,
             price: {
-                quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
                 installation_charges: SubProduct.price.installation_charges,
                 subTotal: SubProduct.price.subTotal,
@@ -106,7 +104,6 @@ const postSingleSubProduct = async (req, res) => {
             description: SubProduct.description,
             image: SubProduct.image,
             price: {
-                quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
                 installation_charges: SubProduct.price.installation_charges,
                 subTotal: SubProduct.price.subTotal,
@@ -189,7 +186,6 @@ const updateSingleSubProduct = async (req, res) => {
             description: SubProduct.description,
             image: SubProduct.image,
             price: {
-                quantity: SubProduct.price.quantity,
                 basic_rate: SubProduct.price.basic_rate,
                 installation_charges: SubProduct.price.installation_charges,
                 subTotal: SubProduct.price.subTotal,
@@ -234,7 +230,6 @@ const UploadSubProductImg = async (req, res) => {
             data: subProduct,
         });
     } catch (error) {
-        console.log(error);
         const errorMessage = error.message.includes('Invalid ID format')
             ? 'Provide valid Sub Product Id'
             : error.message.includes('Invalid file type. Only images are allowed')

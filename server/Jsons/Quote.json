@@ -1,0 +1,44 @@
+[
+    {
+        "refno": "SHAIL/Q/PUZZLE-2L/RYJO/23-24/1301/113/01/01",
+        "createdby": "65bdccd67561dac7053c51f5",
+        "client": "65bdcf1e2df4256ee05e8568",
+        "item": "65bdeee505835837f738124f",
+        "expired_date": "2024-02-10",
+        "subject": "Quotation of 5 level puzzle car parking system for Puducherry",
+        "greeting": "This has reference to telephonic discussion with you on13.01.2024 regarding your requirement of car Parking system. We are giving below the details of equipment along with techno-commercial offer.",
+        "proposal_title": "Proposal for supply, installation, erection, testing & Commissionning of puzzel car parking system, model- shail02.",
+        "quote_price": {
+            "tax_rate": 18,
+            "total_price": 198000
+        },
+        "back_image": "upload/back_image.png"
+    },
+    {
+        "refno": "SHAIL/Q/PUZZLE-2L/RYJO/23-24/1301/113/01/00",
+        "createdby": "65bdccd67561dac7053c51f5",
+        "client": "65bdcf1e2df4256ee05e8568",
+        "item": "65bdeee505835837f738124f",
+        "year": 2024,
+        "date": "2024-02-03",
+        "expired_date": "2024-02-10",
+        "subject": "Quotation of 5 level puzzle car parking system for Puducherry",
+        "greeting": "This has reference to telephonic discussion with you on13.01.2024 regarding your requirement of car Parking system. We are giving below the details of equipment along with techno-commercial offer.",
+        "proposal_title": "Proposal for supply, installation, erection, testing & Commissionning of puzzel car parking system, model- shail02.",
+        "quote_price": {
+            "item_sub_total": 0,
+            "freight_cost": 0,
+            "unloading_cost": 0,
+            "transport_charge": 0,
+            "tax_rate": 18,
+            "taxtotal": 18000,
+            "discount": 0,
+            "total_price": 198000
+        },
+        "remark": null,
+        "status": "pending",
+        "approved": false,
+        "expired": false,
+        "back_image": "upload/back_image.png"
+    }
+]

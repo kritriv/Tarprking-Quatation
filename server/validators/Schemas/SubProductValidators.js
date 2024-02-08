@@ -67,9 +67,6 @@ const SubProductSchema = z.object({
         .optional(),
 
     price: z.object({
-        quantity: z.number({
-            invalid_type_error: 'Product Quantity must be a Number',
-        }),
         basic_rate: z.number({
             invalid_type_error: 'Product Basic Rate must be a Number',
         }),

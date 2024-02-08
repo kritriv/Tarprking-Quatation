@@ -1,64 +1,76 @@
 const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
+const { transformToJSON } = require('../utils/mongooseUtils');
 const Schema = mongoose.Schema;
 
 const quoteSchema = new Schema({
-    removed: {
-        type: Boolean,
-        default: false,
-    },
-    quote_number: {
-        type: Number,
+    refno: {
+        type: String,
         required: true,
         unique: true,
         validate: {
-            validator: async function (value) {
-                const existingQuote = await this.constructor.findOne({ quote_number: value });
-                return !existingQuote || existingQuote._id.equals(this._id);
+            async validator(value) {
+                try {
+                    const existingQuote = await this.constructor.findOne({ refno: value });
+                    return !existingQuote || existingQuote._id.equals(this._id);
+                } catch (error) {
+                    throw new Error('Error occurred while validating Quote uniqueness');
+                }
             },
-            message: 'Quote with this Quote No. already exists',
+            message: 'Quote with this Refno already exists',
         },
     },
     createdby: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: true,
-        autopopulate: { select: '_id role username email' },
+        autopopulate: { select: '_id  username ' },
     },
     client: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Vendor',
+        ref: 'Client',
         required: true,
-        autopopulate: { select: '_id vendor_username vendor_name site_address contact_no vendor_email company_name company_GST_no vendor_address' },
+        autopopulate: true,
     },
     year: {
         type: Number,
-        required: true,
         default: new Date().getFullYear(),
     },
     date: {
         type: Date,
-        required: true,
         default: Date.now(),
     },
-    expiredDate: {
+    expired_date: {
         type: Date,
-        required: true,
     },
-    items: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Product',
-            required: true,
-            autopopulate: { select: '-product_status -createdby -createdAt -updatedAt -__v' },
-        },
-    ],
+    subject: {
+        type: String,
+    },
+    greeting: {
+        type: String,
+    },
+    proposal_title: {
+        type: String,
+    },
+    item: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'SubProduct',
+        required: true,
+        autopopulate: true,
+    },
     quote_price: {
-        taxRate: {
+        quantity: {
+            type: Number,
+        },
+
+        item_sub_total: {
+            type: Number,
+        },
+        freight_cost: {
             type: Number,
             default: 0,
         },
-        taxTotal: {
+        unloading_cost: {
             type: Number,
             default: 0,
         },
@@ -66,52 +78,44 @@ const quoteSchema = new Schema({
             type: Number,
             default: 0,
         },
-        otherRate: {
+        tax_rate: {
+            type: Number,
+            default: 18,
+        },
+        taxtotal: {
+            type: Number,
+        },
+        discount: {
             type: Number,
             default: 0,
         },
-        total_price: {            // taxTotal + transport_charge + otherRate + item[subTotal]
+        total_price: {
             type: Number,
         },
     },
-    // credit: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // discount: {
-    //     type: Number,
-    //     default: 0,
-    // },
     remark: {
         type: String,
+        default: null,
     },
     status: {
         type: String,
-        enum: ['draft', 'pending', 'sent', 'accepted', 'declined', 'cancelled', 'on hold'],
-        default: 'draft',
+        enum: ['pending', 'sent', 'accepted', 'cancelled', 'on hold'],
+        default: 'pending',
     },
     approved: {
         type: Boolean,
         default: false,
     },
-    isExpired: {
+    expired: {
         type: Boolean,
         default: false,
     },
-    pdf: {
+    back_image: {
         type: String,
-    },
-    updated: {
-        type: Date,
-        default: Date.now,
-    },
-    created: {
-        type: Date,
-        default: Date.now,
     },
 });
 
 quoteSchema.plugin(autopopulate);
+transformToJSON(quoteSchema, 'id');
 const Quote = mongoose.model('Quote', quoteSchema);
-
 module.exports = Quote;

@@ -1,21 +1,28 @@
 const express = require('express');
 const router = express.Router();
+const { getAllQuotes, postSingleQuote, getSingleQuote, deleteSingleQuote, updateSingleQuote } = require('../controllers/QuotationController');
+const { authMiddleware } = require('../middlewares/authentication');
+const { getPermissions } = require('../modules/permission');
 
-const { getAllQuotes, createQuote, getSingleQuote, deleteSingleQuote, updateSingleQuote } = require('../controllers/QuotationController');
+const { ClientSchema } = require('../validators/Schemas');
+const validate = require('../validators/validate');
 
-// To get All Quotes list
-router.get('/', getAllQuotes);
+// Middleware to parse JSON bodies
+router.use(express.json());
 
-// To get Single Quote Details
-router.get('/:id', getSingleQuote);
+// To get All Clients list
+router.get('/', authMiddleware(getPermissions('MEDIUM')), getAllQuotes);
 
-// To Add a Quote to Quotes list
-router.post('/add-Quote', createQuote);
+// To get Single Client Details
+router.get('/:id', authMiddleware(getPermissions('MEDIUM')), getSingleQuote);
 
-// To Delete Single Quote Details
-router.delete('/:id', deleteSingleQuote);
+// To Add a Client to Clients list
+router.post('/add-quote', authMiddleware(getPermissions('MEDIUM')), postSingleQuote);
 
-// To Update a Single Quote Details
-router.put('/:id', updateSingleQuote);
+// To Delete Single Client Details
+router.delete('/:id', authMiddleware(getPermissions('MEDIUM')), deleteSingleQuote);
+
+// To Update a Single Client Details
+router.put('/:id', authMiddleware(getPermissions('MEDIUM')), updateSingleQuote);
 
 module.exports = router;

@@ -68,11 +68,6 @@ const SubProductSchema = new Schema(
             autopopulate: { select: '_id name' },
         },
         price: {
-            quantity: {
-                type: Number,
-                required: true,
-                default: 1,
-            },
             basic_rate: {
                 type: Number,
             },
@@ -97,6 +92,11 @@ const SubProductSchema = new Schema(
     },
     { timestamps: true },
 );
+
+SubProductSchema.pre('save', function (next) {
+    this.price.subTotal = (this.price.basic_rate * this.price.installation_charges);
+    next();
+});
 
 SubProductSchema.plugin(autopopulate);
 transformToJSON(SubProductSchema, 'id');
