@@ -1,7 +1,5 @@
-const Product = require('../models/ProductModel');
-const ProductCategory = require('../models/ProductCategoryModel');
-const SubProduct = require('../models/SubProductModel');
-const Specification = require('../models/SpecificationModel');
+const { Product, ProductCategory, SubProduct, Specification } = require('../models');
+
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 const path = require('path');
@@ -114,7 +112,7 @@ const AddSubProduct = async ({ model_no, hsn, status, createdby, category, produ
             price,
             timings,
             specifications,
-            tnc
+            tnc,
         });
 
         const result = await SubProduct(newSubProduct).save();
@@ -166,8 +164,8 @@ const AddSubProductImg = async (id, file) => {
         if (!subProduct) {
             throw new Error('Sub product not found');
         }
-        
-        const imagePath =  path.join(file.path);
+
+        const imagePath = path.join(file.path);
         subProduct.image = imagePath;
         await subProduct.save();
         return `${imagePath}`;

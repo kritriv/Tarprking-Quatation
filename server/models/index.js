@@ -1,9 +1,11 @@
-const { userSchema } = require('./UserModel');
-const { ClientSchema } = require('./ClientModel');
-const { ProductCategorySchema } = require('./ProductCategoryModel');
-const { ProductSchema } = require('./ProductModel');
-const { SubProductSchema } = require('./SubProductModel');
-const { SpecificationSchema } = require('./SpecificationModel');
-const { quoteSchema } = require('./QuoteModel');
+const User = require('./UserModel');
+const Company = require('./OurCompanyModel');
+const Client = require('./ClientModel');
+const ProductCategory = require('./ProductCategoryModel');
+const Product = require('./ProductModel');
+const SubProduct = require('./SubProductModel');
+const Specification = require('./SpecificationModel');
+const TermAndCondition = require('./TermAndConditionModel');
+const Quote = require('./QuoteModel');
 
-module.exports = { userSchema, ClientSchema, ProductCategorySchema, ProductSchema, SubProductSchema, SpecificationSchema, quoteSchema};
+module.exports = { User, Company, Client, ProductCategory, Product, SubProduct, Specification, TermAndCondition, Quote };

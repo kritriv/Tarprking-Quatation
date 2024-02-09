@@ -1,7 +1,5 @@
-const User = require('../models/UserModel');
-const Client = require('../models/ClientModel');
-const Product = require('../models/SubProductModel');
-const Quote = require('../models/QuoteModel');
+const { User, Client, SubProduct, Quote } = require('../models');
+
 const { ObjectId } = require('mongodb');
 const path = require('path');
 const { limitOffsetPageNumber } = require('../utils/pagination');
@@ -65,9 +63,9 @@ const AddQuote = async ({ refno, createdby, client, item, expired_date, subject,
             throw new Error('Client not found');
         }
 
-        const productExist = await Product.findById(item);
+        const productExist = await SubProduct.findById(item);
         if (!productExist) {
-            throw new Error('Product not found');
+            throw new Error(' SubProduct not found');
         }
 
         const item_sub_total = productExist.price.subTotal;
@@ -129,7 +127,7 @@ const UpdateQuote = async (id, { refno, createdby, client, item, expired_date, s
         const quoteExist = await Quote.findById(id);
         const userExist = await User.findById(createdby);
         const clientExist = await Client.findById(client);
-        const productExist = await Product.findById(item);
+        const productExist = await SubProduct.findById(item);
 
         if (!userExist) {
             throw new Error('Created by User not found');
@@ -138,7 +136,7 @@ const UpdateQuote = async (id, { refno, createdby, client, item, expired_date, s
             throw new Error('Client not found');
         }
         if (!productExist) {
-            throw new Error('Product not found');
+            throw new Error(' SubProduct not found');
         }
 
         const item_sub_total = productExist.price.subTotal;
@@ -194,8 +192,8 @@ const AddQuoteBackImg = async (id, file) => {
         if (!quote) {
             throw new Error('Quote not found');
         }
-        
-        const imagePath =  path.join(file.path);
+
+        const imagePath = path.join(file.path);
         quote.back_image = imagePath;
         await quote.save();
         return `${imagePath}`;
@@ -209,5 +207,5 @@ module.exports = {
     SingleQuote,
     DeleteQuote,
     UpdateQuote,
-    AddQuoteBackImg
+    AddQuoteBackImg,
 };

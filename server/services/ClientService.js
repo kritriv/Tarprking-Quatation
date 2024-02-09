@@ -1,4 +1,4 @@
-const Client = require('../models/ClientModel');
+const { Client } = require('../models');
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');

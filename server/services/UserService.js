@@ -1,6 +1,6 @@
-const User = require('../models/UserModel');
+const { User } = require('../models');
 const { ObjectId } = require('mongodb');
-const {limitOffsetPageNumber} = require('../utils/pagination');
+const { limitOffsetPageNumber } = require('../utils/pagination');
 
 const ViewUser = async ({ id, username, role, email, sort, select, page = 1, size = 10 }) => {
     try {

@@ -1,5 +1,4 @@
-const SubProduct = require('../models/SubProductModel');
-const Specification = require('../models/SpecificationModel');
+const { SubProduct, Specification } = require('../models');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
@@ -50,7 +49,23 @@ const SingleSpecification = async (id) => {
     }
 };
 
-const AddSpecification = async ({ sub_product, system_module, system_area, car_size, lifting_capacity, lifting_height, platform, power, driving_unit, travelling_speed, material_delivery, installation, safety, features, amc, material_quality,
+const AddSpecification = async ({
+    sub_product,
+    system_module,
+    system_area,
+    car_size,
+    lifting_capacity,
+    lifting_height,
+    platform,
+    power,
+    driving_unit,
+    travelling_speed,
+    material_delivery,
+    installation,
+    safety,
+    features,
+    amc,
+    material_quality,
 }) => {
     try {
         const existingSubProduct = await SubProduct.findById(sub_product);

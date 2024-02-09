@@ -1,8 +1,4 @@
-const User = require('../models/UserModel');
-const Product = require('../models/ProductModel');
-const ProductCategory = require('../models/ProductCategoryModel');
-const SubProduct = require('../models/SubProductModel');
-const Specification = require('../models/SpecificationModel');
+const { User, ProductCategory, Product, SubProduct, Specification } = require('../models');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 

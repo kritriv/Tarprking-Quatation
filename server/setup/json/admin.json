@@ -1,0 +1,14 @@
+[
+    {
+        "username": "admin2",
+        "email": "admin@tarparking.com",
+        "password": "admin@Tar786",
+        "role": "ADMIN"
+    },
+    {
+        "username": "super2",
+        "email": "super@tarparking.com",
+        "password": "admin@Tar786",
+        "role": "SUPERADMIN"
+    }
+]

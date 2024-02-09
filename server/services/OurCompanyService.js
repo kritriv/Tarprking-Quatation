@@ -1,4 +1,4 @@
-const OurCompany = require('../models/OurCompanyModel');
+const { Company } = require('../models');
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
@@ -14,7 +14,7 @@ const ViewOurCompany = async ({ id, sort, select, page = 1, size = 10 }) => {
 
         // ======== Short , Select ======
 
-        let apiData = OurCompany.find(queryObject);
+        let apiData = Company.find(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -41,7 +41,7 @@ const ViewOurCompany = async ({ id, sort, select, page = 1, size = 10 }) => {
 const SingleOurCompany = async (id) => {
     try {
         const filter = { _id: new ObjectId(id) };
-        const result = await OurCompany.findOne(filter);
+        const result = await Company.findOne(filter);
 
         return result;
     } catch (error) {
@@ -51,8 +51,7 @@ const SingleOurCompany = async (id) => {
 
 const AddOurCompany = async ({ name, emails, websites, phones, cin_no, tan_no, pan_no, gst_no, address, bank_details }) => {
     try {
-
-        const newOurCompany = new OurCompany({
+        const newOurCompany = new Company({
             name,
             emails,
             websites,
@@ -65,7 +64,7 @@ const AddOurCompany = async ({ name, emails, websites, phones, cin_no, tan_no, p
             bank_details,
         });
 
-        const result = await OurCompany(newOurCompany).save();
+        const result = await Company(newOurCompany).save();
 
         return result;
     } catch (error) {
@@ -75,7 +74,7 @@ const AddOurCompany = async ({ name, emails, websites, phones, cin_no, tan_no, p
 
 const DeleteOurCompany = async (id) => {
     try {
-        const result = await OurCompany.findByIdAndDelete(id);
+        const result = await Company.findByIdAndDelete(id);
 
         return result;
     } catch (error) {
@@ -86,7 +85,7 @@ const DeleteOurCompany = async (id) => {
 const UpdateOurCompany = async (id, updateOurCompanyData) => {
     try {
         const filter = { _id: id };
-        const result = await OurCompany.findByIdAndUpdate(filter, updateOurCompanyData, {
+        const result = await Company.findByIdAndUpdate(filter, updateOurCompanyData, {
             new: true,
         });
         return result;

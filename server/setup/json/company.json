@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Shail Green Energy Power Private Limited 2",
+        "emails": [
+            "info@tarparking.com",
+            "sales@tarparking.com",
+            "info@shailinternationalgroup.com"
+        ],
+        "websites": [
+            "www.tarparking.com",
+            "www.shailinternationalgroup.com"
+        ],
+        "phones": [
+            "+91 8448996050",
+            "+91 8448996051"
+        ],
+        "cin_no": "U40100DL2016PTC289509",
+        "tan_no": "DELS04236I",
+        "pan_no": "AAWCS6434R",
+        "gst_no": "09AAWCS6434R1Z3",
+        "address": {
+            "office": "OC 827-830, 8th Floor, Gaur City Center, Greater Noida West, Uttar Pradesh, 201301",
+            "factory": "D-5, Site–B, UPSIDC Industrial Area, Surajpur, Greater Noida, Uttar Pradesh 201306"
+        },
+        "bank_details": {
+            "bank_name": "HDFC",
+            "account_no": "59280000008899",
+            "ifsc": "HDFC0004403",
+            "branch": "78/3, Maharanibagh, New Delhi"
+        }
+    }
+]

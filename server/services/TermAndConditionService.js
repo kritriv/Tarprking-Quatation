@@ -1,8 +1,7 @@
-const SubProduct = require('../models/SubProductModel');
-const TermAndConditions = require('../models/TermAndConditionModel');
+const { SubProduct, TermAndCondition } = require('../models');
+
 const { ObjectId } = require('mongodb');
 const { limitOffsetPageNumber } = require('../utils/pagination');
-const TermAndCondition = require('../models/TermAndConditionModel');
 
 const ViewTermAndConditions = async ({ id, sort, select, page = 1, size = 10 }) => {
     try {
@@ -16,7 +15,7 @@ const ViewTermAndConditions = async ({ id, sort, select, page = 1, size = 10 }) 
 
         // ======== Short , Select ======
 
-        let apiData = TermAndConditions.find(queryObject);
+        let apiData = TermAndCondition.find(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -32,9 +31,9 @@ const ViewTermAndConditions = async ({ id, sort, select, page = 1, size = 10 }) 
         const { limit, offset } = limitOffsetPageNumber(page, size);
         apiData = apiData.skip(offset).limit(limit);
 
-        const TermAndCondition = await apiData;
+        const TermAndConditions = await apiData;
 
-        return TermAndCondition;
+        return TermAndConditions;
     } catch (error) {
         throw new Error('An error occurred while fetching TermAndConditionss: ' + error.message);
     }
@@ -43,7 +42,7 @@ const ViewTermAndConditions = async ({ id, sort, select, page = 1, size = 10 }) 
 const SingleTermAndCondition = async (id) => {
     try {
         const filter = { _id: new ObjectId(id) };
-        const result = await TermAndConditions.findOne(filter);
+        const result = await TermAndCondition.findOne(filter);
 
         return result;
     } catch (error) {
@@ -73,7 +72,7 @@ const AddTermAndCondition = async ({
             throw new Error('Sub Product not found');
         }
 
-        const newTermAndConditions = new TermAndConditions({
+        const newTermAndConditions = new TermAndCondition({
             sub_product,
             prices,
             payment_terms,
@@ -89,7 +88,7 @@ const AddTermAndCondition = async ({
             validity,
         });
 
-        const result = await TermAndConditions(newTermAndConditions).save();
+        const result = await TermAndCondition(newTermAndConditions).save();
         existingSubProduct.tnc = result._id;
         await existingSubProduct.save();
         return result;
@@ -102,13 +101,12 @@ const DeleteTermAndCondition = async (id) => {
     try {
         const termCondition = await TermAndCondition.findById(id);
         const subProductId = termCondition.sub_product._id;
-        
+
         const deletedtermCondition = await TermAndCondition.findByIdAndDelete(id);
 
         // Remove the tnc from the Sub product
         const subProduct = await SubProduct.findById(subProductId);
         if (subProduct) {
-            // subProduct.tnc.pull(id);
             subProduct.tnc = null;
             await subProduct.save();
         }
@@ -122,14 +120,13 @@ const DeleteTermAndCondition = async (id) => {
 const UpdateTermAndCondition = async (id, updateTermAndConditionsData) => {
     try {
         const filter = { _id: id };
-        const result = await TermAndConditions.findByIdAndUpdate(filter, updateTermAndConditionsData, {
+        const result = await TermAndCondition.findByIdAndUpdate(filter, updateTermAndConditionsData, {
             new: true,
         });
         return result;
     } catch (error) {
         throw new Error(`Error occurred while updating TermAndConditions: ${error.message}`);
     }
-    f;
 };
 
 module.exports = {
