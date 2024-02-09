@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../middlewares/authentication');
 const { getPermissions } = require('../modules/permission');
-const { uploadImg } = require('../utils/uploadByMulter');
+const { uploadImg } = require('../middlewares/multer');
 const { getAllSubProducts, postSingleSubProduct, getSingleSubProduct, deleteSingleSubProduct, updateSingleSubProduct, UploadSubProductImg } = require('../controllers/SubProductController');
 
 const { SubProductSchema } = require('../validators/Schemas');

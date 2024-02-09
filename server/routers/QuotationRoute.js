@@ -3,9 +3,9 @@ const router = express.Router();
 const { getAllQuotes, postSingleQuote, getSingleQuote, deleteSingleQuote, updateSingleQuote, UploadQuoteBackImg } = require('../controllers/QuotationController');
 const { authMiddleware } = require('../middlewares/authentication');
 const { getPermissions } = require('../modules/permission');
-const { uploadImg } = require('../utils/uploadByMulter');
+const { uploadImg } = require('../middlewares/multer');
 
-const { ClientSchema } = require('../validators/Schemas');
+const { QuoteSchemaSchema } = require('../validators/Schemas');
 const validate = require('../validators/validate');
 
 // Middleware to parse JSON bodies

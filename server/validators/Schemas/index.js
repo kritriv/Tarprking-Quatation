@@ -1,12 +1,13 @@
 const { idSchema } = require('./IdValidate');
-const { RegisterSchema, LoginSchema } = require('./AuthValidator');
+const { RegisterSchema, LoginSchema } = require('./AuthValidate');
 const { Userschema } = require('./UserValidate');
 const { ClientSchema } = require('./ClientValidate');
-const { CategorySchema } = require('./ProductCategoryValidator');
+const { CategorySchema } = require('./ProductCategoryValidate');
 const { productSchema } = require('./ProductValidate');
-const { SubProductSchema } = require('./SubProductValidators');
+const { SubProductSchema } = require('./SubProductValidate');
 const { SpecificationSchema } = require('./SpecificationValidate');
 const { OurCompanySchema } = require('./OurCompanyValidate');
 const { TermAndConditionSchema } = require('./TermAndConditionValidate');
+const { QuoteSchema } = require('./QuoteValidate');
 
-module.exports = { idSchema, RegisterSchema, LoginSchema, Userschema, ClientSchema, CategorySchema, productSchema, SubProductSchema, SpecificationSchema, OurCompanySchema , TermAndConditionSchema};
+module.exports = { idSchema, RegisterSchema, LoginSchema, Userschema, ClientSchema, CategorySchema, productSchema, SubProductSchema, SpecificationSchema, OurCompanySchema , TermAndConditionSchema, QuoteSchema};
