@@ -3,6 +3,7 @@ const Client = require('../models/ClientModel');
 const Product = require('../models/SubProductModel');
 const Quote = require('../models/QuoteModel');
 const { ObjectId } = require('mongodb');
+const path = require('path');
 const { limitOffsetPageNumber } = require('../utils/pagination');
 
 const ViewQuote = async ({ id, sort, select, page = 1, size = 10 }) => {
@@ -186,10 +187,27 @@ const UpdateQuote = async (id, { refno, createdby, client, item, expired_date, s
     }
 };
 
+const AddQuoteBackImg = async (id, file) => {
+    try {
+        const quote = await Quote.findById(id);
+
+        if (!quote) {
+            throw new Error('Quote not found');
+        }
+        
+        const imagePath =  path.join(file.path);
+        quote.back_image = imagePath;
+        await quote.save();
+        return `${imagePath}`;
+    } catch (error) {
+        throw new Error(`Error occurred while adding Back Img to Quote: ${error.message}`);
+    }
+};
 module.exports = {
     ViewQuote,
     AddQuote,
     SingleQuote,
     DeleteQuote,
     UpdateQuote,
+    AddQuoteBackImg
 };

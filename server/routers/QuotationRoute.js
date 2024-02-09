@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getAllQuotes, postSingleQuote, getSingleQuote, deleteSingleQuote, updateSingleQuote } = require('../controllers/QuotationController');
+const { getAllQuotes, postSingleQuote, getSingleQuote, deleteSingleQuote, updateSingleQuote, UploadQuoteBackImg } = require('../controllers/QuotationController');
 const { authMiddleware } = require('../middlewares/authentication');
 const { getPermissions } = require('../modules/permission');
+const { uploadImg } = require('../utils/uploadByMulter');
 
 const { ClientSchema } = require('../validators/Schemas');
 const validate = require('../validators/validate');
@@ -24,5 +25,8 @@ router.delete('/:id', authMiddleware(getPermissions('MEDIUM')), deleteSingleQuot
 
 // To Update a Single Client Details
 router.put('/:id', authMiddleware(getPermissions('MEDIUM')), updateSingleQuote);
+
+// To Add a Back Images of quote 
+router.put('/upload-image/:id', authMiddleware(getPermissions('HIGH')), uploadImg,  UploadQuoteBackImg);
 
 module.exports = router;
