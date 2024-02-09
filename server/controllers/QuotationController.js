@@ -1,11 +1,13 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewQuote, AddQuote, SingleQuote, DeleteQuote, UpdateQuote, AddQuoteBackImg } = require('../services/QuoteService');
+// const { ViewQuote, AddQuote, SingleQuote, DeleteQuote, UpdateQuote, AddQuoteBackImg } = require('../services/QuoteService');
+const { create, list, search, remove, update, upload } = require('../services/Quotation');
+
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Quotes List
 const getAllQuotes = async (req, res) => {
     try {
-        const Quotes = await ViewQuote(req.query);
+        const Quotes = await list(req.query);
 
         if (!Quotes || Quotes.length === 0) {
             return handleApiResponse(res, 404, 'Quotes not found');
@@ -24,7 +26,7 @@ const getSingleQuote = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Quote = await SingleQuote(id);
+        const Quote = await search(id);
 
         if (!Quote) {
             return handleApiResponse(res, 404, 'Quote not found');
@@ -43,7 +45,7 @@ const getSingleQuote = async (req, res) => {
 // To Add a Quote to Quotes list
 const postSingleQuote = async (req, res) => {
     try {
-        const Quote = await AddQuote(req.body);
+        const Quote = await create(req.body);
 
         handleApiResponse(res, 201, 'Quote added successfully', {
             data: Quote,
@@ -72,13 +74,13 @@ const deleteSingleQuote = async (req, res) => {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
 
-        const DeletedQuote = await SingleQuote(id);
+        const DeletedQuote = await search(id);
 
         if (!DeletedQuote) {
             return handleApiResponse(res, 404, 'Quote not found, deletion unsuccessful');
         }
 
-        const DeletedQuoteRes = await DeleteQuote(id);
+        const DeletedQuoteRes = await remove(id);
 
         handleApiResponse(res, 200, 'Quote deleted successfully', {
             deleted: DeletedQuoteRes,
@@ -95,7 +97,7 @@ const updateSingleQuote = async (req, res) => {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
 
-        const updatedQuote = await UpdateQuote(id, req.body);
+        const updatedQuote = await update(id, req.body);
 
         if (!updatedQuote) {
             return res.status(404).json({ message: 'Quote not found, update unsuccessful' });
@@ -132,7 +134,7 @@ const UploadQuoteBackImg = async (req, res) => {
         if (!file) {
             return handleApiResponse(res, 400, 'No file uploaded. Please provide a valid image file.');
         }
-        const subProduct = await AddQuoteBackImg(id, file);
+        const subProduct = await upload(id, file);
 
         handleApiResponse(res, 201, 'Quote back image added successfully', {
             data: subProduct,

@@ -1,11 +1,13 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewOurCompany, AddOurCompany, SingleOurCompany, DeleteOurCompany, UpdateOurCompany } = require('../services/OurCompanyService');
+// const { ViewOurCompany, AddOurCompany, SingleOurCompany, DeleteOurCompany, UpdateOurCompany } = require('../services/OurCompanyService');
+const { create, list, search, remove, update } = require('../services/Company');
+
 const { idSchema } = require('../validators/Schemas');
 
 // To get All OurCompany list
 const getAllOurCompany = async (req, res) => {
     try {
-        const OurCompanies = await ViewOurCompany(req.query);
+        const OurCompanies = await list(req.query);
         if (!OurCompanies || OurCompanies.length === 0) {
             return handleApiResponse(res, 404, 'Company Info not found');
         }
@@ -37,7 +39,7 @@ const getSingleOurCompany = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const OurCompany = await SingleOurCompany(id);
+        const OurCompany = await search(id);
 
         if (!OurCompany) {
             return handleApiResponse(res, 404, 'Company Info not found');
@@ -67,7 +69,7 @@ const getSingleOurCompany = async (req, res) => {
 // To Add a OurCompany to OurCompany list
 const postSingleOurCompany = async (req, res) => {
     try {
-        const OurCompany = await AddOurCompany(req.body);
+        const OurCompany = await create(req.body);
 
         const formattedOurCompany = {
             id: OurCompany._id,
@@ -102,13 +104,13 @@ const deleteSingleOurCompany = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const OurCompany = await SingleOurCompany(id);
+        const OurCompany = await search(id);
 
         if (!OurCompany) {
             return handleApiResponse(res, 404, 'Company Info not found, deletion unsuccessful');
         }
 
-        const OurCompanyRes = await DeleteOurCompany(id);
+        const OurCompanyRes = await remove(id);
 
         const formattedOurCompany = {
             id: OurCompanyRes._id,
@@ -130,7 +132,7 @@ const updateSingleOurCompany = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateOurCompanyData = req.body;
-        const OurCompany = await UpdateOurCompany(id, updateOurCompanyData);
+        const OurCompany = await update(id, updateOurCompanyData);
 
         if (!OurCompany) {
             return handleApiResponse(res, 404, 'Company Info not found, update unsuccessful');

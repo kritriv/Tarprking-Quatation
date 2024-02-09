@@ -1,11 +1,12 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewUser, AddUser, SingleUser, DeleteUser, UpdateUser } = require('../services/UserService');
+// const { ViewUser, AddUser, SingleUser, DeleteUser, UpdateUser } = require('../services/UserService');
+const { create, list, search, remove, update } = require('../services/User');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Users list
 const getAllUsers = async (req, res) => {
     try {
-        const users = await ViewUser(req.query);
+        const users = await list(req.query);
 
         if (!users.length) {
             return handleApiResponse(res, 404, 'Users not found');
@@ -33,7 +34,7 @@ const getSingleUser = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const User = await SingleUser(id);
+        const User = await search(id);
 
         if (!User) {
             return res.status(404).json({ message: 'User not found' });
@@ -60,7 +61,7 @@ const getSingleUser = async (req, res) => {
 const postSingleUser = async (req, res) => {
     const data = req.body;
     try {
-        const User = await AddUser(data);
+        const User = await create(data);
 
         const formattedUser = {
             id: User._id,
@@ -86,7 +87,7 @@ const deleteSingleUser = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const DeletedUser = await SingleUser(id);
+        const DeletedUser = await search(id);
 
         if (!DeletedUser) {
             return handleApiResponse(res, 404, 'User not found, deletion unsuccessful');
@@ -97,7 +98,7 @@ const deleteSingleUser = async (req, res) => {
             role: DeletedUser.role,
         };
 
-        const DeletedUserStatus = await DeleteUser(id);
+        const DeletedUserStatus = await remove(id);
 
         handleApiResponse(res, 200, 'User deleted successfully', {
             details: DeletedUserStatus,
@@ -116,7 +117,7 @@ const updateSingleUser = async (req, res) => {
         const id = req.params.id;
         const updateUserData = req.body;
         await idSchema.parseAsync({ _id: id });
-        const updatedUser = await UpdateUser(id, updateUserData);
+        const updatedUser = await update(id, updateUserData);
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found, update unsuccessful' });

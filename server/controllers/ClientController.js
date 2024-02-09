@@ -1,12 +1,13 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewClient, AddClient, SingleClient, DeleteClient, UpdateClient } = require('../services/ClientService');
+// const { ViewClient, AddClient, SingleClient, DeleteClient, UpdateClient } = require('../services/ClientService');
+const { create, list, search, remove, update } = require('../services/Client');
 
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Clients List
 const getAllClients = async (req, res) => {
     try {
-        const Clients = await ViewClient(req.query);
+        const Clients = await list(req.query);
 
         if (!Clients || Clients.length === 0) {
             return handleApiResponse(res, 404, 'Client Not found');
@@ -48,7 +49,7 @@ const getSingleClient = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Client = await SingleClient(id);
+        const Client = await search(id);
 
         if (!Client) {
             return handleApiResponse(res, 404, 'Client not found');
@@ -90,7 +91,7 @@ const getSingleClient = async (req, res) => {
 const postSingleClient = async (req, res) => {
     const data = req.body;
     try {
-        const Client = await AddClient(data);
+        const Client = await create(data);
 
         const formattedClient = {
             id: Client._id,
@@ -134,12 +135,12 @@ const deleteSingleClient = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Client = await SingleClient(id);
+        const Client = await search(id);
 
         if (!Client) {
             return handleApiResponse(res, 404, 'Client not found, deletion unsuccessful');
         }
-        const ClientRes = await DeleteClient(id);
+        const ClientRes = await remove(id);
 
         const formattedClient = {
             id: ClientRes._id,
@@ -168,7 +169,7 @@ const updateSingleClient = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateClientData = req.body;
-        const Client = await UpdateClient(id, updateClientData);
+        const Client = await update(id, updateClientData);
 
         if (!Client) {
             return handleApiResponse(res, 404, 'Client not found, update unsuccessful');

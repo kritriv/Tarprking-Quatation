@@ -1,11 +1,12 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewSubProduct, AddSubProduct, SingleSubProduct, DeleteSubProduct, UpdateSubProduct, AddSubProductImg } = require('../services/SubProductService');
+// const { ViewSubProduct, AddSubProduct, SingleSubProduct, DeleteSubProduct, UpdateSubProduct, AddSubProductImg } = require('../services/SubProductService');
+const { create, list, search, remove, update, upload } = require('../services/SubProduct');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All SubProducts list
 const getAllSubProducts = async (req, res) => {
     try {
-        const SubProducts = await ViewSubProduct(req.query);
+        const SubProducts = await list(req.query);
         if (!SubProducts || SubProducts.length === 0) {
             return handleApiResponse(res, 404, 'Sub Product not found');
         }
@@ -48,7 +49,7 @@ const getSingleSubProduct = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const SubProduct = await SingleSubProduct(id);
+        const SubProduct = await search(id);
 
         if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found');
@@ -90,7 +91,7 @@ const getSingleSubProduct = async (req, res) => {
 // To Add a SubProduct to SubProducts list
 const postSingleSubProduct = async (req, res) => {
     try {
-        const SubProduct = await AddSubProduct(req.body);
+        const SubProduct = await create(req.body);
 
         const formattedSubProduct = {
             id: SubProduct._id,
@@ -136,13 +137,13 @@ const deleteSingleSubProduct = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const SubProduct = await SingleSubProduct(id);
+        const SubProduct = await search(id);
 
         if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found, deletion unsuccessful');
         }
 
-        const SubProductRes = await DeleteSubProduct(id);
+        const SubProductRes = await remove(id);
 
         const formattedSubProduct = {
             id: SubProductRes._id,
@@ -169,7 +170,7 @@ const updateSingleSubProduct = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateSubProductData = req.body;
-        const SubProduct = await UpdateSubProduct(id, updateSubProductData);
+        const SubProduct = await upload(id, updateSubProductData);
 
         if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found, update unsuccessful');
@@ -224,7 +225,7 @@ const UploadSubProductImg = async (req, res) => {
         if (!file) {
             return handleApiResponse(res, 400, 'No file uploaded. Please provide a valid image file.');
         }
-        const subProduct = await AddSubProductImg(id, file);
+        const subProduct = await upload(id, file);
 
         handleApiResponse(res, 201, 'Sub Product image added successfully', {
             data: subProduct,

@@ -1,11 +1,13 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewSpecification, AddSpecification, SingleSpecification, DeleteSpecification, UpdateSpecification } = require('../services/SpecificationService');
+// const { ViewSpecification, AddSpecification, SingleSpecification, DeleteSpecification, UpdateSpecification } = require('../services/SpecificationService');
+const { create, list, search, remove, update } = require('../services/Specification');
+
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Specifications list
 const getAllSpecifications = async (req, res) => {
     try {
-        const Specifications = await ViewSpecification(req.query);
+        const Specifications = await list(req.query);
         if (!Specifications || Specifications.length === 0) {
             return handleApiResponse(res, 404, 'Specification not found');
         }
@@ -44,7 +46,7 @@ const getSingleSpecification = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Specification = await SingleSpecification(id);
+        const Specification = await search(id);
 
         if (!Specification) {
             return handleApiResponse(res, 404, 'Specification not found');
@@ -83,7 +85,7 @@ const getSingleSpecification = async (req, res) => {
 // To Add a Specification to Specifications list
 const postSingleSpecification = async (req, res) => {
     try {
-        const Specification = await AddSpecification(req.body);
+        const Specification = await create(req.body);
 
         const formattedSpecification = {
             id: Specification._id,
@@ -122,18 +124,17 @@ const deleteSingleSpecification = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Specification = await SingleSpecification(id);
+        const Specification = await search(id);
 
         if (!Specification) {
             return handleApiResponse(res, 404, 'Specification not found, deletion unsuccessful');
         }
 
-        const SpecificationRes = await DeleteSpecification(id);
+        const SpecificationRes = await remove(id);
 
         const formattedSpecification = {
             id: SpecificationRes._id,
             sub_product: SpecificationRes.sub_product ? SpecificationRes.sub_product.name : null,
-
         };
 
         handleApiResponse(res, 200, 'Specification deleted successfully', {
@@ -152,7 +153,7 @@ const updateSingleSpecification = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateSpecificationData = req.body;
-        const Specification = await UpdateSpecification(id, updateSpecificationData);
+        const Specification = await update(id, updateSpecificationData);
 
         if (!Specification) {
             return handleApiResponse(res, 404, 'Specification not found, update unsuccessful');

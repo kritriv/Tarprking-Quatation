@@ -1,11 +1,12 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewProductCategory, AddProductCategory, SingleProductCategory, DeleteProductCategory, UpdateProductCategory } = require('../services/ProductCategoryService');
+// const { ViewProductCategory, AddProductCategory, SingleProductCategory, DeleteProductCategory, UpdateProductCategory } = require('../services/ProductCategoryService');
+const { create, list, search, remove, update } = require('../services/Category');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All ProductCategorys list
 const getAllProductCategorys = async (req, res) => {
     try {
-        const ProductCategory = await ViewProductCategory(req.query);
+        const ProductCategory = await list(req.query);
         if (!ProductCategory || ProductCategory.length === 0) {
             return handleApiResponse(res, 404, 'Category not found');
         }
@@ -35,7 +36,7 @@ const getSingleProductCategory = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const ProductCategory = await SingleProductCategory(id);
+        const ProductCategory = await search(id);
 
         if (!ProductCategory) {
             return handleApiResponse(res, 404, 'Category not found');
@@ -66,7 +67,7 @@ const getSingleProductCategory = async (req, res) => {
 // To Add a ProductCategory to ProductCategorys list
 const postSingleProductCategory = async (req, res) => {
     try {
-        const ProductCategory = await AddProductCategory(req.body);
+        const ProductCategory = await create(req.body);
 
         const formattedCategory = {
             id: ProductCategory._id,
@@ -99,12 +100,12 @@ const deleteSingleProductCategory = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const DeletedCategory = await SingleProductCategory(id);
+        const DeletedCategory = await search(id);
 
         if (!DeletedCategory) {
             return handleApiResponse(res, 404, 'Category not found, deletion unsuccessful');
         }
-        const DeletedCategoryRes = await DeleteProductCategory(id);
+        const DeletedCategoryRes = await remove(id);
 
         const formattedDeletedCategory = {
             id: DeletedCategoryRes._id,
@@ -128,7 +129,7 @@ const updateSingleProductCategory = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateProductCategoryData = req.body;
-        const ProductCategory = await UpdateProductCategory(id, updateProductCategoryData);
+        const ProductCategory = await update(id, updateProductCategoryData);
 
         if (!ProductCategory) {
             return handleApiResponse(res, 404, 'Product Category not found, update unsuccessful');

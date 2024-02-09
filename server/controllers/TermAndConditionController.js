@@ -1,11 +1,12 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewTermAndConditions, AddTermAndCondition, SingleTermAndCondition, DeleteTermAndCondition, UpdateTermAndCondition } = require('../services/TermAndConditionService');
+// const { ViewTermAndConditions, AddTermAndCondition, SingleTermAndCondition, DeleteTermAndCondition, UpdateTermAndCondition } = require('../services/TermAndConditionService');
+const { create, list, search, remove, update } = require('../services/TermAndCondition');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All TermAndCondition list
 const getAllTermAndCondition = async (req, res) => {
     try {
-        const TermAndConditions = await ViewTermAndConditions(req.query);
+        const TermAndConditions = await list(req.query);
         if (!TermAndConditions || TermAndConditions.length === 0) {
             return handleApiResponse(res, 404, 'Term And Condition not found');
         }
@@ -41,7 +42,7 @@ const getSingleTermAndCondition = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const TermAndCondition = await SingleTermAndCondition(id);
+        const TermAndCondition = await search(id);
 
         if (!TermAndCondition) {
             return handleApiResponse(res, 404, 'Term And Condition not found');
@@ -77,7 +78,7 @@ const getSingleTermAndCondition = async (req, res) => {
 // To Add a TermAndCondition to TermAndCondition list
 const postSingleTermAndCondition = async (req, res) => {
     try {
-        const TermAndCondition = await AddTermAndCondition(req.body);
+        const TermAndCondition = await create(req.body);
 
         const formattedTermAndCondition = {
             id: TermAndCondition._id,
@@ -115,13 +116,13 @@ const deleteSingleTermAndCondition = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const TermAndCondition = await SingleTermAndCondition(id);
+        const TermAndCondition = await search(id);
 
         if (!TermAndCondition) {
             return handleApiResponse(res, 404, 'Term And Condition not found, deletion unsuccessful');
         }
 
-        const TermAndConditionRes = await DeleteTermAndCondition(id);
+        const TermAndConditionRes = await remove(id);
 
         const formattedTermAndCondition = {
             id: TermAndConditionRes._id,
@@ -144,7 +145,7 @@ const updateSingleTermAndCondition = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
 
         const updateTermAndConditionData = req.body;
-        const TermAndCondition = await UpdateTermAndCondition(id, updateTermAndConditionData);
+        const TermAndCondition = await update(id, updateTermAndConditionData);
 
         if (!TermAndCondition) {
             return handleApiResponse(res, 404, 'Term And Condition not found, update unsuccessful');

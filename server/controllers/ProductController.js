@@ -1,11 +1,12 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } = require('../services/ProductService');
+// const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } = require('../services/ProductService');
+const { create, list, search, remove, update } = require('../services/Product');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Products List
 const getAllProducts = async (req, res) => {
     try {
-        const Products = await ViewProduct(req.query);
+        const Products = await list(req.query);
 
         if (!Products || Products.length === 0) {
             return handleApiResponse(res, 404, 'Products not found');
@@ -37,7 +38,7 @@ const getSingleProduct = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        const Product = await SingleProduct(id);
+        const Product = await search(id);
 
         if (!Product) {
             return handleApiResponse(res, 404, 'Product not found');
@@ -68,7 +69,7 @@ const getSingleProduct = async (req, res) => {
 // To Add a Product to Products list
 const postSingleProduct = async (req, res) => {
     try {
-        const Product = await AddProduct(req.body);
+        const Product = await create(req.body);
         const formattedProduct = {
             id: Product._id,
             status: Product.status,
@@ -103,13 +104,13 @@ const deleteSingleProduct = async (req, res) => {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
 
-        const DeletedProduct = await SingleProduct(id);
+        const DeletedProduct = await search(id);
 
         if (!DeletedProduct) {
             return handleApiResponse(res, 404, 'Product not found, deletion unsuccessful');
         }
 
-        const DeletedProductRes = await DeleteProduct(id);
+        const DeletedProductRes = await remove(id);
 
         const formattedProduct = {
             id: DeletedProductRes._id,
@@ -132,7 +133,7 @@ const updateSingleProduct = async (req, res) => {
         await idSchema.parseAsync({ _id: id });
         const updateProductData = req.body;
 
-        const updatedProduct = await UpdateProduct(id, updateProductData);
+        const updatedProduct = await update(id, updateProductData);
 
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found, update unsuccessful' });

@@ -1,4 +1,4 @@
-const User = require('../models/UserModel');
+const { User } = require('../models');
 const { hashPassword, comparePassword } = require('../modules/password');
 const { revokeAccessToken, blacklistedTokens } = require('../utils/AccessTokenCheck');
 const { generateAccessToken } = require('../modules/jwt.service');
@@ -55,7 +55,7 @@ const logout = async (req, res) => {
         const authHeader = req.headers.authorization;
         // Validate and extract token
         const token = authHeader?.split(' ')[1];
-        console.log(token)
+        console.log(token);
         if (!token) {
             return handleApiResponse(res, 401, 'Invalid or missing access token.');
         }
