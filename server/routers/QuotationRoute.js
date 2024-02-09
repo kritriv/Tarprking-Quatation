@@ -5,7 +5,7 @@ const { authMiddleware } = require('../middlewares/authentication');
 const { getPermissions } = require('../modules/permission');
 const { uploadImg } = require('../middlewares/multer');
 
-const { QuoteSchemaSchema } = require('../validators/Schemas');
+const { QuoteSchema } = require('../validators/Schemas');
 const validate = require('../validators/validate');
 
 // Middleware to parse JSON bodies
@@ -18,15 +18,15 @@ router.get('/', authMiddleware(getPermissions('MEDIUM')), getAllQuotes);
 router.get('/:id', authMiddleware(getPermissions('MEDIUM')), getSingleQuote);
 
 // To Add a Client to Clients list
-router.post('/add-quote', authMiddleware(getPermissions('MEDIUM')), postSingleQuote);
+router.post('/add-quote', authMiddleware(getPermissions('MEDIUM')), validate(QuoteSchema), postSingleQuote);
 
 // To Delete Single Client Details
 router.delete('/:id', authMiddleware(getPermissions('MEDIUM')), deleteSingleQuote);
 
 // To Update a Single Client Details
-router.put('/:id', authMiddleware(getPermissions('MEDIUM')), updateSingleQuote);
+router.put('/:id', authMiddleware(getPermissions('MEDIUM')), validate(QuoteSchema), updateSingleQuote);
 
-// To Add a Back Images of quote 
-router.put('/upload-image/:id', authMiddleware(getPermissions('HIGH')), uploadImg,  UploadQuoteBackImg);
+// To Add a Back Images of quote
+router.put('/upload-image/:id', authMiddleware(getPermissions('HIGH')), uploadImg, UploadQuoteBackImg);
 
 module.exports = router;
