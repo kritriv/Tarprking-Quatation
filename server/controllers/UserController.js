@@ -4,7 +4,7 @@ const { create, list, search, remove, update } = require('../services/User');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Users list
-const getAllUsers = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const users = await list(req.query);
 
@@ -30,7 +30,7 @@ const getAllUsers = async (req, res) => {
 };
 
 // To get Single User Details
-const getSingleUser = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -58,7 +58,7 @@ const getSingleUser = async (req, res) => {
 };
 
 // To Add a User to Users list
-const postSingleUser = async (req, res) => {
+const CreateItem = async (req, res) => {
     const data = req.body;
     try {
         const User = await create(data);
@@ -83,7 +83,7 @@ const postSingleUser = async (req, res) => {
 };
 
 // To Delete a Single User Details
-const deleteSingleUser = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -112,7 +112,7 @@ const deleteSingleUser = async (req, res) => {
 };
 
 // To Update a Single User Details
-const updateSingleUser = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         const updateUserData = req.body;
@@ -141,9 +141,9 @@ const updateSingleUser = async (req, res) => {
 };
 
 module.exports = {
-    getAllUsers,
-    postSingleUser,
-    getSingleUser,
-    deleteSingleUser,
-    updateSingleUser,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };

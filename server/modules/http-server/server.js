@@ -3,7 +3,8 @@ const express = require('express');
 const server = express();
 const cors = require('cors');
 const { expressLoggerMiddleware, logger } = require('../../utils/logger');
-const Routes = require('../../routers');
+const AppRoutes = require('../../routers/appRoutes');
+const AuthRoutes = require('../../routers/authentication');
 
 const HTTPServer = (PORT) => {
     // middleware or set the routes
@@ -12,7 +13,8 @@ const HTTPServer = (PORT) => {
     server.use(express.urlencoded({ extended: true }));
     server.use(expressLoggerMiddleware);
 
-    server.use('/api/v1', Routes);
+    server.use('/api/v1', AppRoutes);
+    server.use('/api/v1', AuthRoutes);
 
     return server.listen(PORT, () => {
         logger.info(`Server is running on PORT ${PORT}`);

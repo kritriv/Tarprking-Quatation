@@ -5,7 +5,7 @@ const { create, list, search, remove, update } = require('../services/Company');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All OurCompany list
-const getAllOurCompany = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const OurCompanies = await list(req.query);
         if (!OurCompanies || OurCompanies.length === 0) {
@@ -35,7 +35,7 @@ const getAllOurCompany = async (req, res) => {
 };
 
 // To get Single OurCompany Details
-const getSingleOurCompany = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -67,7 +67,7 @@ const getSingleOurCompany = async (req, res) => {
 };
 
 // To Add a OurCompany to OurCompany list
-const postSingleOurCompany = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const OurCompany = await create(req.body);
 
@@ -100,7 +100,7 @@ const postSingleOurCompany = async (req, res) => {
 };
 
 // To Delete a Single OurCompany Details
-const deleteSingleOurCompany = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -126,7 +126,7 @@ const deleteSingleOurCompany = async (req, res) => {
 };
 
 // To Update a Single OurCompany Details
-const updateSingleOurCompany = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -167,9 +167,9 @@ const updateSingleOurCompany = async (req, res) => {
 };
 
 module.exports = {
-    getAllOurCompany,
-    postSingleOurCompany,
-    getSingleOurCompany,
-    deleteSingleOurCompany,
-    updateSingleOurCompany,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };

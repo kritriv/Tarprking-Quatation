@@ -12,7 +12,7 @@ const validate = require('../validators/validate');
 router.use(express.json());
 
 // To get All Clients list
-router.get('/',  getAllQuotes);
+router.get('/', authMiddleware(getPermissions('MEDIUM')), getAllQuotes);
 
 // To get Single Client Details
 router.get('/:id', authMiddleware(getPermissions('MEDIUM')), getSingleQuote);

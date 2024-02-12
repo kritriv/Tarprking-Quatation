@@ -4,7 +4,7 @@ const { create, list, search, remove, update, upload } = require('../services/Su
 const { idSchema } = require('../validators/Schemas');
 
 // To get All SubProducts list
-const getAllSubProducts = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const SubProducts = await list(req.query);
         if (!SubProducts || SubProducts.length === 0) {
@@ -45,7 +45,7 @@ const getAllSubProducts = async (req, res) => {
 };
 
 // To get Single SubProduct Details
-const getSingleSubProduct = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -89,7 +89,7 @@ const getSingleSubProduct = async (req, res) => {
 };
 
 // To Add a SubProduct to SubProducts list
-const postSingleSubProduct = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const SubProduct = await create(req.body);
 
@@ -133,7 +133,7 @@ const postSingleSubProduct = async (req, res) => {
 };
 
 // To Delete a Single SubProduct Details
-const deleteSingleSubProduct = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -164,13 +164,13 @@ const deleteSingleSubProduct = async (req, res) => {
 };
 
 // To Update a Single SubProduct Details
-const updateSingleSubProduct = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
 
         const updateSubProductData = req.body;
-        const SubProduct = await upload(id, updateSubProductData);
+        const SubProduct = await update(id, updateSubProductData);
 
         if (!SubProduct) {
             return handleApiResponse(res, 404, 'Sub Product not found, update unsuccessful');
@@ -217,11 +217,12 @@ const updateSingleSubProduct = async (req, res) => {
 };
 
 // To Add a SubProduct Image
-const UploadSubProductImg = async (req, res) => {
+const Upload = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
         const file = req.file;
+        console.log(req.file)
         if (!file) {
             return handleApiResponse(res, 400, 'No file uploaded. Please provide a valid image file.');
         }
@@ -250,10 +251,10 @@ const UploadSubProductImg = async (req, res) => {
 };
 
 module.exports = {
-    getAllSubProducts,
-    postSingleSubProduct,
-    getSingleSubProduct,
-    deleteSingleSubProduct,
-    updateSingleSubProduct,
-    UploadSubProductImg,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
+    Upload
 };

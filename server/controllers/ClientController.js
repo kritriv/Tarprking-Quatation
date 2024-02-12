@@ -5,7 +5,7 @@ const { create, list, search, remove, update } = require('../services/Client');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Clients List
-const getAllClients = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const Clients = await list(req.query);
 
@@ -45,7 +45,7 @@ const getAllClients = async (req, res) => {
 };
 
 // To get Single Client Details
-const getSingleClient = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -88,7 +88,7 @@ const getSingleClient = async (req, res) => {
 };
 
 // To Add a Client to Clients list
-const postSingleClient = async (req, res) => {
+const CreateItem = async (req, res) => {
     const data = req.body;
     try {
         const Client = await create(data);
@@ -131,7 +131,7 @@ const postSingleClient = async (req, res) => {
 };
 
 // To Delete a Single Client Details
-const deleteSingleClient = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -163,7 +163,7 @@ const deleteSingleClient = async (req, res) => {
 };
 
 // To Update a Single Client Details
-const updateSingleClient = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -213,9 +213,9 @@ const updateSingleClient = async (req, res) => {
 };
 
 module.exports = {
-    getAllClients,
-    getSingleClient,
-    postSingleClient,
-    deleteSingleClient,
-    updateSingleClient,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };

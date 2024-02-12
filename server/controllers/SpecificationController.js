@@ -5,7 +5,7 @@ const { create, list, search, remove, update } = require('../services/Specificat
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Specifications list
-const getAllSpecifications = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const Specifications = await list(req.query);
         if (!Specifications || Specifications.length === 0) {
@@ -42,7 +42,7 @@ const getAllSpecifications = async (req, res) => {
 };
 
 // To get Single Specification Details
-const getSingleSpecification = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -83,7 +83,7 @@ const getSingleSpecification = async (req, res) => {
 };
 
 // To Add a Specification to Specifications list
-const postSingleSpecification = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const Specification = await create(req.body);
 
@@ -120,7 +120,7 @@ const postSingleSpecification = async (req, res) => {
 };
 
 // To Delete a Single Specification Details
-const deleteSingleSpecification = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -147,7 +147,7 @@ const deleteSingleSpecification = async (req, res) => {
 };
 
 // To Update a Single Specification Details
-const updateSingleSpecification = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -195,9 +195,9 @@ const updateSingleSpecification = async (req, res) => {
 };
 
 module.exports = {
-    getAllSpecifications,
-    postSingleSpecification,
-    getSingleSpecification,
-    deleteSingleSpecification,
-    updateSingleSpecification,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };

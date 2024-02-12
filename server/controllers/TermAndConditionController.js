@@ -4,7 +4,7 @@ const { create, list, search, remove, update } = require('../services/TermAndCon
 const { idSchema } = require('../validators/Schemas');
 
 // To get All TermAndCondition list
-const getAllTermAndCondition = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const TermAndConditions = await list(req.query);
         if (!TermAndConditions || TermAndConditions.length === 0) {
@@ -38,7 +38,7 @@ const getAllTermAndCondition = async (req, res) => {
 };
 
 // To get Single TermAndCondition Details
-const getSingleTermAndCondition = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -76,7 +76,7 @@ const getSingleTermAndCondition = async (req, res) => {
 };
 
 // To Add a TermAndCondition to TermAndCondition list
-const postSingleTermAndCondition = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const TermAndCondition = await create(req.body);
 
@@ -112,7 +112,7 @@ const postSingleTermAndCondition = async (req, res) => {
 };
 
 // To Delete a Single TermAndCondition Details
-const deleteSingleTermAndCondition = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -139,7 +139,7 @@ const deleteSingleTermAndCondition = async (req, res) => {
 };
 
 // To Update a Single TermAndCondition Details
-const updateSingleTermAndCondition = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -184,9 +184,9 @@ const updateSingleTermAndCondition = async (req, res) => {
 };
 
 module.exports = {
-    getAllTermAndCondition,
-    postSingleTermAndCondition,
-    getSingleTermAndCondition,
-    deleteSingleTermAndCondition,
-    updateSingleTermAndCondition,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };

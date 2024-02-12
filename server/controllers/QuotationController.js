@@ -5,7 +5,7 @@ const { create, list, search, remove, update, upload } = require('../services/Qu
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Quotes List
-const getAllQuotes = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const Quotes = await list(req.query);
 
@@ -22,7 +22,7 @@ const getAllQuotes = async (req, res) => {
     }
 };
 // To get Single Quote Details
-const getSingleQuote = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -43,7 +43,7 @@ const getSingleQuote = async (req, res) => {
 };
 
 // To Add a Quote to Quotes list
-const postSingleQuote = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const Quote = await create(req.body);
 
@@ -69,7 +69,7 @@ const postSingleQuote = async (req, res) => {
 };
 
 // To Delete a Single Quote Details
-const deleteSingleQuote = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -92,7 +92,7 @@ const deleteSingleQuote = async (req, res) => {
 };
 
 // To Update a Single Quote Details
-const updateSingleQuote = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -126,7 +126,7 @@ const updateSingleQuote = async (req, res) => {
     }
 };
 
-const UploadQuoteBackImg = async (req, res) => {
+const Upload = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -160,10 +160,10 @@ const UploadQuoteBackImg = async (req, res) => {
 };
 
 module.exports = {
-    getAllQuotes,
-    getSingleQuote,
-    postSingleQuote,
-    deleteSingleQuote,
-    updateSingleQuote,
-    UploadQuoteBackImg,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
+    Upload
 };

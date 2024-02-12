@@ -4,7 +4,7 @@ const { create, list, search, remove, update } = require('../services/Product');
 const { idSchema } = require('../validators/Schemas');
 
 // To get All Products List
-const getAllProducts = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const Products = await list(req.query);
 
@@ -34,7 +34,7 @@ const getAllProducts = async (req, res) => {
     }
 };
 // To get Single Product Details
-const getSingleProduct = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -67,7 +67,7 @@ const getSingleProduct = async (req, res) => {
 };
 
 // To Add a Product to Products list
-const postSingleProduct = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const Product = await create(req.body);
         const formattedProduct = {
@@ -99,7 +99,7 @@ const postSingleProduct = async (req, res) => {
 };
 
 // To Delete a Single Product Details
-const deleteSingleProduct = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -127,7 +127,7 @@ const deleteSingleProduct = async (req, res) => {
 };
 
 // To Update a Single Product Details
-const updateSingleProduct = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -165,9 +165,9 @@ const updateSingleProduct = async (req, res) => {
 };
 
 module.exports = {
-    getAllProducts,
-    getSingleProduct,
-    postSingleProduct,
-    deleteSingleProduct,
-    updateSingleProduct,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };

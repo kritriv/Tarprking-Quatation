@@ -1,28 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
-// Import individual route files
-const userAuth = require('./authentication');
-const userRoutes = require('./UserRoutes');
-const clientRoutes = require('./ClientRoutes');
-const productCategoryRoutes = require('./ProductCategoryRoutes');
-const productRoutes = require('./ProductRoutes');
-const subProductRoutes = require('./SubProductRoutes');
-const specificationRoutes = require('./SpecificationRoutes');
-const ourCompanyRoutes = require('./OurCompanyRoutes');
-const termAndConditionRoutes = require('./TermAndConditionRoutes');
-const quotationRoutes = require('./QuotationRoute');
+// Define route configurations
+const routeConfigurations = [
+    { path: '/', route: require('./authentication') },
+    { path: '/users', route: require('./UserRoutes') },
+    { path: '/clients', route: require('./ClientRoutes') },
+    { path: '/categories', route: require('./ProductCategoryRoutes') },
+    { path: '/products', route: require('./ProductRoutes') },
+    { path: '/subproducts', route: require('./SubProductRoutes') },
+    { path: '/specifications', route: require('./SpecificationRoutes') },
+    { path: '/company-details', route: require('./OurCompanyRoutes') },
+    { path: '/terms-conditions', route: require('./TermAndConditionRoutes') },
+    { path: '/quotes', route: require('./QuotationRoute') },
+];
 
-// Mount individual route files
-router.use('/', userAuth);
-router.use('/users', userRoutes);
-router.use('/clients', clientRoutes);
-router.use('/categories', productCategoryRoutes);
-router.use('/products', productRoutes);
-router.use('/subproducts', subProductRoutes);
-router.use('/specifications', specificationRoutes);
-router.use('/company-details', ourCompanyRoutes);
-router.use('/terms-conditions', termAndConditionRoutes);
-router.use('/quotes', quotationRoutes);
+// Dynamically mount routes
+routeConfigurations.forEach(({ path, route }) => {
+    router.use(path, route);
+});
 
 module.exports = router;

@@ -4,7 +4,7 @@ const { create, list, search, remove, update } = require('../services/Category')
 const { idSchema } = require('../validators/Schemas');
 
 // To get All ProductCategorys list
-const getAllProductCategorys = async (req, res) => {
+const ListAll = async (req, res) => {
     try {
         const ProductCategory = await list(req.query);
         if (!ProductCategory || ProductCategory.length === 0) {
@@ -32,7 +32,7 @@ const getAllProductCategorys = async (req, res) => {
 };
 
 // To get Single ProductCategory Details
-const getSingleProductCategory = async (req, res) => {
+const ReadItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -65,7 +65,7 @@ const getSingleProductCategory = async (req, res) => {
 };
 
 // To Add a ProductCategory to ProductCategorys list
-const postSingleProductCategory = async (req, res) => {
+const CreateItem = async (req, res) => {
     try {
         const ProductCategory = await create(req.body);
 
@@ -96,7 +96,7 @@ const postSingleProductCategory = async (req, res) => {
 };
 
 // To Delete a Single ProductCategory Details
-const deleteSingleProductCategory = async (req, res) => {
+const RemoveItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -123,7 +123,7 @@ const deleteSingleProductCategory = async (req, res) => {
 };
 
 // To Update a Single ProductCategory Details
-const updateSingleProductCategory = async (req, res) => {
+const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
@@ -164,9 +164,9 @@ const updateSingleProductCategory = async (req, res) => {
 };
 
 module.exports = {
-    getAllProductCategorys,
-    postSingleProductCategory,
-    getSingleProductCategory,
-    deleteSingleProductCategory,
-    updateSingleProductCategory,
+    ListAll,
+    CreateItem,
+    ReadItem,
+    RemoveItem,
+    UpdateItem,
 };
