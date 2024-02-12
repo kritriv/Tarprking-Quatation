@@ -13,7 +13,7 @@ const ProductCategorySchema = new Schema(
             type: mongoose.Schema.ObjectId,
             ref: 'User',
             required: true,
-            autopopulate: { select: '_id role username email' },
+            autopopulate: { select: '_id username' },
         },
         name: {
             type: String,
