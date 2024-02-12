@@ -7,7 +7,8 @@
     "test": "NODE_ENV=test jest",
     "server": "nodemon server/app.js",
     "setup": "node server/setup/setup.js",
-    "reset": "node server/setup/reset.js"
+    "reset": "node server/setup/reset.js",
+    "swagger": "node server/swagger.js"
   },
   "keywords": [],
   "author": "Vishal Saraiwal<vishalsaraiwal68@gmail.com>",
@@ -31,6 +32,8 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "nodemon": "^3.0.2",
-    "supertest": "^6.3.4"
+    "supertest": "^6.3.4",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.0"
   }
 }

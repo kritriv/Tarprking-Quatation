@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { logger } = require('./utils/logger');
 const { mongoDBConnection } = require('./modules/database/connection');
 const { HTTPServer } = require('./modules/http-server');
