@@ -26,7 +26,6 @@ function authMiddleware(roles) {
 
                 // Check user role and perform role-based access control
                 const findUser = await User.findOne({ _id: decoded.userId }, { _id: 1, role: 1 }).lean();
-
                 if (!findUser || !roles.includes(findUser.role)) {
                     return handleApiResponse(res, 403, `Access Denied! ${findUser.role} is not allowed.`);
                 }
@@ -34,6 +33,7 @@ function authMiddleware(roles) {
                 req.user = findUser;
                 next();
             } catch (error) {
+                console.log(error);
                 if (error.message === 'Token expired') {
                     return handleApiResponse(res, 401, 'Token expired.');
                 } else if (error.message === 'Invalid token') {

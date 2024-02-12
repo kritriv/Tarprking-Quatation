@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewSpecification, AddSpecification, SingleSpecification, DeleteSpecification, UpdateSpecification } = require('../services/SpecificationService');
 const { create, list, search, remove, update } = require('../services/Specification');
 
 const { idSchema } = require('../validators/Schemas');

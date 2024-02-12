@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewProduct, AddProduct, SingleProduct, DeleteProduct, UpdateProduct } = require('../services/ProductService');
 const { create, list, search, remove, update } = require('../services/Product');
 const { idSchema } = require('../validators/Schemas');
 

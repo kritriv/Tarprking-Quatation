@@ -1,35 +1,47 @@
 const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../middlewares/authentication');
-const { getPermissions } = require('../modules/permission');
+const { hasPermissions } = require('../modules/permission');
 const { uploadImg } = require('../middlewares/multer');
 const validate = require('../validators/validate');
 
 // Function to dynamically generate routes
-function generateRoutes(entity, controller, schema, permissions) {
+function generateRoutes(entity, controller, schema) {
     const { ListAll, ReadItem, CreateItem, RemoveItem, UpdateItem, Upload } = controller;
-    router.get(`/${entity}/`, authMiddleware(getPermissions(permissions)), ListAll);
-    router.get(`/${entity}/:id`, authMiddleware(getPermissions(permissions)), ReadItem);
-    router.post(`/${entity}/add`, authMiddleware(getPermissions(permissions)), validate(schema), CreateItem);
-    router.delete(`/${entity}/:id  `, authMiddleware(getPermissions(permissions)), RemoveItem);
-    router.put(`/${entity}/:id`, authMiddleware(getPermissions(permissions)), validate(schema), UpdateItem);
+    router.get(`/${entity}/`, authMiddleware(hasPermissions('LOW')), ListAll);
+    router.get(`/${entity}/:id`, authMiddleware(hasPermissions('LOW')), ReadItem);
+    router.post(`/${entity}/add`, authMiddleware(hasPermissions('MEDIUM')), validate(schema), CreateItem);
+    router.delete(`/${entity}/:id`, authMiddleware(hasPermissions('HIGH')), RemoveItem);
+    router.put(`/${entity}/:id`, authMiddleware(hasPermissions('MEDIUM')), validate(schema), UpdateItem);
 
     if (Upload) {
-        router.put(`/${entity}/upload-image/:id`, authMiddleware(getPermissions(permissions)), uploadImg, Upload);
+        router.put(`/${entity}/upload-image/:id`, authMiddleware(hasPermissions('MEDIUM')), uploadImg, Upload);
     }
 }
 
+const entities = {
+    user: 'users',
+    client: 'clients',
+    ourCompany: 'company-details',
+    productCategory: 'categories',
+    product: 'products',
+    subProduct: 'subproducts',
+    specification: 'specifications',
+    termAndCondition: 'terms-conditions',
+    quotation: 'quotes',
+};
+
 // Import controllers and schemas
 const controllers = {
-    user: require('../controllers/UserController'),
-    client: require('../controllers/ClientController'),
-    ourCompany: require('../controllers/OurCompanyController'),
-    productCategory: require('../controllers/ProductCategoryController'),
-    product: require('../controllers/ProductController'),
-    subProduct: require('../controllers/SubProductController'),
-    specification: require('../controllers/SpecificationController'),
-    termAndCondition: require('../controllers/TermAndConditionController'),
-    quotation: require('../controllers/QuotationController'),
+    user: require('../controllers/User'),
+    client: require('../controllers/Client'),
+    ourCompany: require('../controllers/Company'),
+    productCategory: require('../controllers/Category'),
+    product: require('../controllers/Product'),
+    subProduct: require('../controllers/SubProduct'),
+    specification: require('../controllers/Specification'),
+    termAndCondition: require('../controllers/TermAndCondition'),
+    quotation: require('../controllers/Quotation'),
 };
 
 const schemas = {
@@ -44,27 +56,15 @@ const schemas = {
     quotation: require('../validators/Schemas').QuoteSchema,
 };
 
-const entities = {
-    user: 'users',
-    client: 'clients',
-    ourCompany: 'company-details',
-    productCategory: 'categories',
-    product: 'products',
-    subProduct: 'subproducts',
-    specification: 'specifications',
-    termAndCondition: 'terms-conditions',
-    quotation: 'quotes',
-};
-
-// Use the generateRoutes function with the controllers and schemas
-generateRoutes(entities.user, controllers.user, schemas.user, 'MEDIUM');
-generateRoutes(entities.client, controllers.client, schemas.client, 'MEDIUM');
-generateRoutes(entities.ourCompany, controllers.ourCompany, schemas.ourCompany, 'HIGH');
-generateRoutes(entities.productCategory, controllers.productCategory, schemas.productCategory, 'HIGH');
-generateRoutes(entities.product, controllers.product, schemas.product, 'HIGH');
-generateRoutes(entities.subProduct, controllers.subProduct, schemas.subProduct, 'HIGH');
-generateRoutes(entities.specification, controllers.specification, schemas.specification, 'HIGH');
-generateRoutes(entities.termAndCondition, controllers.termAndCondition, schemas.termAndCondition, 'HIGH');
-generateRoutes(entities.quotation, controllers.quotation, schemas.quotation, 'MEDIUM');
+// Use the generateRoutes function with the controllers and Validators schemas
+generateRoutes(entities.user, controllers.user, schemas.user);
+generateRoutes(entities.client, controllers.client, schemas.client);
+generateRoutes(entities.ourCompany, controllers.ourCompany, schemas.ourCompany);
+generateRoutes(entities.productCategory, controllers.productCategory, schemas.productCategory);
+generateRoutes(entities.product, controllers.product, schemas.product);
+generateRoutes(entities.subProduct, controllers.subProduct, schemas.subProduct);
+generateRoutes(entities.specification, controllers.specification, schemas.specification);
+generateRoutes(entities.termAndCondition, controllers.termAndCondition, schemas.termAndCondition);
+generateRoutes(entities.quotation, controllers.quotation, schemas.quotation);
 
 module.exports = router;

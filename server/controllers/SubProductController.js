@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewSubProduct, AddSubProduct, SingleSubProduct, DeleteSubProduct, UpdateSubProduct, AddSubProductImg } = require('../services/SubProductService');
 const { create, list, search, remove, update, upload } = require('../services/SubProduct');
 const { idSchema } = require('../validators/Schemas');
 

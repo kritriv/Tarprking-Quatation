@@ -4,7 +4,7 @@ const server = express();
 const cors = require('cors');
 const { expressLoggerMiddleware, logger } = require('../../utils/logger');
 const AppRoutes = require('../../routers/appRoutes');
-const AuthRoutes = require('../../routers/authentication');
+const AuthRoutes = require('../../routers/auth');
 
 const HTTPServer = (PORT) => {
     // middleware or set the routes

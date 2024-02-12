@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewProductCategory, AddProductCategory, SingleProductCategory, DeleteProductCategory, UpdateProductCategory } = require('../services/ProductCategoryService');
 const { create, list, search, remove, update } = require('../services/Category');
 const { idSchema } = require('../validators/Schemas');
 

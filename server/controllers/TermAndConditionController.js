@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewTermAndConditions, AddTermAndCondition, SingleTermAndCondition, DeleteTermAndCondition, UpdateTermAndCondition } = require('../services/TermAndConditionService');
 const { create, list, search, remove, update } = require('../services/TermAndCondition');
 const { idSchema } = require('../validators/Schemas');
 

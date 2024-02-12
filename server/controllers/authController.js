@@ -55,7 +55,6 @@ const logout = async (req, res) => {
         const authHeader = req.headers.authorization;
         // Validate and extract token
         const token = authHeader?.split(' ')[1];
-        console.log(token);
         if (!token) {
             return handleApiResponse(res, 401, 'Invalid or missing access token.');
         }
@@ -80,7 +79,6 @@ const logout = async (req, res) => {
         }
         handleApiResponse(res, 200, 'Logout successful.');
     } catch (error) {
-        console.error(error);
         handleApiResponse(res, 500, 'Internal Server Error');
     }
 };

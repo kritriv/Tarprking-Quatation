@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewClient, AddClient, SingleClient, DeleteClient, UpdateClient } = require('../services/ClientService');
 const { create, list, search, remove, update } = require('../services/Client');
 
 const { idSchema } = require('../validators/Schemas');

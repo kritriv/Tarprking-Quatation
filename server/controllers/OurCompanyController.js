@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewOurCompany, AddOurCompany, SingleOurCompany, DeleteOurCompany, UpdateOurCompany } = require('../services/OurCompanyService');
 const { create, list, search, remove, update } = require('../services/Company');
 
 const { idSchema } = require('../validators/Schemas');

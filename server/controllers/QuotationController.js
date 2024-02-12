@@ -1,5 +1,4 @@
 const { handleApiResponse } = require('../modules/responseHandler');
-// const { ViewQuote, AddQuote, SingleQuote, DeleteQuote, UpdateQuote, AddQuoteBackImg } = require('../services/QuoteService');
 const { create, list, search, remove, update, upload } = require('../services/Quotation');
 
 const { idSchema } = require('../validators/Schemas');
