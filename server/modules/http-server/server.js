@@ -41,7 +41,8 @@ const HTTPServer = (HOST, PORT) => {
     configureServer(server);
 
     return server.listen(PORT, HOST, () => {
-        logger.info(`Server started at http://${HOST}:${PORT}`);
+        // logger.info(`Server started at http://${HOST}:${PORT}`);
+        logger.info(`Server started at Port : ${PORT}`);
     });
 };
 
