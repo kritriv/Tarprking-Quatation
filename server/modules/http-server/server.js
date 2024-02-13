@@ -13,16 +13,16 @@ const API_Prefix = process.env.API_Prefix;
 const API_Auth_Prefix = process.env.API_Auth_Prefix;
 
 const configureServer = (server) => {
-    // enableCors(server);
-    // enableHelmet(server);
+    server.get('/', (req, res) => {
+        res.send('Tar Parking Quotation Backend');
+    });
+
+    enableCors(server);
+    enableHelmet(server);
 
     server.use(express.json());
     server.use(express.urlencoded({ extended: true }));
     server.use(expressLoggerMiddleware);
-
-    server.get('/',(req,res)=>{
-        res.send("Tar Parking Quotation Backend")
-    })
 
     server.use(`${API_Prefix}/`, AppRoutes);
     server.use(`${API_Auth_Prefix}`, AuthRoutes);
