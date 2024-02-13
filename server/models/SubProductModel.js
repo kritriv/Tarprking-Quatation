@@ -94,7 +94,7 @@ const SubProductSchema = new Schema(
 );
 
 SubProductSchema.pre('save', function (next) {
-    this.price.subTotal = this.price.basic_rate * this.price.installation_charges;
+    this.price.subTotal = this.price.basic_rate + this.price.installation_charges;
     next();
 });
 

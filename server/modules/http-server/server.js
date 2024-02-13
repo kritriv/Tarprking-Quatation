@@ -10,19 +10,20 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('../../swagger-output.json');
 
 const API_Prefix = process.env.API_Prefix;
+const API_Auth_Prefix = process.env.API_Auth_Prefix;
 
 const configureServer = (server) => {
-    // enableCors(server);
-    // enableHelmet(server);
+    enableCors(server);
+    enableHelmet(server);
 
     server.use(express.json());
     server.use(express.urlencoded({ extended: true }));
     server.use(expressLoggerMiddleware);
 
     server.use(`${API_Prefix}/`, AppRoutes);
-    server.use(`/auth`, AuthRoutes);
+    server.use(`${API_Auth_Prefix}`, AuthRoutes);
 
-    server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    server.use(`${API_Prefix}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // Error handling middleware
     server.use((err, req, res, next) => {
