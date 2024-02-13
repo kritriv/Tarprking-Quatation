@@ -5,10 +5,10 @@
     "description": "<h4>Tar parking quotation is used to create CRM for a manufacturing unit</h4> \n <p> <h5><b>Note:</b> Entities are: </h5> \n <ul> \n <li><b>user:</b> 'users',</li> \n <li><b>client:</b> 'clients',</li> \n <li><b>ourCompany:</b> 'company-details',</li> \n <li><b>productCategory:</b> 'categories',</li> \n <li><b>product:</b> 'products',</li> \n <li><b>subProduct:</b> 'subproducts',</li> \n <li><b>specification:</b> 'specifications',</li> \n <li><b>termAndCondition:</b> 'terms-conditions',</li> \n <li><b>quotation:</b> 'quotes'.</li> \n </ul>",
     "version": "1.1.0"
   },
-  "host": "localhost:5000",
+  "host": "localhost:5001",
   "basePath": "/",
   "schemes": [
-    "http"
+    "http", "https"
   ],
   "paths": {
     "/auth/register": {

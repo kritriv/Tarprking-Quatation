@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "start": "nodemon server/app.js",
+    "start": "node server/app.js",
     "server": "nodemon server/app.js",
     "setup": "node server/setup/setup.js",
     "reset": "node server/setup/reset.js",
