@@ -20,6 +20,10 @@ const configureServer = (server) => {
     server.use(express.urlencoded({ extended: true }));
     server.use(expressLoggerMiddleware);
 
+    server.get('/',(req,res)=>{
+        res.send("Tar Parking Quotation Backend")
+    })
+
     server.use(`${API_Prefix}/`, AppRoutes);
     server.use(`${API_Auth_Prefix}`, AuthRoutes);
 
