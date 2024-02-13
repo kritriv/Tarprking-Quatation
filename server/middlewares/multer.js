@@ -3,13 +3,11 @@ const fs = require('fs');
 require('dotenv').config();
 
 const uploadDir = process.env.UploadPath;
-console.log(uploadDir);
 
 // Ensure the upload directory exists, create it if not
 try {
     fs.accessSync(uploadDir, fs.constants.R_OK | fs.constants.W_OK);
 } catch (error) {
-    console.error('Upload directory does not exist, creating it...');
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
