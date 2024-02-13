@@ -3,22 +3,24 @@ const fs = require('fs');
 require('dotenv').config();
 
 const uploadDir = process.env.UploadPath;
+console.log(uploadDir);
 
+// Ensure the upload directory exists, create it if not
 try {
     fs.accessSync(uploadDir, fs.constants.R_OK | fs.constants.W_OK);
 } catch (error) {
-    console.error('Error accessing upload directory:', error);
-    throw error;
+    console.error('Upload directory does not exist, creating it...');
+    fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 const generateUniqueFilename = (originalName) => {
-    // return `${Date.now()}-${originalName}`;
     return `${originalName}`;
 };
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         try {
+            // Ensure the upload directory exists, create it if not
             fs.mkdirSync(uploadDir, { recursive: true });
             cb(null, uploadDir);
         } catch (error) {
@@ -37,7 +39,7 @@ const fileFilter = (req, file, cb) => {
     const maxImageCount = req.accepts('singleImage') ? 1 : null;
     const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 
-    if (!isImage || (maxImageCount && req.files.length >= maxImageCount)) {
+    if (!isImage || (maxImageCount && req.files && req.files.length >= maxImageCount)) {
         req.fileValidationError = 'Invalid file type or too many images';
         return cb(null, false);
     }
