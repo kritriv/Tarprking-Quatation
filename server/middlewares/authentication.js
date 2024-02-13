@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/UserModel');
+const { User } = require('../models');
 const { verifyAccessToken } = require('../modules/jwt.service');
 const { blacklistedTokens } = require('../utils/AccessTokenCheck');
 const { handleApiResponse } = require('../modules/responseHandler');
@@ -23,7 +22,6 @@ function authMiddleware(roles) {
 
             try {
                 const decoded = await verifyAccessToken(token);
-
                 // Check user role and perform role-based access control
                 const findUser = await User.findOne({ _id: decoded.userId }, { _id: 1, role: 1 }).lean();
                 if (!findUser || !roles.includes(findUser.role)) {
@@ -33,7 +31,6 @@ function authMiddleware(roles) {
                 req.user = findUser;
                 next();
             } catch (error) {
-                console.log(error);
                 if (error.message === 'Token expired') {
                     return handleApiResponse(res, 401, 'Token expired.');
                 } else if (error.message === 'Invalid token') {
