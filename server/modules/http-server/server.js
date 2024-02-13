@@ -14,7 +14,7 @@ const API_Auth_Prefix = process.env.API_Auth_Prefix;
 
 const configureServer = (server) => {
     enableCors(server);
-    enableHelmet(server);
+    // enableHelmet(server);
 
     server.use(express.json());
     server.use(express.urlencoded({ extended: true }));
