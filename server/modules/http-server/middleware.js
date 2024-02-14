@@ -5,16 +5,19 @@ const helmet = require('helmet');
 const allowedOrigin = process.env.ALLOWED_ORIGIN;
 
 const enableCors = (server) => {
-    server.use(
-        cors({
-            origin: [allowedOrigin],
-            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-            credentials: true,
-            optionsSuccessStatus: 204,
-            allowedHeaders: ['authorization', 'Authorization', 'content-type'],
-        }),
-    );
+    server.use(cors());
 };
+// const enableCors = (server) => {
+//     server.use(
+//         cors({
+//             origin: [allowedOrigin],
+//             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//             credentials: true,
+//             optionsSuccessStatus: 204,
+//             allowedHeaders: ['authorization', 'Authorization', 'content-type'],
+//         }),
+//     );
+// };
 
 const configureHelmet = () => {
     return helmet({
