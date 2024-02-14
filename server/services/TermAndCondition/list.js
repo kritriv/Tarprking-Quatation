@@ -1,7 +1,7 @@
 const { TermAndCondition } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewTermAndConditions = async ({ id, sort, select, page = 1, size = 10 }) => {
+const ViewTermAndConditions = async ({ id, sub_product, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
@@ -9,6 +9,9 @@ const ViewTermAndConditions = async ({ id, sort, select, page = 1, size = 10 }) 
 
         if (id) {
             queryObject._id = id;
+        }
+        if (sub_product) {
+            queryObject.sub_product = sub_product;
         }
 
         // ======== Short , Select ======

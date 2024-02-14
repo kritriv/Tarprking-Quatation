@@ -20,7 +20,7 @@ const login = async (req, res) => {
         }
         //generate access token..
         const accessToken = await generateAccessToken(user._id, user.role);
-        return handleApiResponse(res, 200, 'Login successfully.', { id: user._id, role: user.role, accessToken: accessToken });
+        return handleApiResponse(res, 200, 'Login successfully.', { id: user._id, username: user.username, email: user.email, role: user.role, accessToken: accessToken });
     } catch (error) {
         handleApiResponse(res, 500, 'Internal Server Error');
     }

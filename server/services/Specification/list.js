@@ -1,7 +1,7 @@
 const { Specification } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewSpecification = async ({ id, sort, select, page = 1, size = 10 }) => {
+const ViewSpecification = async ({ id, sub_product, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
@@ -11,6 +11,9 @@ const ViewSpecification = async ({ id, sort, select, page = 1, size = 10 }) => {
             queryObject._id = id;
         }
 
+        if (sub_product) {
+            queryObject.sub_product = sub_product;
+        }
         // ======== Short , Select ======
 
         let apiData = Specification.find(queryObject);
