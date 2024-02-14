@@ -19,8 +19,9 @@ const login = async (req, res) => {
             return handleApiResponse(res, 401, 'Invalid credentials.');
         }
         //generate access token..
-        const accessToken = await generateAccessToken(user._id, user.role);
-        return handleApiResponse(res, 200, 'Login successfully.', { id: user._id, username: user.username, email: user.email, role: user.role, accessToken: accessToken });
+        const AccessToken = await generateAccessToken(user._id, user.role);
+        const formattedUser = { id: user._id, username: user.username, email: user.email, role: user.role, accessToken: AccessToken };
+        return handleApiResponse(res, 200, 'Login successfully.', { data: formattedUser });
     } catch (error) {
         handleApiResponse(res, 500, 'Internal Server Error');
     }
