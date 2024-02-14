@@ -9,5 +9,6 @@ const { SpecificationSchema } = require('./SpecificationValidate');
 const { OurCompanySchema } = require('./OurCompanyValidate');
 const { TermAndConditionSchema } = require('./TermAndConditionValidate');
 const { QuoteSchema } = require('./QuoteValidate');
+const { Quote2Schema } = require('./Quote2Validate');
 
-module.exports = { idSchema, RegisterSchema, LoginSchema, Userschema, ClientSchema, CategorySchema, productSchema, SubProductSchema, SpecificationSchema, OurCompanySchema , TermAndConditionSchema, QuoteSchema};
+module.exports = { idSchema, RegisterSchema, LoginSchema, Userschema, ClientSchema, CategorySchema, productSchema, SubProductSchema, SpecificationSchema, OurCompanySchema , TermAndConditionSchema, QuoteSchema, Quote2Schema};
