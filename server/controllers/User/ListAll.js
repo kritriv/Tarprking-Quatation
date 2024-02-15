@@ -10,8 +10,9 @@ const ListAll = async (req, res) => {
             return handleApiResponse(res, 404, 'Users not found');
         }
 
-        const formattedUsers = users.map(({ _id, username, email, role, password }) => ({
+        const formattedUsers = users.map(({ _id, name, username, email, role, password }) => ({
             id: _id,
+            name,
             username,
             email,
             password,

@@ -1,7 +1,7 @@
 const { User } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewUser = async ({ id, username, role, email, sort, select, page = 1, size = 10 }) => {
+const ViewUser = async ({ id, name, username, role, email, sort, select, page = 1, size = 10 }) => {
     try {
         const queryObject = {};
 
@@ -13,6 +13,10 @@ const ViewUser = async ({ id, username, role, email, sort, select, page = 1, siz
 
         if (username) {
             queryObject.username = { $regex: new RegExp(username, 'i') };
+        }
+
+        if (name) {
+            queryObject.name = { $regex: new RegExp(name, 'i') };
         }
 
         if (email) {

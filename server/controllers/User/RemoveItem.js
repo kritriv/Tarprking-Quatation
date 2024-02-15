@@ -12,9 +12,9 @@ const RemoveItem = async (req, res) => {
             return handleApiResponse(res, 404, 'User not found, deletion unsuccessful');
         }
         const formattedDeletedUser = {
+            name: DeletedUser.name,
             username: DeletedUser.username,
             email: DeletedUser.email,
-            role: DeletedUser.role,
         };
 
         const DeletedUserStatus = await remove(id);

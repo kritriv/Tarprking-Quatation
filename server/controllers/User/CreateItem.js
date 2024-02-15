@@ -9,6 +9,7 @@ const CreateItem = async (req, res) => {
 
         const formattedUser = {
             id: User._id,
+            name: User.name,
             username: User.username,
             email: User.email,
             password: User.password,

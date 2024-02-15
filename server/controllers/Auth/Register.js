@@ -5,7 +5,7 @@ const { handleApiResponse } = require('../../modules/responseHandler');
 
 const register = async (req, res) => {
     try {
-        const { username, email, role, password } = req.body;
+        const { name, username, email, role, password } = req.body;
 
         const existingUser = await User.findOne({ $or: [{ username }, { email }] }).lean();
         if (existingUser) {
@@ -13,12 +13,12 @@ const register = async (req, res) => {
         }
 
         const hashedPassword = await hashPassword(password);
-        const newUser = new User({ username, email, role, password: hashedPassword });
+        const newUser = new User({ name, username, email, role, password: hashedPassword });
 
         const savedUser = await newUser.save();
         const accessToken = await generateAccessToken(savedUser._id, savedUser.role);
 
-        const formattedUser = { id: savedUser._id, username, email, role };
+        const formattedUser = { id: savedUser._id, name, username, email, role };
 
         handleApiResponse(res, 201, 'Successfully registered.', { accessToken, data: formattedUser });
     } catch (error) {
