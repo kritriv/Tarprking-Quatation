@@ -12,9 +12,16 @@ const UpdateItem = async (req, res) => {
         if (!updatedUser) {
             return handleApiResponse(res, 400, 'User not found, update unsuccessful');
         }
-
+        const formattedUpdatedUser = {
+            id: updatedUser._id,
+            name: updatedUser.name,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            password: updatedUser.password,
+            role: updatedUser.role,
+        };
         handleApiResponse(res, 200, 'User updated successfully', {
-            data: updatedUser,
+            data: formattedUpdatedUser,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single User: ${error.message}`;
