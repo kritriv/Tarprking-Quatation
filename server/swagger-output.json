@@ -8,10 +8,11 @@
   "host": "localhost:5001",
   "basePath": "/",
   "schemes": [
-    "http", "https"
+    "http",
+    "https"
   ],
   "paths": {
-    "/auth/register": {
+    "/api/v1/auth/register": {
       "post": {
         "description": "",
         "parameters": [
@@ -44,7 +45,7 @@
         }
       }
     },
-    "/auth/login": {
+    "/api/v1/auth/login": {
       "post": {
         "description": "",
         "parameters": [
@@ -71,7 +72,7 @@
         }
       }
     },
-    "/auth/logout": {
+    "/api/v1/auth/logout": {
       "post": {
         "description": "",
         "parameters": [
