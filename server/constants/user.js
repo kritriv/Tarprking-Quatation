@@ -1,5 +1,5 @@
 const user = {
-    Roles : [ "USER", "ADMIN" , "SUPERADMIN"]
+    Roles: ['USER', 'ADMIN', 'SUPERADMIN'],
 };
 
-module.exports = {user};
+module.exports = { user };

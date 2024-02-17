@@ -13,9 +13,6 @@ const TarSetUp = async () => {
 
         const { User, Company } = require('../models');
 
-        // await User.deleteMany();
-        // await Company.deleteMany();
-
         await User.create(AdminJson);
         logger.info('👍 Admins created : Done!');
 

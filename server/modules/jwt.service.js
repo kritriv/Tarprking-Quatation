@@ -22,7 +22,7 @@ async function generateAccessToken(userId, role) {
 async function verifyAccessToken(token) {
     try {
         const secretCode = process.env.JWT_SECRET_TOKEN;
-        const decoded = await jwt.verify(token, secretCode, { algorithm: [JWT_Algo] });
+        const decoded = jwt.verify(token, secretCode, { algorithm: [JWT_Algo] });
         return decoded;
     } catch (err) {
         if (err instanceof jwt.TokenExpiredError) {

@@ -10,4 +10,4 @@ const limitOffsetPageNumber = (page, size) => {
     };
 };
 
-module.exports = {limitOffsetPageNumber};
+module.exports = { limitOffsetPageNumber };

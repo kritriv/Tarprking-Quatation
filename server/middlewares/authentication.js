@@ -11,9 +11,9 @@ function authMiddleware(roles) {
             const authHeader = req.headers.authorization;
 
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                return handleApiResponse(res, 401, 'Access token missing or invalid format.');
+                return handleApiResponse(res, 401, 'Access denied : you are not granted permission');
             }
-            const token = authHeader.split(' ')[1];
+            const token = authHeader.split(' ')[1]; 
 
             // Check if the token is blacklisted
             if (blacklistedTokens.has(token)) {
