@@ -1,7 +1,7 @@
 const { Client } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewClient = async ({ id, createdby, status, username, name, email, phone, gender, company, gst, city, pincode, state, country, sort, select, page = 1, size = 10 }) => {
+const ViewClient = async ({ id, createdby, status, username, name, email, phone, gender, company, gst, city, pincode, state, country, sort, select, page , size }) => {
     try {
         const queryObject = {};
 
@@ -51,6 +51,7 @@ const ViewClient = async ({ id, createdby, status, username, name, email, phone,
         }
 
         let apiData = Client.find(queryObject);
+        let ObjCount = await Client.countDocuments(queryObject);
 
         // ======== Short , Select ======
 
@@ -69,7 +70,7 @@ const ViewClient = async ({ id, createdby, status, username, name, email, phone,
         apiData = apiData.skip(offset).limit(limit);
 
         const Clients = await apiData;
-        return Clients;
+        return { Clients, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching Clients: ' + error.message);
     }

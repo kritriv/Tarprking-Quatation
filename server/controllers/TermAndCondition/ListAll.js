@@ -4,7 +4,7 @@ const { list } = require('../../services/TermAndCondition');
 // To get All TermAndCondition list
 const ListAll = async (req, res) => {
     try {
-        const TermAndConditions = await list(req.query);
+        const { TermAndConditions, total } = await list(req.query);
         if (!TermAndConditions || TermAndConditions.length === 0) {
             return handleApiResponse(res, 404, 'Term And Condition not found');
         }
@@ -28,6 +28,7 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Term And Condition fetched successfully', {
             data: formattedTermAndCondition,
+            total: total,
             nbHits: TermAndConditions.length,
         });
     } catch (error) {

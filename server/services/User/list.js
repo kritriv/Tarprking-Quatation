@@ -1,7 +1,7 @@
 const { User } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewUser = async ({ id, name, username, role, email, sort, select, page = 1, size = 10 }) => {
+const ViewUser = async ({ id, name, username, role, email, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -29,6 +29,7 @@ const ViewUser = async ({ id, name, username, role, email, sort, select, page = 
         // ======== Short , Select ======
 
         let apiData = User.find(queryObject);
+        let ObjCount = await User.countDocuments(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -41,11 +42,11 @@ const ViewUser = async ({ id, name, username, role, email, sort, select, page = 
 
         // ===== Pagination and limits ====
 
-        // const { limit, offset } = limitOffsetPageNumber(page, size);
-        // apiData = apiData.skip(offset).limit(limit);
+        const { limit, offset } = limitOffsetPageNumber(page, size);
+        apiData = apiData.skip(offset).limit(limit);
 
         const Users = await apiData;
-        return Users;
+        return { Users, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching Users: ' + error.message);
     }

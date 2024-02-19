@@ -1,7 +1,7 @@
 const { Product } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewProduct = async ({ id, status, createdby, name, category, sort, select, page = 1, size = 10 }) => {
+const ViewProduct = async ({ id, status, createdby, name, category, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -24,6 +24,7 @@ const ViewProduct = async ({ id, status, createdby, name, category, sort, select
         }
 
         let apiData = Product.find(queryObject);
+        let ObjCount = await Product.countDocuments(queryObject);
 
         // ======== Short , Select ======
 
@@ -48,7 +49,7 @@ const ViewProduct = async ({ id, status, createdby, name, category, sort, select
             })
             .exec();
 
-        return Products;
+        return { Products, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching products: ' + error.message);
     }

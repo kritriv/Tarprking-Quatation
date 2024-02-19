@@ -1,7 +1,7 @@
 const { Quote2 } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewQuote = async ({ id, sort, select, page = 1, size = 10 }) => {
+const ViewQuote = async ({ id, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -12,6 +12,7 @@ const ViewQuote = async ({ id, sort, select, page = 1, size = 10 }) => {
         }
 
         let apiData = Quote2.find(queryObject);
+        let ObjCount = await Quote2.countDocuments(queryObject);
 
         // ======== Short , Select ======
 
@@ -31,7 +32,7 @@ const ViewQuote = async ({ id, sort, select, page = 1, size = 10 }) => {
 
         const Quotes = await apiData;
 
-        return Quotes;
+        return { Quotes, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching quotes: ' + error.message);
     }

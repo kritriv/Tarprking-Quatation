@@ -8,7 +8,7 @@ const validate = require('../validators/validate');
 // Function to dynamically generate routes
 function generateRoutes(entity, controller, schema) {
     const { ListAll, ReadItem, CreateItem, RemoveItem, UpdateItem, Upload } = controller;
-    router.get(`/${entity}/`, authMiddleware(hasPermissions('LOW')), ListAll);
+    router.get(`/${entity}s/`, authMiddleware(hasPermissions('LOW')), ListAll);
     router.get(`/${entity}/:id`, authMiddleware(hasPermissions('LOW')), ReadItem);
     router.post(`/${entity}/add`, authMiddleware(hasPermissions('MEDIUM')), validate(schema), CreateItem);
     router.delete(`/${entity}/:id`, authMiddleware(hasPermissions('HIGH')), RemoveItem);
@@ -20,16 +20,16 @@ function generateRoutes(entity, controller, schema) {
 }
 
 const entities = {
-    user: 'users',
-    client: 'clients',
-    ourCompany: 'company-details',
-    productCategory: 'categories',
-    product: 'products',
-    subProduct: 'subproducts',
-    specification: 'specifications',
-    termAndCondition: 'terms-conditions',
-    quotation: 'quotes',
-    quotation2: 'quotes2',
+    user: 'user',
+    client: 'client',
+    ourCompany: 'company',
+    productCategory: 'category',
+    product: 'product',
+    subProduct: 'subproduct',
+    specification: 'specification',
+    termAndCondition: 'tnc',
+    quotation: 'quote',
+    quotation2: 'quote2',
 };
 
 // Import controllers and schemas

@@ -4,13 +4,13 @@ const { list } = require('../../services/User');
 // To get All Users list
 const ListAll = async (req, res) => {
     try {
-        const users = await list(req.query);
+        const { Users, total } = await list(req.query);
 
-        if (!users.length) {
+        if (!Users.length) {
             return handleApiResponse(res, 404, 'Users not found');
         }
 
-        const formattedUsers = users.map(({ _id, name, username, email, role, password }) => ({
+        const formattedUsers = Users.map(({ _id, name, username, email, role, password }) => ({
             id: _id,
             name,
             username,
@@ -21,7 +21,8 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Users fetched successfully', {
             data: formattedUsers,
-            nbHits: users.length,
+            total: total,
+            nbHits: Users.length,
         });
     } catch (error) {
         handleApiResponse(res, 500, 'Error fetching users', { error: error.message });

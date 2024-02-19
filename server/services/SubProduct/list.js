@@ -1,7 +1,7 @@
 const { SubProduct } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewSubProduct = async ({ id, status, createdby, category, main_product, model_no, hsn, name, sort, select, page = 1, size = 10 }) => {
+const ViewSubProduct = async ({ id, status, createdby, category, main_product, model_no, hsn, name, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -35,6 +35,7 @@ const ViewSubProduct = async ({ id, status, createdby, category, main_product, m
         // ======== Short , Select ======
 
         let apiData = SubProduct.find(queryObject);
+        let ObjCount = await SubProduct.countDocuments(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -60,7 +61,7 @@ const ViewSubProduct = async ({ id, status, createdby, category, main_product, m
             // })
             .exec();
 
-        return SubProducts;
+        return { SubProducts, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching SubProducts: ' + error.message);
     }

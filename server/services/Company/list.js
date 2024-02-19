@@ -1,7 +1,7 @@
 const { Company } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewOurCompany = async ({ id, sort, select, page = 1, size = 10 }) => {
+const ViewOurCompany = async ({ id, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -14,6 +14,7 @@ const ViewOurCompany = async ({ id, sort, select, page = 1, size = 10 }) => {
         // ======== Short , Select ======
 
         let apiData = Company.find(queryObject);
+        let ObjCount = await Company.countDocuments(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -29,11 +30,11 @@ const ViewOurCompany = async ({ id, sort, select, page = 1, size = 10 }) => {
         const { limit, offset } = limitOffsetPageNumber(page, size);
         apiData = apiData.skip(offset).limit(limit);
 
-        const OurCompanys = await apiData;
+        const OurCompanies = await apiData;
 
-        return OurCompanys;
+        return { OurCompanies, total: ObjCount };
     } catch (error) {
-        throw new Error('An error occurred while fetching OurCompanys: ' + error.message);
+        throw new Error('An error occurred while fetching Our Companies: ' + error.message);
     }
 };
 

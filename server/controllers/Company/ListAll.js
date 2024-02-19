@@ -4,7 +4,7 @@ const { list } = require('../../services/Company');
 // To get All OurCompany list
 const ListAll = async (req, res) => {
     try {
-        const OurCompanies = await list(req.query);
+        const { OurCompanies, total } = await list(req.query);
         if (!OurCompanies || OurCompanies.length === 0) {
             return handleApiResponse(res, 404, 'Company Info not found');
         }
@@ -24,6 +24,7 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Company Info fetched successfully', {
             data: formattedOurCompany,
+            total: total,
             nbHits: OurCompanies.length,
         });
     } catch (error) {

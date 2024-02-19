@@ -3,7 +3,7 @@ const { list } = require('../../services/Client');
 // To get All Clients List
 const ListAll = async (req, res) => {
     try {
-        const Clients = await list(req.query);
+        const { Clients , total} = await list(req.query);
 
         if (!Clients || Clients.length === 0) {
             return handleApiResponse(res, 404, 'Client Not found');
@@ -33,6 +33,7 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Client details fetched successfully', {
             data: formattedClients,
+            total: total,
             nbHits: Clients.length,
         });
     } catch (error) {

@@ -4,7 +4,7 @@ const { list } = require('../../services/Quotation');
 // To get All Quotes List
 const ListAll = async (req, res) => {
     try {
-        const Quotes = await list(req.query);
+        const { Quotes, total } = await list(req.query);
 
         if (!Quotes || Quotes.length === 0) {
             return handleApiResponse(res, 404, 'Quotes not found');
@@ -12,6 +12,7 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Quotes  fetched successfully', {
             data: Quotes,
+            total: total,
             nbHits: Quotes.length,
         });
     } catch (error) {

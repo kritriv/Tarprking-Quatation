@@ -4,7 +4,7 @@ const { list } = require('../../services/SubProduct');
 // To get All SubProducts list
 const ListAll = async (req, res) => {
     try {
-        const SubProducts = await list(req.query);
+        const { SubProducts, total } = await list(req.query);
         if (!SubProducts || SubProducts.length === 0) {
             return handleApiResponse(res, 404, 'Sub Product not found');
         }
@@ -35,6 +35,7 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Sub Products fetched successfully', {
             data: formattedSubProduct,
+            total: total,
             nbHits: SubProducts.length,
         });
     } catch (error) {

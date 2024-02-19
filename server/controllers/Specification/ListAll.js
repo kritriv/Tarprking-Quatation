@@ -3,7 +3,7 @@ const { list } = require('../../services/Specification');
 // To get All Specifications list
 const ListAll = async (req, res) => {
     try {
-        const Specifications = await list(req.query);
+        const { Specifications, total } = await list(req.query);
         if (!Specifications || Specifications.length === 0) {
             return handleApiResponse(res, 404, 'Specification not found');
         }
@@ -30,6 +30,7 @@ const ListAll = async (req, res) => {
 
         handleApiResponse(res, 200, 'Specifications fetched successfully', {
             data: formattedSpecification,
+            total: total,
             nbHits: Specifications.length,
         });
     } catch (error) {

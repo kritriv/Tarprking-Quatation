@@ -1,7 +1,7 @@
 const { TermAndCondition } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewTermAndConditions = async ({ id, sub_product, sort, select, page = 1, size = 10 }) => {
+const ViewTermAndConditions = async ({ id, sub_product, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -17,6 +17,7 @@ const ViewTermAndConditions = async ({ id, sub_product, sort, select, page = 1, 
         // ======== Short , Select ======
 
         let apiData = TermAndCondition.find(queryObject);
+        let ObjCount = await TermAndCondition.countDocuments(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -34,7 +35,7 @@ const ViewTermAndConditions = async ({ id, sub_product, sort, select, page = 1, 
 
         const TermAndConditions = await apiData;
 
-        return TermAndConditions;
+        return { TermAndConditions, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching TermAndConditionss: ' + error.message);
     }

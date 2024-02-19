@@ -1,7 +1,7 @@
 const { ProductCategory } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewProductCategory = async ({ id, status, createdby, name, sort, select, page = 1, size = 5 }) => {
+const ViewProductCategory = async ({ id, status, createdby, name, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -23,6 +23,7 @@ const ViewProductCategory = async ({ id, status, createdby, name, sort, select, 
         // ======== Short , Select ======
 
         let apiData = ProductCategory.find(queryObject);
+        let ObjCount = await ProductCategory.countDocuments(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -38,8 +39,8 @@ const ViewProductCategory = async ({ id, status, createdby, name, sort, select, 
         const { limit, offset } = limitOffsetPageNumber(page, size);
         apiData = apiData.skip(offset).limit(limit);
 
-        const ProductCategorys = await apiData.populate('products').exec();
-        return ProductCategorys;
+        const ProductCategories = await apiData.populate('products').exec();
+        return { ProductCategories, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching Product Category: ' + error.message);
     }

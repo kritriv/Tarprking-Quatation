@@ -1,7 +1,7 @@
 const { Specification } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewSpecification = async ({ id, sub_product, sort, select, page = 1, size = 10 }) => {
+const ViewSpecification = async ({ id, sub_product, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -17,6 +17,7 @@ const ViewSpecification = async ({ id, sub_product, sort, select, page = 1, size
         // ======== Short , Select ======
 
         let apiData = Specification.find(queryObject);
+        let ObjCount = await Specification.countDocuments(queryObject);
 
         if (sort) {
             let sortFix = sort.replace(',', ' ');
@@ -34,7 +35,7 @@ const ViewSpecification = async ({ id, sub_product, sort, select, page = 1, size
 
         const Specifications = await apiData.populate('sub_product').exec();
 
-        return Specifications;
+        return { Specifications, total: ObjCount };
     } catch (error) {
         throw new Error('An error occurred while fetching Specifications: ' + error.message);
     }
