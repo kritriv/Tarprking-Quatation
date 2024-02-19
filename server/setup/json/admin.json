@@ -1,12 +1,13 @@
 [
-    {
-        "username": "admin2",
+    {   "name": "Admin",
+        "username": "admin",
         "email": "admin@tarparking.com",
         "password": "admin@Tar786",
         "role": "ADMIN"
     },
-    {
-        "username": "super2",
+    {   
+        "name": "Super Admin",
+        "username": "super",
         "email": "super@tarparking.com",
         "password": "admin@Tar786",
         "role": "SUPERADMIN"

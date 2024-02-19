@@ -8,36 +8,39 @@ dotenv.config();
 function authMiddleware(roles) {
     return async (req, res, next) => {
         try {
-            const authHeader = req.headers.authorization;
-
-            if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                return handleApiResponse(res, 401, 'Access denied : you are not granted permission');
-            }
-            const token = authHeader.split(' ')[1]; 
-
-            // Check if the token is blacklisted
-            if (blacklistedTokens.has(token)) {
-                return handleApiResponse(res, 401, 'You already Logout!  Please log in again.');
+            if (req.body && req.body.headers && req.body.headers.authorization) {
+                req.headers.authorization = req.body.headers.authorization;
             }
 
-            try {
-                const decoded = await verifyAccessToken(token);
-                // Check user role and perform role-based access control
-                const findUser = await User.findOne({ _id: decoded.userId }, { _id: 1, role: 1 }).lean();
-                if (!findUser || !roles.includes(findUser.role)) {
-                    return handleApiResponse(res, 403, `Access Denied! ${findUser.role} is not allowed.`);
+            if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer' && req.headers.authorization.split(' ')[1].trim()) {
+                const token = req.headers.authorization.split(' ')[1].trim();
+
+                // Check if the token is blacklisted
+                if (blacklistedTokens.has(token)) {
+                    return handleApiResponse(res, 401, 'You already Logout!  Please log in again.');
                 }
 
-                req.user = findUser;
-                next();
-            } catch (error) {
-                if (error.message === 'Token expired') {
-                    return handleApiResponse(res, 401, 'Token expired.');
-                } else if (error.message === 'Invalid token') {
-                    return handleApiResponse(res, 401, 'Invalid token.');
-                } else {
-                    return handleApiResponse(res, 500, 'Error verifying access token');
+                try {
+                    const decoded = await verifyAccessToken(token);
+                    // Check user role and perform role-based access control
+                    const findUser = await User.findOne({ _id: decoded.userId }, { _id: 1, role: 1 }).lean();
+                    if (!findUser || !roles.includes(findUser.role)) {
+                        return handleApiResponse(res, 403, `Access Denied! ${findUser.role} is not allowed.`);
+                    }
+
+                    req.user = findUser;
+                    next();
+                } catch (error) {
+                    if (error.message === 'Token expired') {
+                        return handleApiResponse(res, 401, 'Token expired.');
+                    } else if (error.message === 'Invalid token') {
+                        return handleApiResponse(res, 401, 'Invalid token.');
+                    } else {
+                        return handleApiResponse(res, 500, 'Error verifying access token');
+                    }
                 }
+            } else {
+                return handleApiResponse(res, 401, 'Access denied : You are not Granted Permission');
             }
         } catch (error) {
             return handleApiResponse(res, 500, 'Internal Server Error.', { error: error.message });
