@@ -1,7 +1,7 @@
 const { User } = require('../../models');
 const { hashPassword } = require('../../modules/password');
 
-const AddUser = async ({ name, username, password, role }) => {
+const AddUser = async ({ name, username, email, password, role }) => {
     try {
 
         const hashedPassword = await hashPassword(password);
