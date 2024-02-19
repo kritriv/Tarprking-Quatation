@@ -10,7 +10,7 @@ const RemoveItem = async (req, res) => {
         const Client = await search(id);
 
         if (!Client) {
-            return handleApiResponse(res, 404, 'Client not found, deletion unsuccessful');
+            return handleApiResponse(res, 404, `Client not found with id: ${id} ! Deletion unsuccessful`);
         }
         const ClientRes = await remove(id);
 

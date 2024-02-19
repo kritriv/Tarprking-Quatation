@@ -9,7 +9,7 @@ const RemoveItem = async (req, res) => {
         const DeletedUser = await search(id);
 
         if (!DeletedUser) {
-            return handleApiResponse(res, 404, 'User not found, deletion unsuccessful');
+            return handleApiResponse(res, 404, `User not found with id: ${id} ! Deletion unsuccessful`);
         }
         const formattedDeletedUser = {
             name: DeletedUser.name,

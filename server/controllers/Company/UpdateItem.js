@@ -11,7 +11,7 @@ const UpdateItem = async (req, res) => {
         const OurCompany = await update(id, updateOurCompanyData);
 
         if (!OurCompany) {
-            return handleApiResponse(res, 404, 'Company Info not found, update unsuccessful');
+            return handleApiResponse(res, 404, `Company info not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedOurCompany = {
             id: OurCompany._id,

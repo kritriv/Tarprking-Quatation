@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const ProductCategory = await search(id);
 
         if (!ProductCategory) {
-            return handleApiResponse(res, 404, 'Category not found');
+            return handleApiResponse(res, 404, `Category not found with id: ${id}`);
         }
         const formattedCategory = {
             id: ProductCategory._id,

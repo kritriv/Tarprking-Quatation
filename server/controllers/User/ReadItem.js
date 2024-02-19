@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const User = await search(id);
 
         if (!User) {
-            return handleApiResponse(res, 400, 'User not found');
+            return handleApiResponse(res, 400, `User not found with id: ${id}`);
         }
         const formattedUser = {
             id: User._id,

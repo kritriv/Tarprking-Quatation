@@ -11,7 +11,7 @@ const RemoveItem = async (req, res) => {
         const DeletedQuote = await search(id);
 
         if (!DeletedQuote) {
-            return handleApiResponse(res, 404, 'Quote not found, deletion unsuccessful');
+            return handleApiResponse(res, 404, `Quotation not found with id: ${id} ! Deletion unsuccessful`);
         }
 
         const DeletedQuoteRes = await remove(id);

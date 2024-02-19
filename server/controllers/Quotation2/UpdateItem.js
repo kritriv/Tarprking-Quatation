@@ -11,7 +11,7 @@ const UpdateItem = async (req, res) => {
         const updatedQuote = await update(id, req.body);
 
         if (!updatedQuote) {
-            return res.status(404).json({ message: 'Quote not found, update unsuccessful' });
+            return res.status(404).json({ message: `Quotation not found with id: ${id} ! Updation unsuccessful` });
         }
 
         handleApiResponse(res, 200, 'Quote updated successfully', {

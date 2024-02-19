@@ -12,7 +12,7 @@ const UpdateItem = async (req, res) => {
         const TermAndCondition = await update(id, updateTermAndConditionData);
 
         if (!TermAndCondition) {
-            return handleApiResponse(res, 404, 'Term And Condition not found, update unsuccessful');
+            return handleApiResponse(res, 404, `Term & Condition not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedTermAndCondition = {
             id: TermAndCondition._id,

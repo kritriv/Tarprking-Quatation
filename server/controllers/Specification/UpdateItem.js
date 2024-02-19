@@ -12,7 +12,7 @@ const UpdateItem = async (req, res) => {
         const Specification = await update(id, updateSpecificationData);
 
         if (!Specification) {
-            return handleApiResponse(res, 404, 'Specification not found, update unsuccessful');
+            return handleApiResponse(res, 404, `Specification not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedSpecification = {
             id: Specification._id,

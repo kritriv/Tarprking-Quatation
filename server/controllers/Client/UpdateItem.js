@@ -12,7 +12,7 @@ const UpdateItem = async (req, res) => {
         const Client = await update(id, updateClientData);
 
         if (!Client) {
-            return handleApiResponse(res, 404, 'Client not found, update unsuccessful');
+            return handleApiResponse(res, 404, `Client not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedClient = {
             id: Client._id,

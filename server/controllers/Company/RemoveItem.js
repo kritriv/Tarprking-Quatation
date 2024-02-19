@@ -9,7 +9,7 @@ const RemoveItem = async (req, res) => {
         const OurCompany = await search(id);
 
         if (!OurCompany) {
-            return handleApiResponse(res, 404, 'Company Info not found, deletion unsuccessful');
+            return handleApiResponse(res, 404, `Company info not found with id: ${id} ! Deletion unsuccessful`);
         }
 
         const OurCompanyRes = await remove(id);

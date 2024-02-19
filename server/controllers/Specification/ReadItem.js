@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const Specification = await search(id);
 
         if (!Specification) {
-            return handleApiResponse(res, 404, 'Specification not found');
+            return handleApiResponse(res, 404, `Specification not found with id: ${id}`);
         }
 
         const formattedSpecification = {

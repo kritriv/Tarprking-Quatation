@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const Quote = await search(id);
 
         if (!Quote) {
-            return handleApiResponse(res, 404, 'Quote not found');
+            return handleApiResponse(res, 404, `Quotation not found with id: ${id}`);
         }
 
         handleApiResponse(res, 200, 'Quote  details fetched successfully', {

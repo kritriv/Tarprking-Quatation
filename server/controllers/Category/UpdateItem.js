@@ -12,7 +12,7 @@ const UpdateItem = async (req, res) => {
         const ProductCategory = await update(id, updateProductCategoryData);
 
         if (!ProductCategory) {
-            return handleApiResponse(res, 404, 'Product Category not found, update unsuccessful');
+            return handleApiResponse(res, 404, `Category not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedCategory = {
             id: ProductCategory._id,

@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const SubProduct = await search(id);
 
         if (!SubProduct) {
-            return handleApiResponse(res, 404, 'Sub Product not found');
+            return handleApiResponse(res, 404, `Sub Product not found with id: ${id}`);
         }
         const formattedSubProduct = {
             id: SubProduct._id,

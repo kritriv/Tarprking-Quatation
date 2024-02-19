@@ -10,7 +10,7 @@ const UpdateItem = async (req, res) => {
         const updatedUser = await update(id, updateUserData);
 
         if (!updatedUser) {
-            return handleApiResponse(res, 400, 'User not found, update unsuccessful');
+            return handleApiResponse(res, 400, `User not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedUpdatedUser = {
             id: updatedUser._id,

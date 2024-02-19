@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const TermAndCondition = await search(id);
 
         if (!TermAndCondition) {
-            return handleApiResponse(res, 404, 'Term And Condition not found');
+            return handleApiResponse(res, 404, `Term & Condition not found with id: ${id}`);
         }
 
         const formattedTermAndCondition = {

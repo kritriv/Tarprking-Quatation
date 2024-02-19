@@ -9,7 +9,7 @@ const ReadItem = async (req, res) => {
         const OurCompany = await search(id);
 
         if (!OurCompany) {
-            return handleApiResponse(res, 404, 'Company Info not found');
+            return handleApiResponse(res, 404, `Company not found with id: ${id}`);
         }
         const formattedOurCompany = {
             id: OurCompany._id,

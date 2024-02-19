@@ -10,7 +10,7 @@ const RemoveItem = async (req, res) => {
         const SubProduct = await search(id);
 
         if (!SubProduct) {
-            return handleApiResponse(res, 404, 'Sub Product not found, deletion unsuccessful');
+            return handleApiResponse(res, 404, `Sub Product not found with id: ${id} ! Deletion unsuccessful`);
         }
 
         const SubProductRes = await remove(id);

@@ -11,7 +11,7 @@ const UpdateItem = async (req, res) => {
         const updatedProduct = await update(id, updateProductData);
 
         if (!updatedProduct) {
-            return res.status(404).json({ message: 'Product not found, update unsuccessful' });
+            return res.status(404).json({ message: `Product not found with id: ${id} ! Updation unsuccessful`});
         }
         const formattedProduct = {
             id: Product._id,

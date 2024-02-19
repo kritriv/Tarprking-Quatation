@@ -12,7 +12,7 @@ const UpdateItem = async (req, res) => {
         const SubProduct = await update(id, updateSubProductData);
 
         if (!SubProduct) {
-            return handleApiResponse(res, 404, 'Sub Product not found, update unsuccessful');
+            return handleApiResponse(res, 404, `Sub Product not found with id: ${id} ! Updation unsuccessful`);
         }
         const formattedSubProduct = {
             id: SubProduct._id,

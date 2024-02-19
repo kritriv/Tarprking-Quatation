@@ -10,7 +10,7 @@ const RemoveItem = async (req, res) => {
         const TermAndCondition = await search(id);
 
         if (!TermAndCondition) {
-            return handleApiResponse(res, 404, 'Term And Condition not found, deletion unsuccessful');
+            return handleApiResponse(res, 404, `Term & Condition not found with id: ${id} ! Deletion unsuccessful`);
         }
 
         const TermAndConditionRes = await remove(id);

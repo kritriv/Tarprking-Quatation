@@ -10,7 +10,7 @@ const ReadItem = async (req, res) => {
         const Client = await search(id);
 
         if (!Client) {
-            return handleApiResponse(res, 404, 'Client not found');
+            return handleApiResponse(res, 404, `Client not found with id: ${id}`);
         }
 
         const formattedClient = {

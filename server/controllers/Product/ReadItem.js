@@ -9,7 +9,7 @@ const ReadItem = async (req, res) => {
         const Product = await search(id);
 
         if (!Product) {
-            return handleApiResponse(res, 404, 'Product not found');
+            return handleApiResponse(res, 404, `Product not found with id: ${id}`);
         }
         const formattedProduct = {
             id: Product._id,
