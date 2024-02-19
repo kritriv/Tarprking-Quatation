@@ -41,8 +41,8 @@ const ViewUser = async ({ id, name, username, role, email, sort, select, page = 
 
         // ===== Pagination and limits ====
 
-        const { limit, offset } = limitOffsetPageNumber(page, size);
-        apiData = apiData.skip(offset).limit(limit);
+        // const { limit, offset } = limitOffsetPageNumber(page, size);
+        // apiData = apiData.skip(offset).limit(limit);
 
         const Users = await apiData;
         return Users;
