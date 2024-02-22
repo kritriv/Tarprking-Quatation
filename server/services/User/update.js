@@ -3,11 +3,12 @@ const { hashPassword } = require('../../modules/password');
 
 const UpdateUser = async (id, updateUserData) => {
     try {
-        const { name, username, password, role } = updateUserData;
+        const { name, username, email, password, role } = updateUserData;
 
         const hashedPassword = await hashPassword(password);
         updateUserData = {
             name,
+            email,
             username,
             password: hashedPassword,
             role,
