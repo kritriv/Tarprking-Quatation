@@ -14,8 +14,6 @@ const CreateItem = async (req, res) => {
             name: Client.name,
             email: Client.email,
             phone: Client.phone,
-            gender: Client.gender,
-            age: Client.age,
             company: Client.company,
             gst: Client.gst,
             address: {

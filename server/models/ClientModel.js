@@ -39,13 +39,6 @@ const ClientSchema = new Schema(
         phone: {
             type: String,
         },
-        gender: {
-            type: String,
-            enum: ['Male', 'Female', 'Other'],
-        },
-        age: {
-            type: Number,
-        },
         company: {
             type: String,
         },

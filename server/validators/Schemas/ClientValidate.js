@@ -49,26 +49,6 @@ const ClientSchema = z.object({
         .max(11, { message: 'Contact number cannot be more than 11 characters.' })
         .optional(),
 
-    gender: z
-        .string({
-            invalid_type_error: 'Gender must be a String',
-        })
-        .min(1, { message: 'Gender must be provided.' })
-        .refine((value) => ['Male', 'Female', 'Other'].includes(value), {
-            message: 'Invalid gender provided.',
-        })
-        .optional(),
-
-    age: z
-        .number({
-            invalid_type_error: 'Client Age must be a Number',
-        })
-        .min(1, { message: 'Age must be provided.' })
-        .refine((value) => Number(value) >= 18 && Number(value) <= 80, {
-            message: 'Age should be between 18 and 80.',
-        })
-        .optional(),
-
     company: z
         .string({
             invalid_type_error: 'Company Name must be a String',

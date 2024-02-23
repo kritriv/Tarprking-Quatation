@@ -1,7 +1,7 @@
 const { Client } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewClient = async ({ id, createdby, status, username, name, email, phone, gender, company, gst, city, pincode, state, country, sort, select, page , size }) => {
+const ViewClient = async ({ id, createdby, status, username, name, email, phone, company, gst, city, pincode, state, country, sort, select, page , size }) => {
     try {
         const queryObject = {};
 
@@ -27,9 +27,6 @@ const ViewClient = async ({ id, createdby, status, username, name, email, phone,
         }
         if (phone) {
             queryObject.contact_no = { $regex: new RegExp(phone, 'i') };
-        }
-        if (gender) {
-            queryObject.gender = { $regex: new RegExp(gender, 'i') };
         }
         if (company) {
             queryObject.company = { $regex: new RegExp(company, 'i') };
