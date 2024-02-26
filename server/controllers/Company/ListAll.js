@@ -11,6 +11,7 @@ const ListAll = async (req, res) => {
 
         const formattedOurCompany = OurCompanies.map((OurCompany) => ({
             id: OurCompany._id,
+            status: OurCompany.status,
             name: OurCompany.name,
             websites: OurCompany.websites,
             phones: OurCompany.phones,

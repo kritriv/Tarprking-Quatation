@@ -1,7 +1,7 @@
 const { Company } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewOurCompany = async ({ id, sort, select, page, size }) => {
+const ViewOurCompany = async ({ id, status, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -9,6 +9,9 @@ const ViewOurCompany = async ({ id, sort, select, page, size }) => {
 
         if (id) {
             queryObject._id = id;
+        }
+        if (status !== undefined) {
+            queryObject.status = status.toLowerCase() === 'true';
         }
 
         // ======== Short , Select ======

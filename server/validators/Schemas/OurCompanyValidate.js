@@ -1,6 +1,12 @@
 const z = require('zod');
 
 const OurCompanySchema = z.object({
+    status: z
+        .boolean({
+            invalid_type_error: 'Company Status must be a boolean',
+        })
+        .optional(),
+        
     name: z
         .string({
             required_error: 'Company Name must be provided.',

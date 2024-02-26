@@ -4,6 +4,10 @@ const { transformToJSON } = require('../utils/mongooseUtils');
 
 const OurCompanySchema = new Schema(
     {
+        status: {
+            type: Boolean,
+            default: true,
+        },,
         name: {
             type: String,
             unique: true,

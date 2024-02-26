@@ -15,6 +15,7 @@ const UpdateItem = async (req, res) => {
         }
         const formattedOurCompany = {
             id: OurCompany._id,
+            status: OurCompany.status,
             name: OurCompany.name,
             websites: OurCompany.websites,
             phones: OurCompany.phones,

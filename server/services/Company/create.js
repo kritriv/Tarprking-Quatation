@@ -1,8 +1,9 @@
 const { Company } = require('../../models');
 
-const AddOurCompany = async ({ name, emails, websites, phones, cin_no, tan_no, pan_no, gst_no, address, bank_details }) => {
+const AddOurCompany = async ({ status, name, emails, websites, phones, cin_no, tan_no, pan_no, gst_no, address, bank_details }) => {
     try {
         const newOurCompany = new Company({
+            status,
             name,
             emails,
             websites,
