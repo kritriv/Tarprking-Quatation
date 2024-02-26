@@ -15,6 +15,7 @@ const ReadItem = async (req, res) => {
             id: OurCompany._id,
             status: OurCompany.status,
             name: OurCompany.name,
+            emails: OurCompany.emails,
             websites: OurCompany.websites,
             phones: OurCompany.phones,
             cin_no: OurCompany.cin_no,
