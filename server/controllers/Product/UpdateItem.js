@@ -11,21 +11,23 @@ const UpdateItem = async (req, res) => {
         const updatedProduct = await update(id, updateProductData);
 
         if (!updatedProduct) {
-            return res.status(404).json({ message: `Product not found with id: ${id} ! Updation unsuccessful`});
+            return res.status(404).json({ message: `Product not found with id: ${id} ! Updation unsuccessful` });
         }
         const formattedProduct = {
-            id: Product._id,
-            status: Product.status,
-            createdby: Product.createdby ? Product.createdby.username : null,
-            name: Product.name,
-            description: Product.description,
-            category: Product.category ? Product.category.name : null,
+            id: updatedProduct._id,
+            status: updatedProduct.status,
+            createdby: updatedProduct.createdby ? updatedProduct.createdby.username : null,
+            name: updatedProduct.name,
+            description: updatedProduct.description,
+            category: updatedProduct.category ? updatedProduct.category.name : null,
         };
+        console.log(updatedProduct)
 
         handleApiResponse(res, 200, 'Product updated successfully', {
             data: formattedProduct,
         });
     } catch (error) {
+        console.log(error)
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Product: ${error.message}`;
         if (errorMessage === 'Provide valid Id') {
             handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error' });
