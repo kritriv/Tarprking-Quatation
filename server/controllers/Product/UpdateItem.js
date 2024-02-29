@@ -21,7 +21,6 @@ const UpdateItem = async (req, res) => {
             description: updatedProduct.description,
             category: updatedProduct.category ? updatedProduct.category.name : null,
         };
-        console.log(updatedProduct)
 
         handleApiResponse(res, 200, 'Product updated successfully', {
             data: formattedProduct,
