@@ -1,15 +1,15 @@
-const { ProductCategory } = require('../../models');
+const { Product } = require('../../models');
 const { ObjectId } = require('mongodb');
-const UpdateProductCategory = async (id, updateProductCategoryData) => {
+const UpdateProduct = async (id, updateProductData) => {
     try {
         const filter = { _id: new ObjectId(id) };
-        const result = await ProductCategory.findByIdAndUpdate(filter, updateProductCategoryData, {
+        const result = await Product.findByIdAndUpdate(filter, updateProductData, {
             new: true,
         });
         return result;
     } catch (error) {
-        throw new Error(`Error occurred while updating ProductCategory: ${error.message}`);
+        throw new Error(`Error occurred while updating Product: ${error.message}`);
     }
 };
 
-module.exports = UpdateProductCategory;
+module.exports = UpdateProduct;
