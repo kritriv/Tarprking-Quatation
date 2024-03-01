@@ -14,32 +14,32 @@ const UpdateItem = async (req, res) => {
         if (!SubProduct) {
             return handleApiResponse(res, 404, `Sub Product not found with id: ${id} ! Updation unsuccessful`);
         }
-        const formattedSubProduct = {
-            id: SubProduct._id,
-            status: SubProduct.status,
-            createdby: SubProduct.createdby ? SubProduct.createdby.username : null,
-            category: SubProduct.category ? SubProduct.category.name : null,
-            main_product: SubProduct.product ? SubProduct.product.name : null,
-            model: SubProduct.model_no,
-            hsn: SubProduct.hsn,
-            name: SubProduct.name,
-            description: SubProduct.description,
-            image: SubProduct.image,
-            price: {
-                basic_rate: SubProduct.price.basic_rate,
-                installation_charges: SubProduct.price.installation_charges,
-                subTotal: SubProduct.price.subTotal,
-            },
-            timings: {
-                delivery_time: SubProduct.timings.delivery_time,
-                installation_time: SubProduct.timings.installation_time,
-            },
-            specifications: SubProduct.specifications ? SubProduct.specifications : null,
-            tnc: SubProduct.tnc ? SubProduct.tnc : null,
-        };
+        // const formattedSubProduct = {
+        //     id: SubProduct._id,
+        //     status: SubProduct.status,
+        //     createdby: SubProduct.createdby ? SubProduct.createdby.username : null,
+        //     category: SubProduct.category ? SubProduct.category.name : null,
+        //     main_product: SubProduct.product ? SubProduct.product.name : null,
+        //     model: SubProduct.model_no,
+        //     hsn: SubProduct.hsn,
+        //     name: SubProduct.name,
+        //     description: SubProduct.description,
+        //     image: SubProduct.image,
+        //     price: {
+        //         basic_rate: SubProduct.price.basic_rate,
+        //         installation_charges: SubProduct.price.installation_charges,
+        //         subTotal: SubProduct.price.subTotal,
+        //     },
+        //     timings: {
+        //         delivery_time: SubProduct.timings.delivery_time,
+        //         installation_time: SubProduct.timings.installation_time,
+        //     },
+        //     specifications: SubProduct.specifications ? SubProduct.specifications : null,
+        //     tnc: SubProduct.tnc ? SubProduct.tnc : null,
+        // };
 
         handleApiResponse(res, 200, 'Sub Product updated successfully', {
-            data: formattedSubProduct,
+            data: SubProduct,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Sub Product: ${error.message}`;
