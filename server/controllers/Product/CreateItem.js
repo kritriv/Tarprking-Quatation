@@ -4,17 +4,17 @@ const { create } = require('../../services/Product');
 const CreateItem = async (req, res) => {
     try {
         const Product = await create(req.body);
-        const formattedProduct = {
-            id: Product._id,
-            status: Product.status,
-            createdby: Product.createdby ? Product.createdby.username : null,
-            name: Product.name,
-            description: Product.description,
-            category: Product.category ? Product.category.name : null,
-        };
+        // const formattedProduct = {
+        //     id: Product._id,
+        //     status: Product.status,
+        //     createdby: Product.createdby ? Product.createdby.username : null,
+        //     name: Product.name,
+        //     description: Product.description,
+        //     category: Product.category ? Product.category.name : null,
+        // };
 
         handleApiResponse(res, 201, 'Product added successfully', {
-            data: formattedProduct,
+            data: Product,
         });
     } catch (error) {
         const duplicateFieldMatches = error.message.match(/[a-zA-Z_]+(?= already exists)/g);

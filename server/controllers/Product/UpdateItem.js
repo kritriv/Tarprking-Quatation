@@ -13,17 +13,17 @@ const UpdateItem = async (req, res) => {
         if (!updatedProduct) {
             return res.status(404).json({ message: `Product not found with id: ${id} ! Updation unsuccessful` });
         }
-        const formattedProduct = {
-            id: updatedProduct._id,
-            status: updatedProduct.status,
-            createdby: updatedProduct.createdby ? updatedProduct.createdby.username : null,
-            name: updatedProduct.name,
-            description: updatedProduct.description,
-            category: updatedProduct.category ? updatedProduct.category.name : null,
-        };
+        // const formattedProduct = {
+        //     id: updatedProduct._id,
+        //     status: updatedProduct.status,
+        //     createdby: updatedProduct.createdby ? updatedProduct.createdby.username : null,
+        //     name: updatedProduct.name,
+        //     description: updatedProduct.description,
+        //     category: updatedProduct.category ? updatedProduct.category.name : null,
+        // };
 
         handleApiResponse(res, 200, 'Product updated successfully', {
-            data: formattedProduct,
+            data: updatedProduct,
         });
     } catch (error) {
         console.log(error)

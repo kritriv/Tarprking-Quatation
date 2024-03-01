@@ -11,21 +11,21 @@ const ReadItem = async (req, res) => {
         if (!Product) {
             return handleApiResponse(res, 404, `Product not found with id: ${id}`);
         }
-        const formattedProduct = {
-            id: Product._id,
-            status: Product.status,
-            createdby: Product.createdby ? Product.createdby.username : null,
-            name: Product.name,
-            description: Product.description,
-            category: Product.category ? Product.category.name : null,
-            subproducts: Product.sub_products.map((subproduct) => ({
-                id: subproduct._id,
-                name: subproduct.name,
-            })),
-        };
+        // const formattedProduct = {
+        //     id: Product._id,
+        //     status: Product.status,
+        //     createdby: Product.createdby ? Product.createdby.username : null,
+        //     name: Product.name,
+        //     description: Product.description,
+        //     category: Product.category ? Product.category.name : null,
+        //     subproducts: Product.sub_products.map((subproduct) => ({
+        //         id: subproduct._id,
+        //         name: subproduct.name,
+        //     })),
+        // };
 
         handleApiResponse(res, 200, 'Product  details fetched successfully', {
-            data: formattedProduct,
+            data: Product,
             nbHits: 1,
         });
     } catch (error) {

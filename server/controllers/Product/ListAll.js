@@ -9,21 +9,21 @@ const ListAll = async (req, res) => {
             return handleApiResponse(res, 404, 'Products not found');
         }
 
-        const formattedProduct = Products.map((product) => ({
-            id: product._id,
-            status: product.status,
-            createdby: product.createdby ? product.createdby.username : null,
-            name: product.name,
-            description: product.description,
-            category: product.category ? product.category.name : null,
-            subproducts: product.sub_products.map((subproduct) => ({
-                id: subproduct._id,
-                name: subproduct.name,
-            })),
-        }));
+        // const formattedProduct = Products.map((product) => ({
+        //     id: product._id,
+        //     status: product.status,
+        //     createdby: product.createdby ? product.createdby.username : null,
+        //     name: product.name,
+        //     description: product.description,
+        //     category: product.category ? product.category.name : null,
+        //     subproducts: product.sub_products.map((subproduct) => ({
+        //         id: subproduct._id,
+        //         name: subproduct.name,
+        //     })),
+        // }));
 
         handleApiResponse(res, 200, 'Products  fetched successfully', {
-            data: formattedProduct,
+            data: Products,
             total: total,
             nbHits: Products.length,
         });

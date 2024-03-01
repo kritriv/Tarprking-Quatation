@@ -5,20 +5,20 @@ const CreateItem = async (req, res) => {
     try {
         const ProductCategory = await create(req.body);
 
-        const formattedCategory = {
-            id: ProductCategory._id,
-            status: ProductCategory.status,
-            createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
-            name: ProductCategory.name,
-            description: ProductCategory.description,
-            products: ProductCategory.products.map((product) => ({
-                id: product._id,
-                name: product.name,
-            })),
-        };
+        // const formattedCategory = {
+        //     id: ProductCategory._id,
+        //     status: ProductCategory.status,
+        //     createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
+        //     name: ProductCategory.name,
+        //     description: ProductCategory.description,
+        //     products: ProductCategory.products.map((product) => ({
+        //         id: product._id,
+        //         name: product.name,
+        //     })),
+        // };
 
         handleApiResponse(res, 201, 'Category added successfully', {
-            data: formattedCategory,
+            data: ProductCategory,
         });
     } catch (error) {
         if (error.message.includes('Category with this name already exists')) {

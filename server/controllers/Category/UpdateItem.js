@@ -14,20 +14,20 @@ const UpdateItem = async (req, res) => {
         if (!ProductCategory) {
             return handleApiResponse(res, 404, `Category not found with id: ${id} ! Updation unsuccessful`);
         }
-        const formattedCategory = {
-            id: ProductCategory._id,
-            status: ProductCategory.status,
-            createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
-            name: ProductCategory.name,
-            description: ProductCategory.description,
-            products: ProductCategory.products.map((product) => ({
-                id: product._id,
-                name: product.name,
-            })),
-        };
+        // const formattedCategory = {
+        //     id: ProductCategory._id,
+        //     status: ProductCategory.status,
+        //     createdby: ProductCategory.createdby ? ProductCategory.createdby.username : null,
+        //     name: ProductCategory.name,
+        //     description: ProductCategory.description,
+        //     products: ProductCategory.products.map((product) => ({
+        //         id: product._id,
+        //         name: product.name,
+        //     })),
+        // };
 
         handleApiResponse(res, 200, 'Product Category updated successfully', {
-            data: formattedCategory,
+            data: ProductCategory,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Category: ${error.message}`;

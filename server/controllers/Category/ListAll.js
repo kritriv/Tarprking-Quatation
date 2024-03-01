@@ -8,20 +8,20 @@ const ListAll = async (req, res) => {
         if (!ProductCategories || ProductCategories.length === 0) {
             return handleApiResponse(res, 404, 'Category not found');
         }
-        const formattedCategory = ProductCategories.map((category) => ({
-            id: category._id,
-            status: category.status,
-            createdby: category.createdby ? category.createdby.username : null,
-            name: category.name,
-            description: category.description,
-            products: category.products.map((product) => ({
-                id: product._id,
-                name: product.name,
-            })),
-        }));
+        // const formattedCategory = ProductCategories.map((category) => ({
+        //     id: category._id,
+        //     status: category.status,
+        //     createdby: category.createdby ? category.createdby.username : null,
+        //     name: category.name,
+        //     description: category.description,
+        //     products: category.products.map((product) => ({
+        //         id: product._id,
+        //         name: product.name,
+        //     })),
+        // }));
 
         handleApiResponse(res, 200, 'Product Categories fetched successfully', {
-            data: formattedCategory,
+            data: ProductCategories,
             total: total,
             nbHits: ProductCategories.length,
         });
