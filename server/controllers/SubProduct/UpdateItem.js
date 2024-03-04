@@ -1,5 +1,5 @@
 const { handleApiResponse } = require('../../modules/responseHandler');
-const { update } = require('../../services/SubProduct');
+const { update, search } = require('../../services/SubProduct');
 const { idSchema } = require('../../validators/Schemas');
 
 // To Update a Single SubProduct Details
@@ -8,12 +8,12 @@ const UpdateItem = async (req, res) => {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
 
-        const updateSubProductData = req.body;
-        const SubProduct = await update(id, updateSubProductData);
-
-        if (!SubProduct) {
+        const exitSubProduct = await search(id);
+        if (!exitSubProduct) {
             return handleApiResponse(res, 404, `Sub Product not found with id: ${id} ! Updation unsuccessful`);
         }
+        const updateSubProductData = req.body;
+        const SubProduct = await update(id, updateSubProductData);
         // const formattedSubProduct = {
         //     id: SubProduct._id,
         //     status: SubProduct.status,

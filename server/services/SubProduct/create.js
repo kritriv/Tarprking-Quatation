@@ -29,7 +29,7 @@ const AddSubProduct = async ({ model_no, hsn, status, createdby, category, produ
             tnc,
         });
 
-        const result = await SubProduct(newSubProduct).save();
+        const result = await newSubProduct.save();
         existingProduct.sub_products.push(result._id);
         await existingProduct.save();
 

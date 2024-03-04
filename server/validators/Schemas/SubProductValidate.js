@@ -70,6 +70,9 @@ const SubProductSchema = z.object({
         basic_rate: z.number({
             invalid_type_error: 'Product Basic Rate must be a Number',
         }),
+        basic_rate: z.number({
+            invalid_type_error: 'Product Basic Rate must be a Number',
+        }),
         installation_charges: z.number({
             invalid_type_error: 'Product Installation Charge must be a Number',
         }),
@@ -78,14 +81,14 @@ const SubProductSchema = z.object({
         }),
     }),
 
-    timings: z.object({
-        delivery_time: z.string({
-            invalid_type_error: 'Product Delivery time must be a String',
-        }),
-        installation_time: z.string({
-            invalid_type_error: 'Product Delivery time must be a String',
-        }),
-    }),
+    // timings: z.object({
+    //     delivery_time: z.string({
+    //         invalid_type_error: 'Product Delivery time must be a String',
+    //     }),
+    //     installation_time: z.string({
+    //         invalid_type_error: 'Product Delivery time must be a String',
+    //     }),
+    // }),
 
     specifications: z
         .string()

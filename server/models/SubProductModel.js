@@ -79,14 +79,14 @@ const SubProductSchema = new Schema(
                 default: 0,
             },
         },
-        timings: {
-            delivery_time: {
-                type: String,
-            },
-            installation_time: {
-                type: String,
-            },
-        },
+        // timings: {
+        //     delivery_time: {
+        //         type: String,
+        //     },
+        //     installation_time: {
+        //         type: String,
+        //     },
+        // },
         specifications: { type: Schema.Types.ObjectId, ref: 'Specification' },
         tnc: { type: Schema.Types.ObjectId, ref: 'TermAndCondition' },
     },
