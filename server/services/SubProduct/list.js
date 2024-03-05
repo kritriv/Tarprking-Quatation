@@ -1,7 +1,7 @@
 const { SubProduct } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewSubProduct = async ({ id, status, createdby, category, main_product, model_no, hsn, name, sort, select, page, size }) => {
+const ViewSubProduct = async ({ id, status, createdby, category, product, model_no, hsn, name, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -19,8 +19,8 @@ const ViewSubProduct = async ({ id, status, createdby, category, main_product, m
         if (category) {
             queryObject.category = category;
         }
-        if (main_product) {
-            queryObject.main_product = main_product;
+        if (product) {
+            queryObject.product = product;
         }
         if (model_no) {
             queryObject.model_no = { $regex: new RegExp(model_no, 'i') };
