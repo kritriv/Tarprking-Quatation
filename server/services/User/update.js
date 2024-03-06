@@ -5,19 +5,22 @@ const UpdateUser = async (id, updateUserData) => {
     try {
         const { name, username, email, password, role } = updateUserData;
 
-        const hashedPassword = await hashPassword(password);
-        updateUserData = {
-            name,
-            email,
-            username,
-            password: hashedPassword,
-            role,
-        };
+        if (password) {
+            const hashedPassword = await hashPassword(password);
+            updateUserData.password = hashedPassword;
+        }
+
+        const updateQuery = { name, email, username, role, password };
+        console.log(updateQuery)
+        if (!password) {
+            delete updateQuery.password;
+        }
+
         const filter = { _id: id };
         const result = await User.findByIdAndUpdate(filter, updateUserData, {
             new: true,
         });
-        
+
         return result;
     } catch (error) {
         throw new Error(`Error occurred while updating user: ${error.message}`);
