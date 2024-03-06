@@ -39,7 +39,7 @@ const UpdateItem = async (req, res) => {
             handleApiResponse(res, 400, errorMessage, { error: 'Internal Server Error' });
         } else {
             if (error.message.includes('E11000 duplicate key error')) {
-                handleApiResponse(res, 500, 'Company must be unique', { error: error.message });
+                handleApiResponse(res, 500, 'Only 1 Tnc can be added over a sub product', { error: error.message });
             } else {
                 handleApiResponse(res, 500, errorMessage, { error: 'Internal Server Error' });
             }

@@ -14,27 +14,27 @@ const UpdateItem = async (req, res) => {
         if (!Specification) {
             return handleApiResponse(res, 404, `Specification not found with id: ${id} ! Updation unsuccessful`);
         }
-        const formattedSpecification = {
-            id: Specification._id,
-            sub_product: Specification.sub_product ? Specification.sub_product.name : null,
-            system_module: Specification.system_module,
-            system_area: Specification.system_area,
-            car_size: Specification.car_size,
-            lifting_capacity: Specification.lifting_capacity,
-            lifting_height: Specification.lifting_height,
-            platform: Specification.platform,
-            power: Specification.power,
-            driving_unit: Specification.driving_unit,
-            travelling_speed: Specification.travelling_speed,
-            material_delivery: Specification.material_delivery,
-            installation: Specification.installation,
-            safety: Specification.safety,
-            features: Specification.features,
-            amc: Specification.amc,
-            material_quality: Specification.material_quality,
-        };
+        // const formattedSpecification = {
+        //     id: Specification._id,
+        //     sub_product: Specification.sub_product ? Specification.sub_product.name : null,
+        //     system_module: Specification.system_module,
+        //     system_area: Specification.system_area,
+        //     car_size: Specification.car_size,
+        //     lifting_capacity: Specification.lifting_capacity,
+        //     lifting_height: Specification.lifting_height,
+        //     platform: Specification.platform,
+        //     power: Specification.power,
+        //     driving_unit: Specification.driving_unit,
+        //     travelling_speed: Specification.travelling_speed,
+        //     material_delivery: Specification.material_delivery,
+        //     installation: Specification.installation,
+        //     safety: Specification.safety,
+        //     features: Specification.features,
+        //     amc: Specification.amc,
+        //     material_quality: Specification.material_quality,
+        // };
         handleApiResponse(res, 200, 'Specification updated successfully', {
-            data: formattedSpecification,
+            data: Specification,
         });
     } catch (error) {
         const errorMessage = error.message.includes('Invalid ID format') ? 'Provide valid Id' : `An error occurred while updating the single Specification: ${error.message}`;
