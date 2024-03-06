@@ -40,6 +40,8 @@ const ViewSubProduct = async ({ id, status, createdby, category, product, model_
         if (sort) {
             let sortFix = sort.replace(',', ' ');
             apiData = apiData.sort(sortFix);
+        } else {
+            apiData = apiData.sort({ createdAt: -1 });
         }
         if (select) {
             let selectFix = select.split(',').join(' ');

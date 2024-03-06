@@ -55,6 +55,8 @@ const ViewClient = async ({ id, createdby, status, username, name, email, phone,
         if (sort) {
             let sortFix = sort.replace(',', ' ');
             apiData = apiData.sort(sortFix);
+        } else {
+            apiData = apiData.sort({ createdAt: -1 });
         }
         if (select) {
             let selectFix = select.split(',').join(' ');

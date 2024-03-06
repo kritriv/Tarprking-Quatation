@@ -22,6 +22,8 @@ const ViewTermAndConditions = async ({ id, sub_product, sort, select, page, size
         if (sort) {
             let sortFix = sort.replace(',', ' ');
             apiData = apiData.sort(sortFix);
+        } else {
+            apiData = apiData.sort({ createdAt: -1 });
         }
         if (select) {
             let selectFix = select.split(',').join(' ');
