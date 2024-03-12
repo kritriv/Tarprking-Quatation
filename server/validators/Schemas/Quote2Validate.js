@@ -79,23 +79,33 @@ const Quote2Schema = z.object({
                 })
                 .optional(),
 
-            category: z
+            productName: z
                 .string({
-                    invalid_type_error: 'category must be a String',
+                    invalid_type_error: 'Product Name must be a String',
                 })
-                .min(1, { message: 'category cannot be empty.' })
-                .min(3, { message: 'category must be at least 3 characters.' })
-                .max(200, { message: 'category cannot be more than 200 characters.' })
+                .min(1, { message: 'Product Name cannot be empty.' })
+                .min(3, { message: 'Product Name must be at least 3 characters.' })
+                .max(200, { message: 'Product Name cannot be more than 200 characters.' })
                 .optional(),
 
-            product: z
+            model_no: z
                 .string({
-                    invalid_type_error: 'product must be a String',
+                    required_error: 'Sub Product Model must be required!',
+                    invalid_type_error: 'Sub Product Model must be a String',
                 })
-                .min(1, { message: 'product cannot be empty.' })
-                .min(3, { message: 'product must be at least 3 characters.' })
-                .max(200, { message: 'product cannot be more than 200 characters.' })
-                .optional(),
+                .min(1, { message: 'Sub Product Model cannot be empty.' })
+                .min(3, { message: 'Sub Product Model must be at least 3 characters.' })
+                .max(100, { message: 'Sub Product Model cannot be more than 100 characters.' }),
+
+            hsn: z
+                .string({
+                    required_error: 'Product HSN must be required!',
+                    invalid_type_error: 'Product HSN must be a String',
+                })
+                .min(1, { message: 'Product HSN cannot be empty.' })
+                .min(3, { message: 'Product HSN must be at least 3 characters.' })
+                .max(8, { message: 'Product HSN cannot be more than 8 characters.' }),
+            image: z.string({ invalid_type_error: 'Product Image must be a String' }).optional(),
         })
         .optional(),
 

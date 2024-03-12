@@ -10,14 +10,15 @@ const AddQuote = async ({ refno, createdby, client, item, expired_date, subject,
         if (!clientExist) {
             throw new Error('Client not found');
         }
-        const productExist = item && (await SubProduct.findById(item.id));
+        // const productExist = item && (await SubProduct.findById(item.id));
 
-        if (!productExist) {
-            throw new Error(' SubProduct not found');
-        }
+        // if (!productExist) {
+        //     throw new Error(' SubProduct not found');
+        // }
+        console.log(item)
         itemStr = JSON.stringify(item);
         item = itemStr;
-        const item_sub_total = productExist.price.subTotal;
+        // const item_sub_total = productExist.price.subTotal;
         // const tax_rate = quote_price.tax_rate || 18;
         // const quantity = quote_price.quantity || 1;
 
@@ -54,7 +55,6 @@ const AddQuote = async ({ refno, createdby, client, item, expired_date, subject,
         const result = await newQuote.save();
         return result;
     } catch (error) {
-        console.log(error)
         throw new Error(`Error occurred while adding quote: ${error.message}`);
     }
 };

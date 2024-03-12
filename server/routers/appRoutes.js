@@ -69,7 +69,7 @@ generateRoutes(entities.product, controllers.product, schemas.product);
 generateRoutes(entities.subProduct, controllers.subProduct, schemas.subProduct);
 generateRoutes(entities.specification, controllers.specification, schemas.specification);
 generateRoutes(entities.termAndCondition, controllers.termAndCondition, schemas.termAndCondition);
-generateRoutes(entities.quotation, controllers.quotation);
+generateRoutes(entities.quotation, controllers.quotation, schemas.quotation);
 generateRoutes(entities.quotation2, controllers.quotation2, schemas.quotation2);
 
 module.exports = router;
