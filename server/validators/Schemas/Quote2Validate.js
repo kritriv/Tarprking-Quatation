@@ -79,6 +79,24 @@ const Quote2Schema = z.object({
                 })
                 .optional(),
 
+            categoryName: z
+                .string({
+                    invalid_type_error: 'Category Name must be a String',
+                })
+                .min(1, { message: 'Category Name cannot be empty.' })
+                .min(3, { message: 'Category Name must be at least 3 characters.' })
+                .max(200, { message: 'Category Name cannot be more than 200 characters.' })
+                .optional(),
+
+            mainProduct: z
+                .string({
+                    invalid_type_error: 'Main Product Name must be a String',
+                })
+                .min(1, { message: 'Main Product Name cannot be empty.' })
+                .min(3, { message: 'Main Product Name must be at least 3 characters.' })
+                .max(200, { message: 'Main Product Name cannot be more than 200 characters.' })
+                .optional(),
+
             productName: z
                 .string({
                     invalid_type_error: 'Product Name must be a String',
