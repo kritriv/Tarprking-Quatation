@@ -111,7 +111,9 @@ const quote2Schema = new Schema({
     back_image: {
         type: String,
     },
-});
+
+},
+    { timestamps: true },);
 
 quote2Schema.plugin(autopopulate);
 transformToJSON(quote2Schema, 'id');
