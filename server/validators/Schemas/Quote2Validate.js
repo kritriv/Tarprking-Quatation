@@ -134,11 +134,15 @@ const Quote2Schema = z.object({
                     invalid_type_error: 'Quantity must be a Number',
                 })
                 .optional(),
-            item_sub_total: z
-                .number({
-                    invalid_type_error: 'Item Sub Total must be a Number',
-                })
-                .optional(),
+
+            basic_rate: z.number({
+                invalid_type_error: 'Product Basic Rate must be a Number',
+            }).optional(),
+
+            installation_charges: z.number({
+                invalid_type_error: 'Product Installation Charge must be a Number',
+            }).optional(),
+
             freight_cost: z
                 .number({
                     invalid_type_error: 'Freight Cost must be a Number',

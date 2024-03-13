@@ -59,11 +59,16 @@ const quote2Schema = new Schema({
     quote_price: {
         quantity: {
             type: Number,
+            default: 1,
         },
 
-        item_sub_total: {
+        basic_rate: {
             type: Number,
         },
+        installation_charges: {
+            type: Number,
+        },
+
         freight_cost: {
             type: Number,
             default: 0,
@@ -82,6 +87,7 @@ const quote2Schema = new Schema({
         },
         taxtotal: {
             type: Number,
+            default: 0,
         },
         discount: {
             type: Number,
@@ -89,6 +95,7 @@ const quote2Schema = new Schema({
         },
         total_price: {
             type: Number,
+            default: 0,
         },
     },
     remark: {
