@@ -24,6 +24,13 @@ const Quote2Schema = z.object({
         })
         .optional(),
 
+    ourCompany: z
+        .string()
+        .refine((value) => value.length === 24, {
+            message: 'Invalid ObjectId for ourCompany',
+        })
+        .optional(),
+
     year: z
         .number({ invalid_type_error: 'Year must be a Number' })
         .refine((value) => value.length === 4, {
@@ -49,7 +56,7 @@ const Quote2Schema = z.object({
         })
         .min(1, { message: 'Subject cannot be empty.' })
         .min(3, { message: 'Subject must be at least 3 characters.' })
-        .max(200, { message: 'Subject cannot be more than 200 characters.' })
+        .max(500, { message: 'Subject cannot be more than 500 characters.' })
         .optional(),
 
     greeting: z
@@ -58,7 +65,7 @@ const Quote2Schema = z.object({
         })
         .min(1, { message: 'Greeting cannot be empty.' })
         .min(3, { message: 'Greeting must be at least 3 characters.' })
-        .max(200, { message: 'Greeting cannot be more than 200 characters.' })
+        .max(500, { message: 'Greeting cannot be more than 500 characters.' })
         .optional(),
 
     proposal_title: z
@@ -67,7 +74,7 @@ const Quote2Schema = z.object({
         })
         .min(1, { message: 'Proposal Title cannot be empty.' })
         .min(3, { message: 'Proposal Title must be at least 3 characters.' })
-        .max(200, { message: 'Proposal Title cannot be more than 200 characters.' })
+        .max(500, { message: 'Proposal Title cannot be more than 500 characters.' })
         .optional(),
 
     item: z
@@ -85,7 +92,7 @@ const Quote2Schema = z.object({
                 })
                 .min(1, { message: 'Category Name cannot be empty.' })
                 .min(3, { message: 'Category Name must be at least 3 characters.' })
-                .max(200, { message: 'Category Name cannot be more than 200 characters.' })
+                .max(500, { message: 'Category Name cannot be more than 500 characters.' })
                 .optional(),
 
             mainProduct: z
@@ -94,7 +101,7 @@ const Quote2Schema = z.object({
                 })
                 .min(1, { message: 'Main Product Name cannot be empty.' })
                 .min(3, { message: 'Main Product Name must be at least 3 characters.' })
-                .max(200, { message: 'Main Product Name cannot be more than 200 characters.' })
+                .max(500, { message: 'Main Product Name cannot be more than 500 characters.' })
                 .optional(),
 
             productName: z
@@ -103,7 +110,7 @@ const Quote2Schema = z.object({
                 })
                 .min(1, { message: 'Product Name cannot be empty.' })
                 .min(3, { message: 'Product Name must be at least 3 characters.' })
-                .max(200, { message: 'Product Name cannot be more than 200 characters.' })
+                .max(500, { message: 'Product Name cannot be more than 500 characters.' })
                 .optional(),
 
             model_no: z
@@ -422,7 +429,7 @@ const Quote2Schema = z.object({
         })
         .min(1, { message: 'Remark cannot be empty.' })
         .min(3, { message: 'Remark must be at least 3 characters.' })
-        .max(200, { message: 'Remark cannot be more than 200 characters.' })
+        .max(500, { message: 'Remark cannot be more than 500 characters.' })
         .optional(),
 
     status: z

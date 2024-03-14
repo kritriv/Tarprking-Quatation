@@ -17,7 +17,10 @@ const CreateItem = async (req, res) => {
             handleApiResponse(res, 400, errorMessage, error);
         } else if (error.message.includes('Client not found')) {
             handleApiResponse(res, 404, 'Client not found', { error: error.message });
-        } else if (error.message.includes('User not found')) {
+        } else if (error.message.includes('Company not found')) {
+            handleApiResponse(res, 404, 'Company not found', { error: error.message });
+        }
+        else if (error.message.includes('User not found')) {
             handleApiResponse(res, 404, 'User not found', { error: error.message });
         } else if (error.message.includes('Product not found')) {
             handleApiResponse(res, 404, 'Product not found', { error: error.message });

@@ -1,5 +1,5 @@
-const { User, Client, SubProduct, Quote2 } = require('../../models');
-const AddQuote = async ({ refno, createdby, client, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image }) => {
+const { User, Client, Company, SubProduct, Quote2 } = require('../../models');
+const AddQuote = async ({ refno, createdby, client, ourCompany, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image }) => {
     try {
         const userExist = await User.findById(createdby);
         if (!userExist) {
@@ -10,6 +10,12 @@ const AddQuote = async ({ refno, createdby, client, item, tnc, expired_date, sub
         if (!clientExist) {
             throw new Error('Client not found');
         }
+
+        const ourCompanyExist = await Company.findById(ourCompany);
+        if (!ourCompanyExist) {
+            throw new Error('Company not found');
+        }
+
         const productExist = item && (await SubProduct.findById(item.id));
 
         if (!productExist) {
@@ -39,6 +45,7 @@ const AddQuote = async ({ refno, createdby, client, item, tnc, expired_date, sub
             refno,
             createdby,
             client,
+            ourCompany,
             item,
             tnc,
             expired_date,

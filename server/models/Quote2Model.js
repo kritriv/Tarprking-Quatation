@@ -32,6 +32,12 @@ const quote2Schema = new Schema({
         required: true,
         autopopulate: true,
     },
+    ourCompany: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'OurCompany',
+        required: true,
+        autopopulate: { select: '-status -createdAt -updatedAt' },
+    },
     year: {
         type: Number,
         default: new Date().getFullYear(),
