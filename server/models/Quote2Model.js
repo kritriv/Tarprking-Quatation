@@ -56,6 +56,10 @@ const quote2Schema = new Schema({
         type: String,
         required: true
     },
+    tnc: {
+        type: String,
+        required: true
+    },
     quote_price: {
         quantity: {
             type: Number,

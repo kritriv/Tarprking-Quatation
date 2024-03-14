@@ -1,5 +1,5 @@
 const { User, Client, SubProduct, Quote2 } = require('../../models');
-const AddQuote = async ({ refno, createdby, client, item, expired_date, subject, greeting, proposal_title, quote_price, back_image }) => {
+const AddQuote = async ({ refno, createdby, client, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image }) => {
     try {
         const userExist = await User.findById(createdby);
         if (!userExist) {
@@ -18,13 +18,16 @@ const AddQuote = async ({ refno, createdby, client, item, expired_date, subject,
         itemStr = JSON.stringify(item);
         item = itemStr;
 
+        tncStr = JSON.stringify(tnc);
+        tnc = tncStr;
+
         const basic_rate = quote_price.basic_rate || 0;
         const installation_charges = quote_price.installation_charges || 0;
         const tax_rate = quote_price.tax_rate || 18;
         const quantity = quote_price.quantity || 1;
         const item_sub_total = (basic_rate + installation_charges) * quantity;
-        
-        const taxtotal = ((item_sub_total * tax_rate) / 100) ;
+
+        const taxtotal = ((item_sub_total * tax_rate) / 100);
         const discount = quote_price.discount || 0;
         const freight_cost = quote_price.freight_cost || 0;
         const unloading_cost = quote_price.unloading_cost || 0;
@@ -37,6 +40,7 @@ const AddQuote = async ({ refno, createdby, client, item, expired_date, subject,
             createdby,
             client,
             item,
+            tnc,
             expired_date,
             subject,
             greeting,
