@@ -428,7 +428,7 @@ const Quote2Schema = z.object({
             invalid_type_error: 'Remark must be a String',
         })
         .min(1, { message: 'Remark cannot be empty.' })
-        .min(3, { message: 'Remark must be at least 3 characters.' })
+        .min(2, { message: 'Remark must be at least 2 characters.' })
         .max(500, { message: 'Remark cannot be more than 500 characters.' })
         .optional(),
 

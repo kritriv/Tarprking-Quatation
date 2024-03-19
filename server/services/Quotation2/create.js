@@ -1,5 +1,5 @@
 const { User, Client, Company, SubProduct, Quote2 } = require('../../models');
-const AddQuote = async ({ refno, createdby, client, ourCompany, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image }) => {
+const AddQuote = async ({ refno, createdby, client, ourCompany, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image, remark }) => {
     try {
         const userExist = await User.findById(createdby);
         if (!userExist) {
@@ -65,6 +65,7 @@ const AddQuote = async ({ refno, createdby, client, ourCompany, item, tnc, expir
                 total_price,
             },
             back_image,
+            remark
         });
         const result = await newQuote.save();
         return result;

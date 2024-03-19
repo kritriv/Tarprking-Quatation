@@ -7,7 +7,7 @@ const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-
+        console.log(req.body)
         const updatedQuote = await update(id, req.body);
 
         if (!updatedQuote) {
@@ -24,12 +24,8 @@ const UpdateItem = async (req, res) => {
         } else {
             if (error.message.includes('E11000 duplicate key error')) {
                 handleApiResponse(res, 500, 'Quote Name must be unique', { error: error.message });
-            } else if (error.message.includes('Client not found')) {
-                handleApiResponse(res, 404, 'Client not found', { error: error.message });
-            } else if (error.message.includes('Created by User not found')) {
-                handleApiResponse(res, 404, 'Created by User not found', { error: error.message });
-            } else if (error.message.includes('Product not found')) {
-                handleApiResponse(res, 404, 'Product not found', { error: error.message });
+            } else if (error.message.includes('SubProduct not found')) {
+                handleApiResponse(res, 404, 'SubProduct not found', { error: error.message });
             } else {
                 handleApiResponse(res, 500, errorMessage, { error: 'Internal Server Error' });
             }
