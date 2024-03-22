@@ -1,7 +1,7 @@
 const { SubProduct, Quote2 } = require('../../models');
 const { ObjectId } = require('mongodb');
 
-const UpdateQuote = async (id, { refno, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image, remark }) => {
+const UpdateQuote = async (id, { refno, status, item, tnc, expired_date, subject, greeting, proposal_title, quote_price, back_image, remark }) => {
     try {
         const filter = { _id: new ObjectId(id) };
 
@@ -10,7 +10,6 @@ const UpdateQuote = async (id, { refno, item, tnc, expired_date, subject, greeti
         if (!productExist) {
             throw new Error('SubProduct not found');
         }
-        console.log(item)
         itemStr = JSON.stringify(item);
         item = itemStr;
 
@@ -33,6 +32,7 @@ const UpdateQuote = async (id, { refno, item, tnc, expired_date, subject, greeti
 
         const updateQuoteData = {
             refno,
+            status,
             item,
             tnc,
             expired_date,

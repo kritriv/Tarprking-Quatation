@@ -434,7 +434,7 @@ const Quote2Schema = z.object({
 
     status: z
         .string()
-        .refine((value) => ['pending', 'sent', 'accepted', 'cancelled', 'on hold'].includes(value.toLowerCase()), {
+        .refine((value) => ['pending', 'send', 'accepted', 'cancelled', 'on hold'].includes(value.toLowerCase()), {
             message: 'Invalid Status provided!',
         })
         .optional(),

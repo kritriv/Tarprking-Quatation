@@ -114,7 +114,7 @@ const quote2Schema = new Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'sent', 'accepted', 'cancelled', 'on hold'],
+        enum: ['pending', 'send', 'accepted', 'cancelled', 'on hold'],
         default: 'pending',
     },
     approved: {
