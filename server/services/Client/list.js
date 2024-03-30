@@ -1,7 +1,7 @@
 const { Client } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewClient = async ({ id, createdby, status, username, name, email, phone, company, gst, city, pincode, state, country, sort, select, page , size }) => {
+const ViewClient = async ({ id, createdby, Status, username, name, email, phone, company, gst, city, pincode, state, country, sort, select, page , size }) => {
     try {
         const queryObject = {};
 
@@ -10,8 +10,8 @@ const ViewClient = async ({ id, createdby, status, username, name, email, phone,
         if (id) {
             queryObject._id = id;
         }
-        if (status !== undefined) {
-            queryObject.status = status.toLowerCase() === 'true';
+        if (Status !== undefined) {
+            queryObject.status = Status.toLowerCase() === 'true';
         }
         if (username) {
             queryObject.username = { $regex: new RegExp(username, 'i') };

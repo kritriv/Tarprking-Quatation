@@ -9,28 +9,28 @@ const ListAll = async (req, res) => {
             return handleApiResponse(res, 404, 'Client Not found');
         }
 
-        const formattedClients = Clients.map((Client) => ({
-            id: Client._id,
-            status: Client.status,
-            username: Client.username,
-            createdby: Client.createdby.username,
-            name: Client.name,
-            email: Client.email,
-            phone: Client.phone,
-            company: Client.company,
-            gst: Client.gst,
-            address: {
-                site: Client.address.site,
-                street: Client.address.street,
-                city: Client.address.city,
-                state: Client.address.state,
-                pincode: Client.address.pincode,
-                country: Client.address.country,
-            },
-        }));
+        // const formattedClients = Clients.map((Client) => ({
+        //     id: Client._id,
+        //     status: Client.status,
+        //     username: Client.username,
+        //     createdby: Client.createdby.username,
+        //     name: Client.name,
+        //     email: Client.email,
+        //     phone: Client.phone,
+        //     company: Client.company,
+        //     gst: Client.gst,
+        //     address: {
+        //         site: Client.address.site,
+        //         street: Client.address.street,
+        //         city: Client.address.city,
+        //         state: Client.address.state,
+        //         pincode: Client.address.pincode,
+        //         country: Client.address.country,
+        //     },
+        // }));
 
         handleApiResponse(res, 200, 'Client details fetched successfully', {
-            data: formattedClients,
+            data: Clients,
             total: total,
             nbHits: Clients.length,
         });
