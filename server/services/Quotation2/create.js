@@ -39,7 +39,7 @@ const AddQuote = async ({ refno, status, createdby, client, ourCompany, item, tn
         const unloading_cost = quote_price.unloading_cost || 0;
         const transport_charge = quote_price.transport_charge || 0;
 
-        const total_price = item_sub_total + taxtotal + freight_cost + unloading_cost + transport_charge - discount;
+        const total_price = item_sub_total + taxtotal - discount;
 
         const newQuote = new Quote2({
             refno,
