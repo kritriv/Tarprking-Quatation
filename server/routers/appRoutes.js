@@ -23,6 +23,7 @@ function generateRoutes(entity, controller, schema) {
 const entities = {
     user: 'user',
     client: 'client',
+    lead: 'lead',
     ourCompany: 'company',
     productCategory: 'category',
     product: 'product',
@@ -37,6 +38,7 @@ const entities = {
 const controllers = {
     user: require('../controllers/User'),
     client: require('../controllers/Client'),
+    lead: require('../controllers/Lead'),
     ourCompany: require('../controllers/Company'),
     productCategory: require('../controllers/Category'),
     product: require('../controllers/Product'),
@@ -50,6 +52,7 @@ const controllers = {
 const schemas = {
     user: require('../validators/Schemas').Userschema,
     client: require('../validators/Schemas').ClientSchema,
+    lead: require('../validators/Schemas').LeadSchema,
     ourCompany: require('../validators/Schemas').OurCompanySchema,
     productCategory: require('../validators/Schemas').CategorySchema,
     product: require('../validators/Schemas').productSchema,
@@ -61,8 +64,9 @@ const schemas = {
 };
 
 // Use the generateRoutes function with the controllers and Validators schemas
-generateRoutes(entities.user, controllers.user, schemas.user);
+generateRoutes(entities.user, controllers.user, schemas.user,);
 generateRoutes(entities.client, controllers.client, schemas.client);
+generateRoutes(entities.lead, controllers.lead, schemas.lead);
 generateRoutes(entities.ourCompany, controllers.ourCompany, schemas.ourCompany);
 generateRoutes(entities.productCategory, controllers.productCategory, schemas.productCategory);
 generateRoutes(entities.product, controllers.product, schemas.product);
