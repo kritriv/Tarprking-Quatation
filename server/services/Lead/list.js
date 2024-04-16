@@ -1,7 +1,7 @@
 const { Lead } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewLead = async ({ id, createdby, Status, username, name, email, phone, company, gst, city, pincode, state, country, sort, select, page , size }) => {
+const ViewLead = async ({ id, createdby, removed, name, email, phone, sort, select, page , size }) => {
     try {
         const queryObject = {};
 
@@ -10,11 +10,8 @@ const ViewLead = async ({ id, createdby, Status, username, name, email, phone, c
         if (id) {
             queryObject._id = id;
         }
-        if (Status !== undefined) {
-            queryObject.status = Status.toLowerCase() === 'true';
-        }
-        if (username) {
-            queryObject.username = { $regex: new RegExp(username, 'i') };
+        if (removed !== undefined) {
+            queryObject.removed = removed.toLowerCase() === 'true';
         }
         if (createdby) {
             queryObject.createdby = createdby;
@@ -28,24 +25,7 @@ const ViewLead = async ({ id, createdby, Status, username, name, email, phone, c
         if (phone) {
             queryObject.contact_no = { $regex: new RegExp(phone, 'i') };
         }
-        if (company) {
-            queryObject.company = { $regex: new RegExp(company, 'i') };
-        }
-        if (gst) {
-            queryObject.gst = { $regex: new RegExp(gst, 'i') };
-        }
-        if (city) {
-            queryObject['address.city'] = { $regex: new RegExp(city, 'i') };
-        }
-        if (pincode) {
-            queryObject['address.pincode'] = pincode;
-        }
-        if (state) {
-            queryObject['address.state'] = { $regex: new RegExp(state, 'i') };
-        }
-        if (country) {
-            queryObject['address.country'] = { $regex: new RegExp(country, 'i') };
-        }
+        
 
         let apiData = Lead.find(queryObject);
         let ObjCount = await Lead.countDocuments(queryObject);
