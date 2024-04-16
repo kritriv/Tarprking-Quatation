@@ -13,6 +13,9 @@ const login = async (req, res) => {
         if (!user) {
             return handleApiResponse(res, 404, 'User not found.');
         }
+        if (user.role === 'USER') {
+            return handleApiResponse(res, 401, 'User are currently not allowed.');
+        }
         // check user password..
         const isPasswordValid = await comparePassword(password, user.password);
         if (!isPasswordValid) {
