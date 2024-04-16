@@ -1,7 +1,7 @@
 const { Quote2 } = require('../../models');
 const { limitOffsetPageNumber } = require('../../utils/pagination');
 
-const ViewQuote = async ({ id, sort, select, page, size }) => {
+const ViewQuote = async ({ id, client, sort, select, page, size }) => {
     try {
         const queryObject = {};
 
@@ -9,6 +9,9 @@ const ViewQuote = async ({ id, sort, select, page, size }) => {
 
         if (id) {
             queryObject._id = id;
+        }
+        if (client) {
+            queryObject.client = client;
         }
 
         let apiData = Quote2.find(queryObject);
