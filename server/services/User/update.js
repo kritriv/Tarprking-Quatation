@@ -11,7 +11,6 @@ const UpdateUser = async (id, updateUserData) => {
         }
 
         const updateQuery = { name, email, username, role, password };
-        console.log(updateQuery)
         if (!password) {
             delete updateQuery.password;
         }

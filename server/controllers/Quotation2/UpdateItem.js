@@ -7,7 +7,6 @@ const UpdateItem = async (req, res) => {
     try {
         const id = req.params.id;
         await idSchema.parseAsync({ _id: id });
-        console.log(req.body)
         const updatedQuote = await update(id, req.body);
 
         if (!updatedQuote) {
